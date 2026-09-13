@@ -1,0 +1,25 @@
+route_name: indoor_manual_loop
+frame_id: map
+ok: false
+plans: []
+failures:
+- step_id: run_to_corner_1
+  type: RUN_SEGMENT
+  reason: outside_corridor
+  detail: path point (-38.780, 4.795) exceeds corridor margin
+- step_id: run_to_corner_2
+  type: RUN_SEGMENT
+  reason: outside_corridor
+  detail: path point (-38.780, 4.795) exceeds corridor margin
+- step_id: run_to_corner_3
+  type: RUN_SEGMENT
+  reason: outside_corridor
+  detail: path point (-38.780, 4.795) exceeds corridor margin
+- step_id: run_to_corner_4
+  type: RUN_SEGMENT
+  reason: outside_corridor
+  detail: path point (-38.780, 4.795) exceeds corridor margin
+- step_id: finish_park
+  type: FINISH_PARK
+  reason: outside_corridor
+  detail: path point (-38.780, 4.795) exceeds corridor margin

@@ -1,0 +1,35 @@
+# Goal
+uint8 PICKUP=1
+uint8 DROP=2
+uint8 RECOGNIZE_TARGET=3
+uint8 VISUAL_PICKUP=4
+uint8 VISUAL_DROP=5
+uint8 FRONT=1
+uint8 REAR=2
+uint8 task_type
+uint8 station
+string task_id
+string target_type_hint
+uint32 max_attempts
+float32 timeout_s
+---
+# Result
+uint8 SUCCESS=1
+uint8 INSTRUCTION_NOT_FOUND=2
+uint8 TARGET_NOT_FOUND=3
+uint8 OPERATION_FAILED=4
+uint8 TIMEOUT=5
+uint8 outcome
+string target_type
+string detail
+---
+# Feedback
+uint8 MOVING_TO_INSTRUCTION_POSE=1
+uint8 RECOGNIZING_INSTRUCTION=2
+uint8 TARGET_TYPE_LOCKED=3
+uint8 SEARCHING_TARGET_OBJECT=4
+uint8 OPERATING=5
+uint8 VERIFYING_OPERATION=6
+uint8 phase
+string target_type
+uint32 attempt

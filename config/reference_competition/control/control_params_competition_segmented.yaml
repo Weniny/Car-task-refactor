@@ -1,0 +1,84 @@
+trajectory_tracker:
+  plugin: mppi
+  frequency_hz: 20.0
+  max_lateral_error_m: 0.15
+  max_heading_error_deg: 20.0
+  fallback_plugin: none
+  diagnostic_reference_tracker: regulated_pure_pursuit_not_implemented
+  mppi:
+    horizon_steps: 30
+    rollout_count: 384
+    iterations: 2
+    temperature: 0.35
+    speed_noise_std_mps: 0.05
+    curvature_noise_std_1pm: 0.15
+    progress_search_window_points: 40
+    max_progress_advance_points: 3
+    lateral_feedback_gain_1pm_per_m: 1.5
+    heading_feedback_gain_1pm_per_rad: 1.0
+    feedback_blend: 0.35
+    # Leave capture margin inside the 0.10 m / 4 deg task checkpoint gate.
+    controller_goal_position_tolerance_m: 0.03
+    controller_goal_heading_tolerance_deg: 2.0
+    checkpoint_goal_heading_tolerance_deg: 4.0
+    checkpoint_overshoot_tolerance_m: 0.02
+    # Do not cold-start MPPI for the same 1 Hz RELAXED_HOLD geometry.
+    local_plan_reuse_position_tolerance_m: 0.05
+    local_plan_reuse_heading_tolerance_deg: 5.0
+
+motion:
+  vehicle_model: ranger_mini_v3_hybrid_4ws
+  normal_tracking_mode: dual_ackermann
+  spin_recovery_enabled: false
+  wheelbase_m: 0.494
+  track_width_m: 0.364
+  # Runtime local/control model; the competition frozen route uses 0.90 m
+  # normally and 0.75 m for alignment approaches, leaving control headroom.
+  min_turning_radius_m: 0.60
+  ranger_driver_min_turn_radius_m: 0.47644
+  max_inner_steering_angle_rad: 0.698
+  protocol_max_speed_mps: 2.00
+  protocol_turning_speed_mps: 0.70
+  # Segment caps are carried by the frozen trajectory and route limiter;
+  # curves remain bounded by the lateral-acceleration envelope.
+  max_speed_mps: 1.50
+  cruise_speed_mps: 1.50
+  turn_speed_mps: 0.70
+  max_acceleration_mps2: 0.50
+  max_deceleration_mps2: 0.80
+  # Ramp acceleration itself over 0.25 s instead of stepping immediately.
+  max_jerk_mps3: 2.00
+  # Keep 20 Hz Ranger inner-wheel targets below 2 deg per command while
+  # retaining substantially faster steering response than the 0.80 baseline.
+  max_curvature_rate_1pmps: 2.50
+  docking_speed_min_mps: 0.08
+  docking_speed_max_mps: 0.12
+  # Covers the 1.5-to-0.12 m/s braking distance at the configured deceleration.
+  docking_slowdown_distance_m: 1.50
+
+state_estimator:
+  pose_source: fast_lio_anchored_map_to_body
+  velocity_source: ranger_odom
+  map_frame: map
+  base_frame: body
+  pose_timeout_s: 0.20
+  # Wrist perception and MPPI share CPU; tolerate measured callback jitter.
+  # while still stopping within 0.50 s if Ranger odometry is truly lost.
+  velocity_timeout_s: 0.50
+  max_pose_prediction_s: 3.00
+  max_position_jump_m: 0.25
+  max_heading_jump_deg: 20.0
+  initial_pose_settle_s: 0.50
+
+chassis:
+  command_topic: /cmd_vel_safe
+  driver_topic: /cmd_vel
+  wheel_command_enabled: false
+  lateral_motion_enabled: false
+
+visualization:
+  reference_path_topic: /planning/optimized_trajectory
+  local_trajectory_topic: /planning/local_trajectory
+  executed_path_topic: /control/executed_path
+  executed_path_min_separation_m: 0.05
+  executed_path_max_points: 2000

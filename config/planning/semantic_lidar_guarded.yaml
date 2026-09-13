@@ -1,0 +1,14 @@
+global_planner:
+  plugin: semantic_corridor
+  min_turning_radius_m: 0.60
+  footprint_radius_m: 0.40
+  clearance_m: 0.05
+  corridor_margin_m: 0.45
+  path_sample_spacing_m: 0.05
+  planning_timeout_ms: 5000
+
+trajectory_smoother:
+  enabled: true
+  plugin: cubic_bezier
+  sample_spacing_m: 0.05
+  tangent_scale: 1.00

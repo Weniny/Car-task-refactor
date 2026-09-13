@@ -1,0 +1,87 @@
+global_planner:
+  plugin: hybrid_astar
+  map_file: maps/debug/map.yaml
+  planning_timeout_ms: 12000
+  corridor_margin_m: 0.20
+  footprint_radius_m: 0.45
+  clearance_m: 0.20
+  grid_inflation_radius_m: 0.30
+  grid_search_padding_m: 3.00
+  grid_simplify_path: true
+  min_turning_radius_m: 0.81
+  # Only dock-approach segments use the verified Day5 control/safety radius.
+  # Ordinary route turns retain the more conservative 0.81 m global radius.
+  dock_approach_min_turning_radius_m: 0.60
+  max_speed_mps: 1.80
+  fallback_plugin: none
+  path_sample_spacing_m: 0.10
+  hybrid_step_length_m: 0.10
+  hybrid_curvature_bins: 9
+  hybrid_heading_bins: 72
+  hybrid_goal_position_tolerance_m: 0.10
+  # Semantic entry/exit/alignment refs guide the search but are not hard poses.
+  # Hard task goals must approach within this cross-track error before the
+  # planner connects the exact measured checkpoint pose.
+  dock_approach_goal_lateral_tolerance_m: 0.03
+  dock_approach_exact_goal_connection: true
+  hybrid_goal_heading_tolerance_deg: 5.0
+  # Entry/exit refs are route hints; permit early departure to prepare docks.
+  hybrid_soft_waypoint_position_tolerance_m: 1.20
+  hybrid_soft_waypoint_heading_tolerance_deg: 45.0
+  hybrid_alignment_waypoint_position_tolerance_m: 0.10
+  hybrid_alignment_waypoint_heading_tolerance_deg: 5.0
+  hybrid_reference_deviation_weight: 1.0
+  hybrid_max_expansions: 250000
+
+trajectory_smoother:
+  enabled: false
+  plugin: none
+  sample_spacing_m: 0.20
+  tangent_scale: 0.75
+
+semantic_route_graph:
+  lane_centerline_topic: /semantic_map
+  corridor_topic: /planning/corridor
+  keepout_enabled: true
+
+replanning:
+  enabled: true
+  plugin: dwa
+  frequency_hz: 2.0
+  obstacle_source: costmap
+  costmap_topic: /avoidance/local_costmap
+  expected_obstacle_frame: body
+  costmap_occupancy_threshold: 50
+  odom_topic: /odom
+  max_obstacle_age_s: 0.50
+  max_odom_age_s: 0.50
+  obstacle_x_min_m: 0.05
+  obstacle_x_max_m: 4.00
+  obstacle_y_half_width_m: 2.50
+  max_obstacle_points: 2000
+  min_speed_mps: 0.05
+  max_speed_mps: 0.20
+  max_acceleration_mps2: 0.20
+  max_deceleration_mps2: 0.30
+  max_yaw_rate_radps: 0.30
+  max_yaw_acceleration_radps2: 0.60
+  prediction_horizon_s: 6.0
+  simulation_step_s: 0.20
+  speed_sample_count: 4
+  yaw_rate_sample_count: 11
+  obstacle_clearance_m: 0.35
+  reference_lookahead_m: 1.50
+  max_reference_deviation_m: 1.20
+  reference_search_window_points: 160
+  progress_weight: 6.0
+  path_distance_weight: 2.0
+  goal_distance_weight: 1.0
+  heading_weight: 0.3
+  clearance_weight: 0.8
+  speed_weight: 1.0
+  yaw_rate_weight: 0.15
+  local_trajectory_topic: /planning/local_trajectory
+  local_stop_request_topic: /planning/local_stop_request
+  status_topic: /planning/local_replan_status
+  local_trajectory_timeout_s: 2.0
+  failure_action: SAFE_HOLD

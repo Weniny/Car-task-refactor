@@ -1,0 +1,32 @@
+trajectory_optimizer:
+  plugin: offline_speed_time_parameterizer
+  max_speed_mps: 0.50
+  max_acceleration_mps2: 0.30
+  max_deceleration_mps2: 0.50
+  max_lateral_acceleration_mps2: 0.20
+  high_curvature_threshold_1pm: 0.80
+  high_curvature_speed_limit_mps: 0.07
+  obstacle_zone_speed_limits_mps:
+    RANDOM_OBSTACLE: 0.30
+    CONE_LANE_CHANGE: 0.30
+  invalid_trajectory_action: SAFE_HOLD
+
+continuous_trajectory_optimizer:
+  plugin: jerk_limited_s_curve
+  spatial_speed_envelope: true
+  max_speed_mps: 0.20
+  # A gentler reference acceleration keeps the pointwise profile below the
+  # existing 0.40 m/s^3 jerk limit without changing runtime safety limits.
+  max_acceleration_mps2: 0.16
+  # The reference slows early around steering transients. Runtime safety keeps
+  # its independent 0.30 m/s^2 emergency deceleration authority.
+  max_deceleration_mps2: 0.12
+  max_jerk_mps3: 0.40
+  max_lateral_acceleration_mps2: 0.20
+  max_curvature_rate_1pmps: 0.80
+  stop_policy: start_and_final_only
+
+avoidance_inputs:
+  speed_limit_topic: /avoidance/status
+  corridor_update_topic: /avoidance/corridor_update
+  stop_request_topic: /avoidance/stop_request

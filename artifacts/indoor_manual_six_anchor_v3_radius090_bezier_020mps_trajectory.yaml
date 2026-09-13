@@ -1,0 +1,49 @@
+route_name: indoor_manual_loop_radius090
+frame_id: map
+ok: false
+planner_plugin: semantic_corridor
+optimizer_plugin: jerk_limited_s_curve
+point_count: 0
+path_length_m: 0.0
+duration_s: 0.0
+points: []
+failures:
+- step_id: run_to_corner_1
+  type: RUN_SEGMENT
+  reason: curvature_exceeded
+  detail: minimum turn radius 0.327 m is below limit 0.850 m
+- step_id: run_to_corner_2
+  type: RUN_SEGMENT
+  reason: curvature_exceeded
+  detail: minimum turn radius 0.327 m is below limit 0.850 m
+- step_id: run_to_corner_3
+  type: RUN_SEGMENT
+  reason: curvature_exceeded
+  detail: minimum turn radius 0.309 m is below limit 0.850 m
+- step_id: run_to_corner_4
+  type: RUN_SEGMENT
+  reason: curvature_exceeded
+  detail: minimum turn radius 0.309 m is below limit 0.850 m
+- step_id: finish_park
+  type: FINISH_PARK
+  reason: curvature_exceeded
+  detail: minimum turn radius 0.309 m is below limit 0.850 m
+source_manifest:
+  occupancy_image:
+    sha256: 918a741c2d1e91bf247b6565b9914f7bdb9cc2de226fd161b0c020858409da85
+    size_bytes: 3211971
+  occupancy_map:
+    sha256: f46d9dd2eba6ab29f114dd2e8f33a61748a02d94b59b9bba56365df973aecb23
+    size_bytes: 144
+  optimizer_params:
+    sha256: 32ca683a978d3c526ce3fff73a3e2b3a47e04783cf16c57953576a55a983985a
+    size_bytes: 206
+  planning_params:
+    sha256: 835453f1538218dc07b45211a2d72c085ff696b53c4fc31feaf3bbf5d1f52fb4
+    size_bytes: 342
+  route:
+    sha256: 0d22b3544caab009f612ab2547b45d075befc310f92a2fe2a46a83963d49de00
+    size_bytes: 1076
+  semantic_map:
+    sha256: 24def56a33bbb372584986f3300722ba42176dd3d976cb751d4460f9deee5392
+    size_bytes: 1774

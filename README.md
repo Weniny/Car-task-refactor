@@ -326,118 +326,68 @@ pgrep -af \
 || true
 ```
 
-## 10. 2026-09-11 实车验证更新
+## 2026-09-11 午餐前交接
 
-本节以现场结果为准，覆盖前文中“尚未实车运动”的旧表述。
+### 今日已完成
 
-### 已经通过
+1. 定位闭环已验证：`/amcl_pose` 与 `map -> body` 稳定，RViz 激光点可贴合静态地图。
+2. 已生成并验证短距离实车轨迹：
+   - 文件：`artifacts/indoor_manual_first_motion_0p8m_trajectory.yaml`
+   - 距离：`0.8 m`
+   - 时长：`15 s`
+   - 最大速度：`0.10 m/s`
+   - 起点与终点速度均为 `0`。
+3. 短轨迹通过来源清单校验，绑定当前地图、语义地图、路线、规划参数和优化参数。
+4. 已完成一次实车短距离测试。MPPI、Safety、近停避障、底盘适配器、人工路线使能和停车均已验证。
+5. 当前实车控制链已退出。检查命令没有返回任何 `rebuild_navigation_guarded` 或 `rebuild_guarded_ranger_twist_adapter` 进程。
 
-- Ranger 实车接口确认使用 `can2`、`500000 bit/s`。重新构建
-  `/home/agilex/agilex_ws` 中的 `ugv_sdk` 与 `ranger_base` 后，底盘可稳定报告
-  `control_mode: 1`、`error_code: 0`。
-- FAST-LIO、`/localization/scan`、静态地图、AMCL 与 `map -> body` 已联调通过；
-  发车前仍必须在 RViz 确认实时激光贴墙稳定。
-- 0.8 m 低速直行实车通过。
-- 0.8 m 动态障碍实车通过：障碍物出现时停车，移开后无需再次发送路线使能即可恢复前进。
-- 3 m 静态障碍实车通过：局部 Hybrid A* 生成绕行路径，车辆选择更开阔一侧绕过障碍物。
-- 10 m 无障碍低速实车完成，现场观察无碰撞且路线运动正常。
+### 可用脚本
 
-### 当前软件入口与测试资产
+- 干跑短轨迹，永不接通底盘：
+  `scripts/start_dry_safety_test.sh`
+- 停止干跑：
+  `scripts/stop_dry_safety_test.sh`
+- 首次实车 0.8 m 受监督短测：
+  `scripts/start_first_motion_smoke_test.sh`
 
-```text
-/home/agilex/competition_rebuild_ws/src/rebuild_bringup/launch/rebuild_navigation_replan_guarded.launch.py
-/home/agilex/competition_rebuild_ws/artifacts/indoor_manual_first_motion_0p8m_trajectory.yaml
-/home/agilex/competition_rebuild_ws/artifacts/indoor_manual_first_detour_3m_trajectory.yaml
-/home/agilex/competition_rebuild_ws/artifacts/indoor_manual_first_baseline_10m_trajectory.yaml
-/home/agilex/competition_rebuild_ws/scripts/start_replan_dry_test.sh
-/home/agilex/competition_rebuild_ws/scripts/stop_replan_dry_test.sh
-/home/agilex/competition_rebuild_ws/scripts/run_guarded_progress_test.sh
-```
+实车短测脚本的特点：
 
-`rebuild_navigation_replan_guarded.launch.py` 默认不接真实底盘；只有显式传入
-`start_chassis_adapter:=true` 才会启动唯一允许的适配器：
+- 启动前检查轨迹来源、`/cloud_registered_body`、`/odom`、`/amcl_pose`、底盘状态、运动模式和避障状态。
+- 它会接通 `/cmd_vel_safe -> /cmd_vel`，但 MPPI 初始为 `ROUTE_DISABLED`。
+- 只有人工发布 `/mission/route_enable=true` 才可能开始运动。
+- 软件停车：发布 `/mission/route_enable=false`，确认 `/cmd_vel_safe` 为零后退出启动终端。
 
-```text
-/cmd_vel_safe -> ranger_twist_adapter -> /cmd_vel -> ranger_base_node
-```
+### 当前局部绕行结论
 
-### 仍需处理的现象
+现有工程已包含完整的局部重规划基础设施：
 
-- 10 m 测试结束后的一个状态样本出现 `INVALID_STATE` 和 `position_jump`。
-  这通常是定位位姿跳变，不能直接当作障碍物检测。下一次长距离测试前，必须重新在
-  RViz 检查激光贴图，并记录测试过程是否再次出现该状态。
-- `/planning/local_stop_request` 曾出现瞬时 `true`，而稍后的
-  `/planning/local_replan_status` 为 `REPLANNED` 或 `REFERENCE_CLEAR`。它可能来自
-  实际障碍、局部规划超时、无可行路径或点云/定位短暂不一致；在抓到同一时刻的
-  `detail` 前，不削弱 Safety 停车逻辑。
-- 156 m 整圈尚未实车测试。
+- `competition_planning/local_replanner_node.py`
+  - 输入：冻结轨迹、静态地图、语义地图、`/avoidance/local_costmap`、`/odom`、`map -> body`。
+  - 输出：`/planning/local_trajectory`、`/planning/local_stop_request`、`/planning/local_replan_status`。
+  - 有可行路径时发布局部路径并发布 `local_stop_request=false`。
+  - 无可行路径、代价地图或里程计过期、Hybrid A* 超时，均发布停车。
+- `competition_control/mppi_control_node.py`
+  - 已支持 `replanning_enabled=true`。
+  - 已支持接收并替换 `/planning/local_trajectory`。
+  - 局部轨迹失效或过期会保持零命令。
+- `competition_safety/proximity_stop_node.py`
+  - 同时发布 `/avoidance/local_costmap` 与 `/avoidance/stop_request`。
 
-## 11. 下一次恢复与快速推进
+### 下午继续的顺序
 
-### 恢复顺序
+1. 新建独立的“局部绕行干跑”启动文件；不改动已实车通过的短测启动文件。
+2. 启动 `local_replanner_node`，让 MPPI 开启 `replanning_enabled=true`。
+3. 采用两层阈值：
+   - 普通障碍进入局部代价地图，由本地 Hybrid A* 生成绕行路径。
+   - 更近距离障碍仍由 Safety 硬停。
+4. 先做无底盘干跑：
+   - 无障碍时持续产生局部可行轨迹。
+   - 放入障碍时产生绕行轨迹。
+   - 取走动态障碍后自动恢复参考轨迹。
+   - 无可行路径时保持停车。
+5. 干跑全部通过后，再进行低速实车障碍绕行测试。
+6. 整圈 156 m 路线在局部绕行与恢复都验证前，禁止启用。
 
-1. 检查网络并 SSH 登录工控机；若工控机重启，重新配置 `can2` 为 500 kbit/s。
-2. 启动终端 A-D：传感器/底盘、地图/RViz、二维激光、AMCL。
-3. 车放在起点后发布初始位姿，在 RViz 确认激光贴图稳定。
-4. 只读确认：`control_mode: 1`、`error_code: 0`、`/cmd_vel` 没有非预期发布者、
-   `/planning/local_stop_request=false`。
-5. 启动 guarded 路径时先使用 `start_chassis_adapter:=false` 干跑；确认后才显式接入底盘。
+### 离开前
 
-### 加速而不跳过证据的路线
-
-不再反复停留在 3 m。下一轮采用以下代表性门槛：
-
-1. 复测 10 m 无障碍路线，记录过程中是否再出现 `position_jump`；现场到达终点后人工发送
-   `route_enable=false`，不再使用固定等待时间判断完成。
-2. 若定位稳定，直接扩大到约 30 m 分段，包含一次静态障碍绕行或动态障碍移开恢复。
-   新分段采用约 `0.10 m` 点距，速度仍维持 `0.10 m/s`；不要同时提高速度和改变点距。
-   这能减少目标点切换频率，又保留与既有低速实车测试一致的速度边界。
-3. 30 m 分段连续通过后，评估整圈前的最终预检：定位稳定、局部停车原因可解释、
-   Safety/底盘状态正常、人工接管人员在位。
-
-若再次触发 `position_jump`，记录触发时的实际位姿差、预测时间和检测阈值，再决定是调整
-控制器的跳变判定还是修复 AMCL/TF 时间一致性；不凭单次状态样本直接降低安全阈值。
-
-整圈不是由单一时间阈值决定。若 `position_jump` 不再复现且 30 m 分段通过，最快可在同一
-次后续现场测试中进入整圈监督评估；若再次出现定位跳变，应优先修复定位而非扩大路线。
-
-## 12. 暂停与恢复
-
-暂停前必须先发送：
-
-```bash
-ros2 topic pub --once /mission/route_enable std_msgs/msg/Bool "{data: false}"
-```
-
-随后确认 `/cmd_vel_safe` 为零，并在 guarded 导航终端按 `Ctrl+C`。SSH 断开不保证所有
-ROS 进程退出；车辆无人看管或准备断电时，应按第 9 节顺序停止 A-D 终端。
-
-## 13. 2026-09-11 收尾：自动 CAN 发送待复核
-
-本次 30 m 分段已由现场人员完成，但下一次不得直接扩大到 156 m 整圈。收尾时发现一个
-需要先闭环的底盘通信问题：在 `/cmd_vel` 约 20 Hz 且非零的短时自动测试中，`/odom` 和
-全部电机 RPM 保持为零；手动遥控时八个电机均能报告非零 RPM，底盘硬件、CAN 回传和电机
-使能正常。
-
-已确认的状态：
-
-- `control_mode: 1` 是 CAN 控制，`motion_mode: 0` 是双 Ackermann，`driver_state: 64`
-  是驱动使能位，且无低压、过热、过载或驱动器故障位。
-- 自动测试期间 `/cmd_vel_safe` 与 `/cmd_vel` 均曾为非零，但 `can2` 的 TX 包计数在 3 秒
-  内没有增长；RX 包计数持续增长。
-- SDK 源码中的 `AsyncCAN::SendFrame()` 将调用者栈上的 `can_frame` 传给
-  `async_write_some()`，缓冲区生命周期不安全。`ranger_messenger.cpp` 对
-  `ranger_mini_v3` 的分支也有悬挂 `else`，会覆盖 Mini V3 的车辆参数。
-- 现场已停止 guarded 导航；最后确认 `/cmd_vel` 发布者数为 0。
-
-### 下次启动前的必做项
-
-1. 使用干净终端，避免旧工作区覆盖重构包。验证 `competition_control`、
-   `competition_safety`、`competition_planning` 与 `rebuild_bringup` 的包前缀均为
-   `/home/agilex/competition_rebuild_ws/install`；`ranger_base` 应来自
-   `/home/agilex/agilex_ws/install`。
-2. 确认 `ugv_sdk` 与 `ranger_base` 的 CAN 发送修复已编译，并重启终端 A 的 Ranger 驱动。
-3. guarded 导航接入底盘但保持 `route_enable=false`，先确认 `can2` TX 包计数增长。该检查
-   只发送零速度，不会发车。
-4. 只有 TX 增长、定位贴合、`/cmd_vel` 仅有唯一 guarded 适配器发布者时，才恢复 30 m
-   低速分段验证。
+当前没有实车运动控制进程。若午饭期间不需要保留传感器和 RViz，可依次在各启动终端按 `Ctrl+C` 停止；下午按本 README 的传感器、地图、扫描、AMCL 顺序重新启动即可。

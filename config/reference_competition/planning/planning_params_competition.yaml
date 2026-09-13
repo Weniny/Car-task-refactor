@@ -1,0 +1,88 @@
+global_planner:
+  plugin: hybrid_astar
+  map_file: maps/competition/map.yaml
+  planning_timeout_ms: 12000
+  corridor_margin_m: 0.20
+  footprint_radius_m: 0.45
+  clearance_m: 0.20
+  # Conservative center-point inflation; the final artifact is also checked
+  # with the full 0.72 x 0.50 m rectangular footprint plus 0.20 m clearance.
+  grid_inflation_radius_m: 0.50
+  grid_search_padding_m: 3.00
+  grid_simplify_path: true
+  # Keep geometric curvature below the controller's 0.60 m hard limit. The
+  # wider field radii leave steering headroom and reduce command saturation.
+  min_turning_radius_m: 0.90
+  # Used only by route steps marked wide_turn. The final obstacle entrance
+  # gets extra steering headroom without changing unrelated competition geometry.
+  wide_turn_min_turning_radius_m: 1.30
+  dock_approach_min_turning_radius_m: 0.75
+  max_speed_mps: 1.80
+  fallback_plugin: none
+  path_sample_spacing_m: 0.10
+  # Finer motion primitives reduce per-sample heading jumps without applying
+  # an unconstrained spline that could cut corners or violate Ackermann motion.
+  hybrid_step_length_m: 0.08
+  hybrid_curvature_bins: 13
+  hybrid_heading_bins: 96
+  hybrid_goal_position_tolerance_m: 0.10
+  hybrid_goal_heading_tolerance_deg: 5.0
+  hybrid_soft_waypoint_position_tolerance_m: 1.20
+  hybrid_soft_waypoint_heading_tolerance_deg: 45.0
+  hybrid_alignment_waypoint_position_tolerance_m: 0.10
+  hybrid_alignment_waypoint_heading_tolerance_deg: 5.0
+  hybrid_reference_deviation_weight: 1.0
+  hybrid_max_expansions: 250000
+
+trajectory_smoother:
+  enabled: false
+  plugin: none
+  sample_spacing_m: 0.20
+  tangent_scale: 0.75
+
+semantic_route_graph:
+  lane_centerline_topic: /semantic_map
+  corridor_topic: /planning/corridor
+  keepout_enabled: true
+
+replanning:
+  enabled: true
+  plugin: dwa
+  frequency_hz: 2.0
+  obstacle_source: costmap
+  costmap_topic: /avoidance/local_costmap
+  expected_obstacle_frame: body
+  costmap_occupancy_threshold: 50
+  odom_topic: /odom
+  max_obstacle_age_s: 0.50
+  max_odom_age_s: 0.50
+  obstacle_x_min_m: 0.05
+  obstacle_x_max_m: 4.00
+  obstacle_y_half_width_m: 2.50
+  max_obstacle_points: 2000
+  min_speed_mps: 0.05
+  max_speed_mps: 0.20
+  max_acceleration_mps2: 0.20
+  max_deceleration_mps2: 0.30
+  max_yaw_rate_radps: 0.30
+  max_yaw_acceleration_radps2: 0.60
+  prediction_horizon_s: 6.0
+  simulation_step_s: 0.20
+  speed_sample_count: 4
+  yaw_rate_sample_count: 11
+  obstacle_clearance_m: 0.35
+  reference_lookahead_m: 1.50
+  max_reference_deviation_m: 1.20
+  reference_search_window_points: 160
+  progress_weight: 6.0
+  path_distance_weight: 2.0
+  goal_distance_weight: 1.0
+  heading_weight: 0.3
+  clearance_weight: 0.8
+  speed_weight: 1.0
+  yaw_rate_weight: 0.15
+  local_trajectory_topic: /planning/local_trajectory
+  local_stop_request_topic: /planning/local_stop_request
+  status_topic: /planning/local_replan_status
+  local_trajectory_timeout_s: 2.0
+  failure_action: SAFE_HOLD

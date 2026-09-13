@@ -1,0 +1,26 @@
+trajectory_optimizer:
+  plugin: offline_speed_time_parameterizer
+  max_speed_mps: 1.00
+  max_acceleration_mps2: 0.50
+  max_deceleration_mps2: 0.80
+  max_lateral_acceleration_mps2: 0.60
+  obstacle_zone_speed_limits_mps: {}
+  invalid_trajectory_action: SAFE_HOLD
+
+continuous_trajectory_optimizer:
+  plugin: jerk_limited_s_curve
+  # Preserve 1.0 m/s on straight sections while reducing speed locally for
+  # curvature. Checkpoint approach shaping handles the final 1.0 m slowdown.
+  spatial_speed_envelope: true
+  max_speed_mps: 1.00
+  max_acceleration_mps2: 0.50
+  max_deceleration_mps2: 0.80
+  max_jerk_mps3: 2.00
+  max_lateral_acceleration_mps2: 0.60
+  max_curvature_rate_1pmps: 4.50
+  stop_policy: start_and_final_only
+
+avoidance_inputs:
+  speed_limit_topic: /avoidance/status
+  corridor_update_topic: /avoidance/corridor_update
+  stop_request_topic: /avoidance/stop_request

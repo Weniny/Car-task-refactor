@@ -1,0 +1,87 @@
+schema_version: semantic_map_v1
+frame_id: map
+source_map: maps/indoor_manual_final/map.yaml
+points:
+  start:
+    x: -16.083
+    y: 2.309
+    yaw: 3.016522
+  corner_1_entry:
+    x: -38.76221059325811
+    y: 4.977497992774187
+    yaw: 3.016522
+  corner_1_turn:
+    x: -39.360752490012565
+    y: 5.318429968844738
+    yaw: 2.231123836602552
+  corner_1_exit:
+    x: -39.54882527568539
+    y: 5.983462113614933
+    yaw: 1.452347
+  corner_2_entry:
+    x: -35.6254167533481
+    y: 38.94295431980521
+    yaw: 1.452347
+  corner_2_turn:
+    x: -35.288455363354984
+    y: 39.54374050151356
+    yaw: 0.6669488366025518
+  corner_2_exit:
+    x: -34.62389535924498
+    y: 39.74349422417202
+    yaw: -0.10369
+  corner_3_entry:
+    x: 7.744341684343274
+    y: 35.332953140693284
+    yaw: -0.10369
+  corner_3_turn:
+    x: 8.350035573002485
+    y: 35.004895329143736
+    yaw: -0.8890881633974483
+  corner_3_exit:
+    x: 8.534982699380365
+    y: 34.345889602042284
+    yaw: -1.687198
+  corner_4_entry:
+    x: 4.632509816457924
+    y: 0.9652061660319508
+    yaw: -1.687198
+  corner_4_turn:
+    x: 4.296779334006769
+    y: 0.36373126411923784
+    yaw: -2.4725961633974483
+  corner_4_exit:
+    x: 3.633099775648088
+    y: 0.16711364449739247
+    yaw: 3.034927
+  finish:
+    x: -13.906
+    y: 2.066
+    yaw: 3.034927
+lane_centerlines:
+- id: main_loop
+  width_m: 1.28
+  points:
+  - start
+  - corner_1_entry
+  - corner_1_turn
+  - corner_1_exit
+  - corner_2_entry
+  - corner_2_turn
+  - corner_2_exit
+  - corner_3_entry
+  - corner_3_turn
+  - corner_3_exit
+  - corner_4_entry
+  - corner_4_turn
+  - corner_4_exit
+  - finish
+route_corridors:
+- id: start_to_finish
+  centerline_ref: main_loop
+  allowed_steps:
+  - run_to_corner_1
+  - run_to_corner_2
+  - run_to_corner_3
+  - run_to_corner_4
+  - finish_park

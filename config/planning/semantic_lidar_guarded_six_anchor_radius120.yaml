@@ -1,0 +1,14 @@
+global_planner:
+  plugin: semantic_corridor
+  min_turning_radius_m: 1.10  # anchors encode 1.20 m arcs
+  footprint_radius_m: 0.40
+  clearance_m: 0.05
+  corridor_margin_m: 0.45
+  path_sample_spacing_m: 0.05
+  planning_timeout_ms: 5000
+
+trajectory_smoother:
+  enabled: true
+  plugin: circular_arc
+  sample_spacing_m: 0.05
+  tangent_scale: 1.230

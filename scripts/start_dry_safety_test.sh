@@ -4,6 +4,7 @@ set -Eeuo pipefail
 
 WS=/home/agilex/competition_rebuild_ws
 CAR_WS=/home/agilex/competition_ws
+TEST_TRAJECTORY=$WS/artifacts/indoor_manual_first_motion_0p8m_trajectory.yaml
 STATE_DIR=$WS/log/dry_safety_test
 PID_FILE=$STATE_DIR/pids
 
@@ -13,12 +14,17 @@ fail() {
 }
 
 mkdir -p "$STATE_DIR"
+[[ -s "$TEST_TRAJECTORY" ]] || fail "short test trajectory is missing: $TEST_TRAJECTORY"
 [[ ! -s "$PID_FILE" ]] || fail "previous PID file exists; run stop_dry_safety_test.sh first"
 
+# ROS setup scripts reference optional variables that may be unset.
+set +u
 source "$CAR_WS/scripts/car_source_env.sh"
+set +u
 source "$WS/install/setup.bash"
+set -u
 
-if pgrep -af 'rebuild_navigation_dry_run.launch.py|rebuild_proximity_dry_test.launch.py' >/dev/null; then
+if pgrep -af 'rebuild_navigation_dry_run.launch.py|rebuild_proximity_dry_test.launch.py|rebuild_navigation_guarded.launch.py' >/dev/null; then
   fail "a dry-test launch is already running"
 fi
 
@@ -40,17 +46,17 @@ start_launch() {
   printf '%s\n' "$!" >>"$PID_FILE"
 }
 
-start_launch proximity rebuild_bringup rebuild_proximity_dry_test.launch.py
-sleep 2
-start_launch navigation rebuild_bringup rebuild_navigation_dry_run.launch.py
+start_launch guarded rebuild_bringup rebuild_navigation_guarded.launch.py \
+  trajectory_file:="$TEST_TRAJECTORY" \
+  start_chassis_adapter:=false
 sleep 4
 
 timeout 5s ros2 topic echo /avoidance/stop_request --once >/dev/null ||
-  fail "proximity topic unavailable; inspect $STATE_DIR/proximity.log"
+  fail "proximity topic unavailable; inspect $STATE_DIR/guarded.log"
 timeout 5s ros2 topic echo /control/status --once >/dev/null ||
-  fail "MPPI status unavailable; inspect $STATE_DIR/navigation.log"
+  fail "MPPI status unavailable; inspect $STATE_DIR/guarded.log"
 
-printf 'DRY SAFETY TEST READY\n'
-printf 'Output is /dry_run/cmd_vel_safe only\n'
+printf 'GUARDED 0.8 m DRY TEST READY\n'
+printf 'Safety output is /cmd_vel_safe, but the chassis adapter is OFF\n'
 printf 'Logs: %s\n' "$STATE_DIR"
 

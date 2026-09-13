@@ -1,0 +1,87 @@
+schema_version: semantic_map_v1
+frame_id: map
+source_map: maps/indoor_manual_final/map.yaml
+points:
+  start:
+    x: -15.966
+    y: 2.133
+    yaw: 3.016522
+  corner_1_entry:
+    x: -39.04
+    y: 5.034
+    yaw: 3.016522
+  corner_1_turn:
+    x: -39.438
+    y: 5.259
+    yaw: 2.234435
+  corner_1_exit:
+    x: -39.561
+    y: 5.7
+    yaw: 1.452347
+  corner_2_entry:
+    x: -35.571
+    y: 39.227
+    yaw: 1.452347
+  corner_2_turn:
+    x: -35.35
+    y: 39.625
+    yaw: 0.674329
+  corner_2_exit:
+    x: -34.913
+    y: 39.753
+    yaw: -0.10369
+  corner_3_entry:
+    x: 8.014
+    y: 35.286
+    yaw: -0.10369
+  corner_3_turn:
+    x: 8.42
+    y: 35.064
+    yaw: -0.895444
+  corner_3_exit:
+    x: 8.548
+    y: 34.619
+    yaw: -1.687198
+  corner_4_entry:
+    x: 4.579
+    y: 0.684
+    yaw: -1.687198
+  corner_4_turn:
+    x: 4.358
+    y: 0.285
+    yaw: -2.467728
+  corner_4_exit:
+    x: 3.92
+    y: 0.157
+    yaw: 3.034927
+  finish:
+    x: -13.906
+    y: 2.066
+    yaw: 3.034927
+lane_centerlines:
+- id: main_loop
+  width_m: 1.28
+  points:
+  - start
+  - corner_1_entry
+  - corner_1_turn
+  - corner_1_exit
+  - corner_2_entry
+  - corner_2_turn
+  - corner_2_exit
+  - corner_3_entry
+  - corner_3_turn
+  - corner_3_exit
+  - corner_4_entry
+  - corner_4_turn
+  - corner_4_exit
+  - finish
+route_corridors:
+- id: start_to_finish
+  centerline_ref: main_loop
+  allowed_steps:
+  - run_to_corner_1
+  - run_to_corner_2
+  - run_to_corner_3
+  - run_to_corner_4
+  - finish_park

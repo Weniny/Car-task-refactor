@@ -1,0 +1,59 @@
+schema_version: semantic_map_v1
+frame_id: map
+source_map: maps/indoor_manual_final/map.yaml
+
+points:
+  start: {x: -11.906, y: 1.836, yaw: 3.023}
+
+  corner_1_entry: {x: -37.505, y: 4.645, yaw: 3.023}
+  corner_1_turn: {x: -39.560, y: 5.217, yaw: 2.179}
+  corner_1_exit: {x: -39.394, y: 7.196, yaw: 1.445}
+  corridor_12_center_approach_align: {x: -37.843, y: 20.859, yaw: 1.446}
+  corner_2_entry: {x: -35.515, y: 37.868, yaw: 1.485}
+  corner_2_arc_start: {x: -35.393, y: 39.287, yaw: 1.485}
+  corner_2_arc_end: {x: -34.732, y: 39.832, yaw: -0.106}
+  corner_2_exit: {x: -33.443, y: 39.695, yaw: -0.106}
+
+  corner_3_entry: {x: 6.250, y: 35.482, yaw: -0.106}
+  corner_3_arc_start_approach_align: {x: 7.651, y: 35.333, yaw: -0.106}
+  corner_3_arc_end_approach_align: {x: 8.185, y: 34.682, yaw: -1.662}
+  corner_3_exit: {x: 8.057, y: 33.279, yaw: -1.662}
+
+  corner_4_entry: {x: 5.255, y: 2.589, yaw: -1.662}
+  corner_4_arc_start_approach_align: {x: 5.127, y: 1.183, yaw: -1.662}
+  corner_4_arc_end_soft: {x: 4.486, y: 0.640, yaw: 3.069}
+  corner_4_exit: {x: 3.078, y: 0.742, yaw: 3.069}
+
+  finish: {x: -11.906, y: 1.836, yaw: 3.069}
+
+lane_centerlines:
+  - id: main_loop
+    width_m: 1.28
+    points: [ start,
+        corner_1_entry,
+        corner_1_turn,
+        corner_1_exit,
+        corridor_12_center_approach_align,
+        corner_2_entry,
+        corner_2_arc_start,
+        corner_2_arc_end,
+        corner_2_exit,
+        corner_3_entry,
+        corner_3_arc_start_approach_align,
+        corner_3_arc_end_approach_align,
+        corner_3_exit,
+        corner_4_entry,
+        corner_4_arc_start_approach_align,
+        corner_4_arc_end_soft,
+        corner_4_exit,
+        finish,
+      ]
+route_corridors:
+  - id: start_to_finish
+    centerline_ref: main_loop
+    allowed_steps:
+      - run_to_corner_1
+      - run_to_corner_2
+      - run_to_corner_3
+      - run_to_corner_4
+      - finish_park

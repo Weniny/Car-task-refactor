@@ -1,0 +1,7 @@
+continuous_trajectory_optimizer:
+  spatial_speed_envelope: true
+  max_speed_mps: 0.10
+  max_acceleration_mps2: 0.12
+  max_deceleration_mps2: 0.18
+  max_jerk_mps3: 0.20
+  max_lateral_acceleration_mps2: 0.12

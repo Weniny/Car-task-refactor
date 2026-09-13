@@ -1,0 +1,16 @@
+global_planner:
+  plugin: hybrid_astar
+  map_file: /home/agilex/competition_rebuild_ws/maps/indoor_manual_final/map.yaml
+
+  min_turning_radius_m: 0.60
+  footprint_radius_m: 0.40
+  clearance_m: 0.05
+  grid_inflation_radius_m: 0.45
+  corridor_margin_m: 0.45
+
+  hybrid_reference_deviation_weight: 8.0
+
+  hybrid_alignment_waypoint_position_tolerance_m: 0.05
+  hybrid_alignment_waypoint_heading_tolerance_deg: 8.0
+
+  planning_timeout_ms: 180000

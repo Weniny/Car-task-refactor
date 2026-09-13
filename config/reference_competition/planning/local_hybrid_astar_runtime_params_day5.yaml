@@ -1,0 +1,98 @@
+local_hybrid_astar_runtime:
+  plugin: reference_aware_hybrid_astar
+  frequency_hz: 1.0
+  costmap_occupancy_threshold: 50
+  max_obstacle_age_s: 2.0
+  max_odom_age_s: 0.50
+  obstacle_x_min_m: 0.05
+  obstacle_x_max_m: 4.00
+  obstacle_y_half_width_m: 2.50
+  max_obstacle_points: 2000
+  inflation_radius_m: 0.04
+  # Normal travel uses the wider global-route envelope. Precision docking
+  # switches back to the chassis-verified radius inside its activation zone.
+  min_turning_radius_m: 0.81
+  docking_min_turning_radius_m: 0.60
+  # Precision docking starts near semantic pickup/drop poses. Normal driving
+  # continues to use the 0.44 m costmap plus 0.04 m planner inflation.
+  # The precision footprint starts only after the 1 m shelf-alignment guide.
+  # Earlier activation made a still-turning reference sample appear blocked.
+  docking_activation_distance_m: 1.00
+  docking_costmap_occupancy_threshold: 100
+  docking_vehicle_length_m: 0.72
+  docking_vehicle_width_m: 0.50
+  docking_front_clearance_m: 0.10
+  docking_rear_clearance_m: 0.10
+  # The measured pickup_rear pose grazes the rasterized shelf by 2-3 mm with
+  # 0.05 m plus the planner's grid-discretization margin.  A full 0.03 m map
+  # cell must be cleared; the measured physical work-side gap is about 0.28 m.
+  docking_work_side_clearance_m: 0.03
+  docking_non_work_side_clearance_m: 0.10
+  # Inside the final 1 m and only after heading is within the 5 deg docking
+  # tolerance, ignore live shelf-face returns that remain at least 5 cm beyond
+  # the physical vehicle side. Static-map shelf geometry remains active.
+  docking_shelf_filter_distance_m: 1.00
+  docking_shelf_physical_guard_m: 0.05
+  # Rear precision stops may keep shelf-specific collision geometry while the
+  # existing global reference carries the chassis straight out of the rack.
+  docking_departure_refs: [pickup_rear, drop_rear]
+  # Keep the optional final-obstacle tuning available for diagnostics, but do
+  # not activate it in competition runtime. The field run stalled repeatedly
+  # with this post-lab special footprint, so the verified common lab planner is
+  # used through finish_park. An empty ref disables the special mode.
+  final_obstacle_checkpoint_ref: ""
+  final_obstacle_costmap_occupancy_threshold: 100
+  final_obstacle_inflation_radius_m: 0.05
+  final_obstacle_vehicle_length_m: 0.72
+  final_obstacle_vehicle_width_m: 0.50
+  final_obstacle_front_clearance_m: 0.05
+  final_obstacle_rear_clearance_m: 0.05
+  final_obstacle_left_clearance_m: 0.05
+  final_obstacle_right_clearance_m: 0.05
+  lookahead_distance_m: 3.00
+  search_padding_m: 1.50
+  sample_spacing_m: 0.10
+  step_length_m: 0.20
+  curvature_bins: 9
+  heading_bins: 72
+  goal_position_tolerance_m: 0.15
+  goal_heading_tolerance_deg: 5.0
+  reference_deviation_weight: 2.0
+  # Keep the optional reference-priority implementation available, but disable
+  # it at runtime. The return bend stalled again with the post-lab override;
+  # the verified common lab planner remains responsible for local adjustment.
+  reference_priority_segment_entry_ref: ""
+  reference_priority_segment_exit_ref: ""
+  reference_priority_activation_distance_m: 3.0
+  reference_priority_costmap_occupancy_threshold: 100
+  reference_priority_inflation_radius_m: 0.0
+  reference_priority_vehicle_length_m: 0.72
+  reference_priority_vehicle_width_m: 0.50
+  reference_priority_front_clearance_m: 0.05
+  reference_priority_rear_clearance_m: 0.05
+  reference_priority_left_clearance_m: 0.05
+  reference_priority_right_clearance_m: 0.05
+  # Start the final-obstacle relaxed span at semantic point 20. The planner may
+  # prepare before the marker when its lookahead first reaches this span, but
+  # the route checkpoint order remains unchanged.
+  relaxed_segment_entry_ref: lower_left_turn_approach
+  # Keep points 21, 22 and random_obstacle_exit as reference samples, but allow
+  # the local path to remain detached from them until the hard finish_park goal.
+  relaxed_segment_exit_ref: finish_park
+  relaxed_activation_distance_m: 1.0
+  relaxed_reference_deviation_weight: 0.5
+  relaxed_corridor_half_width_m: 0.85
+  relaxed_step_length_m: 0.30
+  relaxed_extension_curvature_bins: 7
+  relaxed_goal_heading_tolerance_deg: 20.0
+  trajectory_switch_improvement_ratio: 0.15
+  obstacle_clearance_distance_m: 0.20
+  obstacle_clearance_weight: 0.8
+  search_heuristic_weight: 1.2
+  max_expansions: 250000
+  planning_timeout_s: 0.75
+  # A task/checkpoint switch resets validated path history. Give that first
+  # constrained search enough CPU time to establish a reusable safe path.
+  empty_history_planning_timeout_s: 2.0
+  relaxed_extension_timeout_s: 0.75
+  reference_search_window_points: 160

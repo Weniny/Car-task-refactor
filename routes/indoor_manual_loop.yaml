@@ -1,0 +1,45 @@
+route_name: indoor_manual_loop
+profile: no_arm_navigation
+semantic_map_file: maps/indoor_manual_final/semantic_map.yaml
+start_ref: start
+
+steps:
+  - id: run_to_corner_1
+    type: RUN_SEGMENT
+    avoidance_required: true
+    corridor_ref: start_to_finish
+    target_ref: corner_1_exit
+    target_source: target_ref
+    soft_intermediate_refs: true
+
+  - id: run_to_corner_2
+    type: RUN_SEGMENT
+    avoidance_required: true
+    corridor_ref: start_to_finish
+    target_ref: corner_2_exit
+    target_source: target_ref
+    soft_intermediate_refs: true
+
+  - id: run_to_corner_3
+    type: RUN_SEGMENT
+    avoidance_required: true
+    corridor_ref: start_to_finish
+    target_ref: corner_3_exit
+    target_source: target_ref
+    soft_intermediate_refs: true
+
+  - id: run_to_corner_4
+    type: RUN_SEGMENT
+    avoidance_required: true
+    corridor_ref: start_to_finish
+    target_ref: corner_4_exit
+    target_source: target_ref
+    soft_intermediate_refs: true
+
+  - id: finish_park
+    type: FINISH_PARK
+    avoidance_required: true
+    corridor_ref: start_to_finish
+    target_ref: finish
+    target_source: target_ref
+   

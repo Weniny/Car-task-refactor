@@ -11,6 +11,10 @@ __pycache__/
 *.db3
 *.pcd
 *.tmp
+*.orig
+*.bak
+*.bak_*
 
 .DS_Store
+._*
 Thumbs.db
