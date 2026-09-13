@@ -1,0 +1,16 @@
+build/
+install/
+log/
+
+.colcon/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+
+*.bag
+*.db3
+*.pcd
+*.tmp
+
+.DS_Store
+Thumbs.db
