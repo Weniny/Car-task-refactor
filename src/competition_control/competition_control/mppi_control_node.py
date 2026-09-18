@@ -425,6 +425,7 @@ class MPPIControlNode(Node):
         )
         self._visual_stop_confirmed = False
         self._mission_speed_limit_mps: float | None = None
+        self._avoidance_speed_limit_mps: float | None = None
         self._mission_phase = (
             "MISSION_DISARMED"
             if self._route_enable_required
@@ -696,6 +697,17 @@ class MPPIControlNode(Node):
                 self._mission_speed_limit_callback,
                 10,
             )
+            self.create_subscription(
+                Float32,
+                str(
+                    self.declare_parameter(
+                        "avoidance_speed_limit_topic",
+                        "/avoidance/speed_limit",
+                    ).value
+                ),
+                self._avoidance_speed_limit_callback,
+                10,
+            )
         self._reference_path_publisher.publish(
             _control_trajectory_path(trajectory, self.get_clock().now().to_msg())
         )
@@ -938,6 +950,12 @@ class MPPIControlNode(Node):
     def _mission_speed_limit_callback(self, message: Float32) -> None:
         limit = float(message.data)
         self._mission_speed_limit_mps = limit if limit > 0.0 else None
+
+    def _avoidance_speed_limit_callback(self, message: Float32) -> None:
+        limit = float(message.data)
+        self._avoidance_speed_limit_mps = (
+            limit if math.isfinite(limit) and limit > 0.0 else None
+        )
 
     def _shelf_scan_callback(self, message: LaserScan) -> None:
         config = self._active_precision_config()
@@ -1489,6 +1507,7 @@ class MPPIControlNode(Node):
             limit
             for limit in (
                 self._mission_speed_limit_mps,
+                self._avoidance_speed_limit_mps,
                 self._route_speed_decision.speed_limit_mps,
             )
             if limit is not None
@@ -1547,6 +1566,7 @@ class MPPIControlNode(Node):
                         "mission_phase": self._mission_phase,
                         "route_enabled": self._route_enabled,
                         "mission_speed_limit_mps": self._mission_speed_limit_mps,
+                        "avoidance_speed_limit_mps": self._avoidance_speed_limit_mps,
                         "route_speed_limit_mps": (
                             self._route_speed_decision.speed_limit_mps
                         ),

@@ -90,6 +90,7 @@ class HybridAStarPlanner:
         obstacle_clearance_weight: float = 0.0,
         search_heuristic_weight: float = 1.0,
         footprint: AsymmetricFootprint | None = None,
+        obstacle_aware_heuristic: bool = False,
     ) -> None:
         if min_turning_radius_m <= 0.0:
             raise GridPlanningError("hybrid_astar requires a positive min_turning_radius_m")
@@ -160,6 +161,8 @@ class HybridAStarPlanner:
         self._obstacle_clearance_weight = obstacle_clearance_weight
         self._search_heuristic_weight = search_heuristic_weight
         self._footprint = footprint
+        self._obstacle_aware_heuristic = obstacle_aware_heuristic
+        self._goal_distance_field: tuple[float, ...] = ()
         self._obstacle_clearance_cost_by_cell: tuple[float, ...] | None = (
             None
             if obstacle_clearance_distance_m > 0.0 and obstacle_clearance_weight > 0.0
@@ -327,6 +330,10 @@ class HybridAStarPlanner:
         self._require_navigable(start.x, start.y, start.yaw, "start")
         self._require_navigable(goal.x, goal.y, goal.yaw, "goal")
         bounds = self._bounds(start, goal)
+        self._goal_distance_field = (
+            self._build_goal_distance_field(goal, bounds, deadline_s)
+            if self._obstacle_aware_heuristic else ()
+        )
         start_node = _Node(
             start.x,
             start.y,
@@ -572,7 +579,67 @@ class HybridAStarPlanner:
         distance = math.hypot(goal.x - node.x, goal.y - node.y)
         heading = abs(_wrap_angle(goal.yaw - node.yaw))
         min_radius = 1.0 / abs(self._curvatures[-1])
-        return distance + 0.25 * min_radius * heading
+        estimate = distance + 0.25 * min_radius * heading
+        if self._goal_distance_field:
+            cell = self._map.world_to_cell(node.x, node.y)
+            if self._map.contains(cell):
+                grid_distance = self._goal_distance_field[self._map.index(cell)]
+                if math.isfinite(grid_distance):
+                    estimate = max(estimate, grid_distance)
+        return estimate
+
+    def _build_goal_distance_field(
+        self,
+        goal: PathPoint,
+        bounds: tuple[int, int, int, int],
+        deadline_s: float | None,
+    ) -> tuple[float, ...]:
+        # Grid distances guide the pose search; they never replace motion checks.
+        distances = [math.inf] * len(self._blocked)
+        goal_cell = self._map.world_to_cell(goal.x, goal.y)
+        distances[self._map.index(goal_cell)] = 0.0
+        queue = [(0.0, goal_cell)]
+        min_col, max_col, min_row, max_row = bounds
+        visited = 0
+        while queue:
+            if (
+                visited % 64 == 0
+                and deadline_s is not None
+                and time.monotonic() >= deadline_s
+            ):
+                raise HybridAStarTimeout(
+                    "hybrid_astar budget exhausted building obstacle heuristic"
+                )
+            distance, cell = heapq.heappop(queue)
+            if distance > distances[self._map.index(cell)]:
+                continue
+            visited += 1
+            col, row = cell
+            for dx, dy in (
+                (-1, -1), (0, -1), (1, -1), (-1, 0),
+                (1, 0), (-1, 1), (0, 1), (1, 1),
+            ):
+                neighbor = (col + dx, row + dy)
+                if not (
+                    min_col <= neighbor[0] <= max_col
+                    and min_row <= neighbor[1] <= max_row
+                ):
+                    continue
+                index = self._map.index(neighbor)
+                if self._blocked[index]:
+                    continue
+                if dx and dy and (
+                    self._blocked[self._map.index((col + dx, row))]
+                    or self._blocked[self._map.index((col, row + dy))]
+                ):
+                    continue
+                candidate = distance + self._map.resolution * (
+                    math.sqrt(2) if dx and dy else 1.0
+                )
+                if candidate < distances[index]:
+                    distances[index] = candidate
+                    heapq.heappush(queue, (candidate, neighbor))
+        return tuple(distances)
 
     def _at_goal(
         self,

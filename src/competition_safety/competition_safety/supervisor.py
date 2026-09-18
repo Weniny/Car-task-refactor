@@ -55,6 +55,8 @@ class SafetyContext:
     traffic_rules_ready: bool = True
     traffic_rules_stop: bool = False
     mission_task_stop: bool = False
+    avoidance_speed_limit_ready: bool = True
+    avoidance_speed_limit_mps: float | None = None
 
 
 @dataclass(frozen=True)
@@ -133,6 +135,8 @@ class SafetySupervisor:
                 previous_speed
                 - self._limits.max_deceleration_mps2 * self._period(context.now_s),
             )
+            if context.avoidance_speed_limit_mps is not None:
+                speed = min(speed, context.avoidance_speed_limit_mps)
             self._record_output(speed, context.now_s)
             if speed > 1e-9:
                 return SafeCommand(
@@ -158,6 +162,7 @@ class SafetySupervisor:
         speed = command.linear_x_mps
         lateral_speed = command.linear_y_mps
         yaw_rate = command.yaw_rate_radps
+        avoidance_limit = context.avoidance_speed_limit_mps
         if requested_mode == "spin":
             bounded_yaw_rate = min(
                 self._limits.max_spin_yaw_rate_radps,
@@ -191,6 +196,9 @@ class SafetySupervisor:
                 context,
                 reasons,
             )
+            if avoidance_limit is not None and bounded_speed > avoidance_limit:
+                bounded_speed = avoidance_limit
+                reasons.append("avoidance_speed_limited")
             scale = bounded_speed / requested_speed if requested_speed > 1e-12 else 0.0
             self._record_output(bounded_speed, context.now_s)
             return SafeCommand(
@@ -227,6 +235,13 @@ class SafetySupervisor:
         if abs(acceleration_bounded_speed - bounded_speed) > 1e-12:
             reasons.append("acceleration_limited")
         bounded_speed = acceleration_bounded_speed
+
+        if avoidance_limit is not None and bounded_speed > avoidance_limit:
+            bounded_speed = avoidance_limit
+            reasons.append("avoidance_speed_limited")
+        if avoidance_limit is not None and speed > 1e-12 and bounded_speed < speed:
+            # Preserve curvature under obstacle limiting and acceleration ramp-up.
+            yaw_rate *= bounded_speed / speed
 
         max_yaw_rate = abs(bounded_speed) / self._limits.min_turning_radius_m
         bounded_yaw_rate = min(max_yaw_rate, max(-max_yaw_rate, yaw_rate))
@@ -334,6 +349,13 @@ class SafetySupervisor:
             reasons.append("invalid_state")
         if not context.avoidance_ready:
             reasons.append("avoidance_stale")
+        if not context.avoidance_speed_limit_ready:
+            reasons.append("avoidance_speed_limit_stale")
+        if context.avoidance_speed_limit_mps is not None and (
+            not math.isfinite(context.avoidance_speed_limit_mps)
+            or context.avoidance_speed_limit_mps < 0.0
+        ):
+            reasons.append("invalid_avoidance_speed_limit")
         if context.avoidance_stop:
             reasons.append("avoidance_stop")
         if not context.traffic_rules_ready:

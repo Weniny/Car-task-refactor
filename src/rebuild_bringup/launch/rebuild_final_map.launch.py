@@ -11,6 +11,7 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     map_yaml = LaunchConfiguration("map_yaml")
     start_rviz = LaunchConfiguration("rviz")
+    autostart = LaunchConfiguration("autostart")
     rviz_config = PathJoinSubstitution(
         [FindPackageShare("rebuild_bringup"), "rviz", "final_map_view.rviz"]
     )
@@ -25,6 +26,11 @@ def generate_launch_description():
                 ),
             ),
             DeclareLaunchArgument("rviz", default_value="true"),
+            DeclareLaunchArgument(
+                "autostart",
+                default_value="true",
+                description="Manage map_server lifecycle inside this launch.",
+            ),
             Node(
                 package="nav2_map_server",
                 executable="map_server",
@@ -43,6 +49,7 @@ def generate_launch_description():
                         "node_names": ["map_server"],
                     }
                 ],
+                condition=IfCondition(autostart),
             ),
             Node(
                 package="tf2_ros",

@@ -214,6 +214,12 @@ class LocalReplannerNode(Node):
                     1.0,
                 ).value
             ),
+            obstacle_aware_heuristic=bool(
+                self.declare_parameter("obstacle_aware_heuristic", False).value
+            ),
+            minimum_short_rejoin_distance_m=float(
+                self.declare_parameter("minimum_short_rejoin_distance_m", 0.0).value
+            ),
             reference_priority_segment_entry_ref=str(
                 self.declare_parameter(
                     "reference_priority_segment_entry_ref",
@@ -903,6 +909,7 @@ class LocalReplannerNode(Node):
             self._publish_stop(
                 "HYBRID_ASTAR_TIMEOUT",
                 detail=str(exc),
+                rejoin_attempts=getattr(exc, "rejoin_attempts", []),
                 obstacle_age_s=obstacle_age_s,
                 odom_age_s=odom_age_s,
                 planning_time_ms=(time.perf_counter() - started_at) * 1000.0,
@@ -914,6 +921,7 @@ class LocalReplannerNode(Node):
             self._publish_stop(
                 "HYBRID_ASTAR_NO_FEASIBLE_PATH",
                 detail=str(exc),
+                rejoin_attempts=getattr(exc, "rejoin_attempts", []),
                 obstacle_age_s=obstacle_age_s,
                 odom_age_s=odom_age_s,
                 docking_departure_context=docking_departure_context,

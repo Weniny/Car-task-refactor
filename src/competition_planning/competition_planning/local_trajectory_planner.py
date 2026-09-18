@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 import math
+import time
 from typing import Any, Iterable, Mapping, Sequence
 
 from competition_planning.hybrid_astar_planner import (
@@ -54,8 +55,14 @@ class LocalReplanConfig:
     reference_priority_activation_distance_m: float = 0.0
     reference_priority_inflation_radius_m: float = 0.0
     reference_priority_footprint: AsymmetricFootprint | None = None
+    obstacle_aware_heuristic: bool = False
+    minimum_short_rejoin_distance_m: float = 0.0
 
     def __post_init__(self) -> None:
+        if not math.isfinite(self.minimum_short_rejoin_distance_m) or not (
+            0.0 <= self.minimum_short_rejoin_distance_m <= self.lookahead_distance_m
+        ):
+            raise ValueError("minimum short rejoin distance must fit inside lookahead")
         if self.lookahead_distance_m <= 0.0:
             raise ValueError("lookahead_distance_m must be positive")
         if self.reference_deviation_weight < 0.0:
@@ -871,21 +878,59 @@ class LocalTrajectoryPlanner:
             current_pose.yaw,
             ref_id=local_reference[0].ref_id,
         )
+        attempts: list[dict[str, object]] = []
+
+        def attempt(search_planner, search_reference, index, timeout_s):
+            started = time.perf_counter()
+            record = {
+                "rejoin_index": index,
+                "goal": [search_reference[-1].x, search_reference[-1].y],
+                "timeout_s": timeout_s,
+            }
+            attempts.append(record)
+            try:
+                candidate_path = tuple(
+                    search_planner.plan((start_pose, search_reference[-1]))
+                )
+                if (
+                    index != rejoin_index
+                    and self._config.minimum_short_rejoin_distance_m > 0.0
+                ):
+                    length_m = sum(
+                        math.hypot(b.x - a.x, b.y - a.y)
+                        for a, b in zip(candidate_path, candidate_path[1:])
+                    )
+                    if length_m + 1e-9 < self._config.minimum_short_rejoin_distance_m:
+                        raise GridPlanningError(
+                            f"short rejoin path covers only {length_m:.3f} m; "
+                            f"requires {self._config.minimum_short_rejoin_distance_m:.3f} m"
+                        )
+                return candidate_path
+            except GridPlanningError as exc:
+                record["error_type"] = type(exc).__name__
+                record["detail"] = str(exc)
+                raise
+            finally:
+                record["elapsed_ms"] = (time.perf_counter() - started) * 1000
+
         try:
             return (
-                tuple(planner.plan((start_pose, local_reference[-1]))),
+                attempt(planner, local_reference, rejoin_index, None),
                 rejoin_index,
                 local_reference,
                 planner,
                 False,
             )
         except GridPlanningError as exc:
+            primary_error = exc
             last_error = exc
 
         # A full rolling horizon can become unreachable after a legitimate
         # turn-in lag. Try shorter, still collision-checked rejoin horizons.
         candidate_indexes: list[int] = []
         for distance_m in (2.0, 1.2):
+            if distance_m < self._config.minimum_short_rejoin_distance_m:
+                continue
             candidate_index = _lookahead_index(
                 reference_path,
                 start_index,
@@ -908,18 +953,10 @@ class LocalTrajectoryPlanner:
                 planning_timeout_s=0.10,
                 reduced_curvature_lattice=reduced_curvature_lattice,
             )
-            candidate_start = PathPoint(
-                current_pose.x,
-                current_pose.y,
-                current_pose.yaw,
-                ref_id=candidate_reference[0].ref_id,
-            )
             try:
                 return (
-                    tuple(
-                        candidate_planner.plan(
-                            (candidate_start, candidate_reference[-1])
-                        )
+                    attempt(
+                        candidate_planner, candidate_reference, candidate_index, 0.10
                     ),
                     candidate_index,
                     candidate_reference,
@@ -929,7 +966,13 @@ class LocalTrajectoryPlanner:
             except GridPlanningError as exc:
                 last_error = exc
 
-        raise last_error
+        error = (
+            primary_error
+            if self._config.minimum_short_rejoin_distance_m > 0.0
+            else last_error
+        )
+        error.rejoin_attempts = attempts
+        raise error
 
     def _remember_safe_path(
         self,
@@ -998,6 +1041,7 @@ class LocalTrajectoryPlanner:
             obstacle_clearance_weight=config.obstacle_clearance_weight,
             search_heuristic_weight=config.search_heuristic_weight,
             footprint=config.footprint,
+            obstacle_aware_heuristic=config.obstacle_aware_heuristic,
         )
 
 

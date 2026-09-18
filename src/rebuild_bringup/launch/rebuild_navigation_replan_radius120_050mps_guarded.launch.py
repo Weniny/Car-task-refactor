@@ -7,8 +7,9 @@ import yaml
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, LogInfo
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 WS = Path("/home/agilex/competition_rebuild_ws")
@@ -23,9 +24,9 @@ def _load_yaml(path: Path) -> dict:
 
 
 def generate_launch_description() -> LaunchDescription:
-    control = _load_yaml(WS / "config/control/control_params_rebuild_020mps.yaml")
+    control = _load_yaml(WS / "config/control/control_params_rebuild_050mps.yaml")
     safety_config = _load_yaml(
-        WS / "config/safety/safety_params_rebuild_020mps_turn_recovery.yaml"
+        WS / "config/safety/safety_params_rebuild_050mps_inflation035.yaml"
     )
 
     tracker = control["trajectory_tracker"]
@@ -43,9 +44,7 @@ def generate_launch_description() -> LaunchDescription:
     planning_params_file = str(
         WS / "config/planning/semantic_lidar_guarded_six_anchor_radius120.yaml"
     )
-    optimizer_params_file = str(
-        WS / "config/planning/continuous_trajectory_radius090_turnrate250_020mps.yaml"
-    )
+    optimizer_params_file = LaunchConfiguration("optimizer_params_file")
     map_file = str(WS / "maps/indoor_manual_final/map.yaml")
     base_frame = str(estimator.get("tracking_base_frame", estimator["base_frame"]))
 
@@ -54,8 +53,36 @@ def generate_launch_description() -> LaunchDescription:
     scan_topic = str(scan.pop("output_topic"))
 
     proximity = dict(safety_config["proximity_stop"])
-    # Costmap sees obstacles out to 5.5 m; only this close range is a hard stop.
-    proximity["stop_distance_m"] = 0.40
+    # Keep the fixed forward stop box configurable.  Path-aware mode requires a
+    # positive fallback; the competition-style candidate explicitly disables it.
+    proximity["stop_distance_m"] = ParameterValue(
+        LaunchConfiguration("fixed_stop_distance_m"), value_type=float
+    )
+    proximity.update(
+        {
+            "path_aware_stop_enabled": ParameterValue(
+                LaunchConfiguration("path_aware_stop_enabled"), value_type=bool
+            ),
+            "local_trajectory_topic": "/planning/local_trajectory",
+            "avoidance_speed_limit_topic": "/avoidance/speed_limit",
+            "max_local_path_age_s": 1.0,
+            "path_aware_max_scan_age_s": 0.20,
+            "slow_distance_m": 2.50,
+            "slow_speed_mps": 0.25,
+            "emergency_distance_m": 1.75,
+            "minimum_emergency_distance_m": 0.65,
+            "emergency_half_width_m": 0.35,
+            "swept_radius_m": 0.65,
+            "path_start_tolerance_m": 0.40,
+            "max_path_segment_m": 0.35,
+            "release_hold_s": 0.40,
+            "clear_scan_count": 3,
+            "path_aware_max_speed_mps": motion["max_speed_mps"],
+            "path_aware_min_deceleration_mps2": motion["max_deceleration_mps2"],
+            "reaction_time_s": 0.90,
+            "stopping_margin_m": 0.20,
+        }
+    )
 
     mppi_parameters = {
         "trajectory_file": trajectory_file,
@@ -120,15 +147,40 @@ def generate_launch_description() -> LaunchDescription:
         "obstacle_source": "costmap",
         "costmap_topic": "/avoidance/local_costmap",
         "expected_obstacle_frame": "body",
-        "costmap_occupancy_threshold": 50,
+        "costmap_occupancy_threshold": ParameterValue(
+            PythonExpression([
+                "100 if '", LaunchConfiguration("path_aware_stop_enabled"),
+                "'.lower() == 'true' else 50",
+            ]), value_type=int,
+        ),
         "odom_topic": "/odom",
-        "max_obstacle_age_s": 0.90,
+        "max_obstacle_age_s": ParameterValue(
+            LaunchConfiguration("max_obstacle_age_s"), value_type=float,
+        ),
         "max_odom_age_s": 0.50,
         "obstacle_x_min_m": 0.05,
-        "obstacle_x_max_m": 4.0,
+        "obstacle_x_max_m": ParameterValue(
+            LaunchConfiguration("obstacle_x_max_m"), value_type=float,
+        ),
         "obstacle_y_half_width_m": 2.5,
-        "lookahead_distance_m": 3.0,
-        "inflation_radius_m": 0.04,
+        "lookahead_distance_m": ParameterValue(
+            LaunchConfiguration("local_replanner_lookahead_m"), value_type=float,
+        ),
+        "inflation_radius_m": ParameterValue(
+            PythonExpression([
+                "0.75 if '", LaunchConfiguration("path_aware_stop_enabled"),
+                "'.lower() == 'true' else 0.04",
+            ]), value_type=float,
+        ),
+        "minimum_short_rejoin_distance_m": ParameterValue(
+            PythonExpression([
+                "1.8 if '", LaunchConfiguration("path_aware_stop_enabled"),
+                "'.lower() == 'true' else 0.0",
+            ]), value_type=float,
+        ),
+        "obstacle_aware_heuristic": ParameterValue(
+            LaunchConfiguration("obstacle_aware_heuristic"), value_type=bool,
+        ),
         "sample_spacing_m": 0.10,
         "min_turning_radius_m": motion["min_turning_radius_m"],
         "step_length_m": 0.20,
@@ -139,8 +191,12 @@ def generate_launch_description() -> LaunchDescription:
         "goal_heading_tolerance_deg": 20.0,
         "reference_deviation_weight": 2.0,
         "max_expansions": 250000,
-        "planning_timeout_s": 0.40,
-        "empty_history_planning_timeout_s": 0.40,
+        "planning_timeout_s": ParameterValue(
+            LaunchConfiguration("planning_timeout_s"), value_type=float,
+        ),
+        "empty_history_planning_timeout_s": ParameterValue(
+            LaunchConfiguration("planning_timeout_s"), value_type=float,
+        ),
         "relaxed_extension_timeout_s": 0.35,
         "reference_search_window_points": 160,
         "local_trajectory_topic": "/planning/local_trajectory",
@@ -149,6 +205,10 @@ def generate_launch_description() -> LaunchDescription:
     }
 
     safety_parameters = {
+        "require_avoidance_speed_limit": ParameterValue(
+            LaunchConfiguration("path_aware_stop_enabled"), value_type=bool
+        ),
+        "avoidance_speed_limit_topic": "/avoidance/speed_limit",
         "frequency_hz": tracker["frequency_hz"],
         "command_output_topic": LaunchConfiguration("safety_output_topic"),
         "command_timeout_s": safety["command_timeout_s"],
@@ -179,15 +239,46 @@ def generate_launch_description() -> LaunchDescription:
             DeclareLaunchArgument(
                 "trajectory_file",
                 default_value=str(
-                    WS / "artifacts/indoor_manual_first_motion_0p8m_trajectory.yaml"
+                    WS
+                    / "artifacts/indoor_manual_first_segment_30m_radius120_turnrate250_050mps_trajectory.yaml"
                 ),
-                description="Validated trajectory; defaults to the supervised 0.8 m test.",
+                description="Unvalidated 0.5 m/s profile; 30 m trajectory by default.",
+            ),
+            DeclareLaunchArgument(
+                "optimizer_params_file",
+                default_value=str(
+                    WS
+                    / "config/planning/continuous_trajectory_radius090_turnrate250_050mps.yaml"
+                ),
+                description="Optimizer config matching the trajectory source manifest.",
             ),
             DeclareLaunchArgument(
                 "local_replanner_frequency_hz",
                 default_value="2.0",
                 description="Local replanner update frequency in Hz.",
             ),
+            DeclareLaunchArgument(
+                "path_aware_stop_enabled",
+                default_value="false",
+                description="Experimental path-aware obstacle gate; defaults to fixed 1.80 m stop.",
+            ),
+            DeclareLaunchArgument(
+                "fixed_stop_distance_m",
+                default_value="1.80",
+                description=(
+                    "Forward fixed-stop extent; set to 0 only with "
+                    "path_aware_stop_enabled:=false."
+                ),
+            ),
+            DeclareLaunchArgument(
+                "obstacle_aware_heuristic",
+                default_value="false",
+                description="Candidate obstacle-distance search guidance; dry-run only until validated.",
+            ),
+            DeclareLaunchArgument("local_replanner_lookahead_m", default_value="3.0"),
+            DeclareLaunchArgument("obstacle_x_max_m", default_value="4.0"),
+            DeclareLaunchArgument("planning_timeout_s", default_value="0.4"),
+            DeclareLaunchArgument("max_obstacle_age_s", default_value="0.5"),
             DeclareLaunchArgument(
                 "start_chassis_adapter",
                 default_value="false",

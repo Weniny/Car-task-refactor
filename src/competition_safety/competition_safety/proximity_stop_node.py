@@ -5,10 +5,12 @@ from __future__ import annotations
 
 from collections import deque
 import json
+import math
 
 import rclpy
-from nav_msgs.msg import OccupancyGrid
+from nav_msgs.msg import OccupancyGrid, Odometry, Path
 from rclpy.node import Node
+from rclpy.time import Time
 from rclpy.qos import (
     DurabilityPolicy,
     HistoryPolicy,
@@ -16,7 +18,8 @@ from rclpy.qos import (
     ReliabilityPolicy,
 )
 from sensor_msgs.msg import LaserScan
-from std_msgs.msg import Bool, String
+from std_msgs.msg import Bool, Float32, String
+from tf2_ros import Buffer, TransformException, TransformListener
 from visualization_msgs.msg import Marker, MarkerArray
 
 from competition_safety.proximity_stop import (
@@ -27,6 +30,11 @@ from competition_safety.proximity_stop import (
     evaluate_local_clearance,
     evaluate_fused_local_clearance,
     laser_scan_points,
+)
+from competition_safety.path_aware_proximity import (
+    PathAwareConfig,
+    StopReleaseLatch,
+    evaluate_path_aware_stop,
 )
 
 
@@ -126,6 +134,111 @@ class ProximityStopNode(Node):
         )
         if self._vehicle_length_m <= 0.0 or self._vehicle_width_m <= 0.0:
             raise ValueError("vehicle dimensions must be positive")
+        self._path_aware_enabled = bool(
+            self.declare_parameter("path_aware_stop_enabled", False).value
+        )
+        self._latest_path: Path | None = None
+        self._path_received_s = 0.0
+        self._measured_speed_mps: float | None = None
+        self._odom_received_s = 0.0
+        self._speed_limit_publisher = None
+        if self._path_aware_enabled:
+            self._path_aware_scan_age_s = float(
+                self.declare_parameter("path_aware_max_scan_age_s", 0.20).value
+            )
+            if not 0.0 < self._path_aware_scan_age_s <= self._max_scan_age_s:
+                raise ValueError("path-aware scan age must fit inside the scan timeout")
+            self._max_path_age_s = float(
+                self.declare_parameter("max_local_path_age_s", 1.0).value
+            )
+            if self._max_path_age_s <= 0.0:
+                raise ValueError("max_local_path_age_s must be positive")
+            self._path_config = PathAwareConfig(
+                slow_distance_m=float(
+                    self.declare_parameter("slow_distance_m", 2.5).value
+                ),
+                slow_speed_mps=float(
+                    self.declare_parameter("slow_speed_mps", 0.25).value
+                ),
+                emergency_distance_m=float(
+                    self.declare_parameter("emergency_distance_m", 1.75).value
+                ),
+                minimum_emergency_distance_m=float(
+                    self.declare_parameter("minimum_emergency_distance_m", 0.65).value
+                ),
+                emergency_half_width_m=float(
+                    self.declare_parameter("emergency_half_width_m", 0.35).value
+                ),
+                swept_radius_m=float(
+                    self.declare_parameter("swept_radius_m", 0.65).value
+                ),
+                path_start_tolerance_m=float(
+                    self.declare_parameter("path_start_tolerance_m", 0.40).value
+                ),
+                max_path_segment_m=float(
+                    self.declare_parameter("max_path_segment_m", 0.35).value
+                ),
+                release_hold_s=float(
+                    self.declare_parameter("release_hold_s", 0.40).value
+                ),
+                clear_scan_count=int(
+                    self.declare_parameter("clear_scan_count", 3).value
+                ),
+                max_speed_mps=float(
+                    self.declare_parameter("path_aware_max_speed_mps", 0.50).value
+                ),
+                min_deceleration_mps2=float(
+                    self.declare_parameter("path_aware_min_deceleration_mps2", 0.18).value
+                ),
+                reaction_time_s=float(
+                    self.declare_parameter("reaction_time_s", 0.90).value
+                ),
+                stopping_margin_m=float(
+                    self.declare_parameter("stopping_margin_m", 0.20).value
+                ),
+                front_overhang_m=self._vehicle_length_m * 0.5,
+            )
+            self._path_config.validate(self._config)
+            minimum_radius = math.hypot(
+                self._vehicle_length_m * 0.5, self._vehicle_width_m * 0.5
+            ) + 0.05 + self._path_config.max_speed_mps * self._path_aware_scan_age_s
+            if self._path_config.swept_radius_m < minimum_radius:
+                raise ValueError("swept_radius_m does not cover the vehicle footprint")
+            self._stop_latch = StopReleaseLatch(
+                self._path_config.release_hold_s,
+                self._path_config.clear_scan_count,
+            )
+            self._slow_latch = StopReleaseLatch(
+                self._path_config.release_hold_s,
+                self._path_config.clear_scan_count,
+            )
+            self._tf_buffer = Buffer()
+            self._tf_listener = TransformListener(self._tf_buffer, self)
+            self._max_odom_age_s = float(
+                self.declare_parameter("path_aware_max_odom_age_s", 0.20).value
+            )
+            if self._max_odom_age_s <= 0.0:
+                raise ValueError("path_aware_max_odom_age_s must be positive")
+            self.create_subscription(Odometry, "/odom", self._odom_callback, 10)
+            self.create_subscription(
+                Path,
+                str(
+                    self.declare_parameter(
+                        "local_trajectory_topic", "/planning/local_trajectory"
+                    ).value
+                ),
+                self._path_callback,
+                10,
+            )
+            self._speed_limit_publisher = self.create_publisher(
+                Float32,
+                str(
+                    self.declare_parameter(
+                        "avoidance_speed_limit_topic", "/avoidance/speed_limit"
+                    ).value
+                ),
+                10,
+            )
         self._stop_publisher = self.create_publisher(
             Bool,
             str(
@@ -200,11 +313,76 @@ class ProximityStopNode(Node):
             f"min_points={self._config.min_points}, "
             f"obstacle_layer={visualization_rate_hz:.1f}Hz/"
             f"{fusion_frame_count}_frame_fusion, "
-            f"qos={scan_qos_reliability}/keep_last_{scan_qos_depth}"
+            f"qos={scan_qos_reliability}/keep_last_{scan_qos_depth}, "
+            f"path_aware={self._path_aware_enabled}"
         )
 
     def _now_s(self) -> float:
         return self.get_clock().now().nanoseconds / 1e9
+
+    def _path_callback(self, message: Path) -> None:
+        self._latest_path = message
+        self._path_received_s = self._now_s()
+
+    def _odom_callback(self, message: Odometry) -> None:
+        now_s = self._now_s()
+        age_s = now_s - _stamp_to_seconds(message.header.stamp)
+        if not 0.0 <= age_s <= self._max_odom_age_s:
+            self._measured_speed_mps = None
+            return
+        self._measured_speed_mps = math.hypot(
+            message.twist.twist.linear.x, message.twist.twist.linear.y
+        )
+        self._odom_received_s = now_s
+
+    def _path_in_body(self, now_s: float, scan_stamp) -> tuple[tuple[float, float], ...] | None:
+        path = self._latest_path
+        if path is None or not 0.0 <= now_s - self._path_received_s <= self._max_path_age_s:
+            return None
+        stamp_s = _stamp_to_seconds(path.header.stamp)
+        if stamp_s <= 0.0 or not 0.0 <= now_s - stamp_s <= self._max_path_age_s:
+            return None
+        if not path.header.frame_id or any(
+            pose.header.frame_id
+            and pose.header.frame_id != path.header.frame_id
+            for pose in path.poses
+        ):
+            return None
+        if path.header.frame_id == self._expected_frame_id:
+            # A moving body-frame path needs a two-time transform; reject for now.
+            return None
+        try:
+            transform = self._tf_buffer.lookup_transform(
+                self._expected_frame_id,
+                path.header.frame_id,
+                Time.from_msg(scan_stamp),
+            )
+        except TransformException:
+            return None
+        transform_stamp_s = _stamp_to_seconds(transform.header.stamp)
+        if (
+            transform_stamp_s <= 0.0
+            or not 0.0 <= now_s - transform_stamp_s <= self._max_path_age_s
+        ):
+            return None
+        translation = transform.transform.translation
+        rotation = transform.transform.rotation
+        yaw = math.atan2(
+            2.0 * (rotation.w * rotation.z + rotation.x * rotation.y),
+            1.0 - 2.0 * (rotation.y**2 + rotation.z**2),
+        )
+        cosine, sine = math.cos(yaw), math.sin(yaw)
+        return tuple(
+            (
+                translation.x
+                + cosine * pose.pose.position.x
+                - sine * pose.pose.position.y,
+                translation.y
+                + sine * pose.pose.position.x
+                + cosine * pose.pose.position.y,
+            )
+            for pose in path.poses
+        )
 
     def _scan_callback(self, message: LaserScan) -> None:
         now_s = self._now_s()
@@ -218,6 +396,8 @@ class ProximityStopNode(Node):
         frame_id = message.header.frame_id
         if self._expected_frame_id and frame_id != self._expected_frame_id:
             self._visualization_point_frames.clear()
+            if self._path_aware_enabled:
+                self._stop_latch.update(True, now_s)
             self._publish(True, "frame_mismatch", 0, frame_id, None, None)
             if visualization_due:
                 result = evaluate_local_clearance(
@@ -236,8 +416,20 @@ class ProximityStopNode(Node):
 
         scan_stamp_s = _stamp_to_seconds(message.header.stamp)
         age_s = now_s - scan_stamp_s if scan_stamp_s > 0.0 else None
-        if age_s is not None and age_s > self._max_scan_age_s:
+        if self._path_aware_enabled and (age_s is None or age_s < 0.0):
             self._visualization_point_frames.clear()
+            self._stop_latch.update(True, now_s)
+            self._publish(True, "invalid_scan_stamp", 0, frame_id, age_s, None)
+            return
+        allowed_scan_age_s = (
+            self._path_aware_scan_age_s
+            if self._path_aware_enabled
+            else self._max_scan_age_s
+        )
+        if age_s is not None and age_s > allowed_scan_age_s:
+            self._visualization_point_frames.clear()
+            if self._path_aware_enabled:
+                self._stop_latch.update(True, now_s)
             self._publish(True, "stale_scan", 0, frame_id, age_s, None)
             if visualization_due:
                 result = evaluate_local_clearance(
@@ -271,6 +463,35 @@ class ProximityStopNode(Node):
         count = result.point_count
         nearest_distance_m = result.nearest_obstacle_distance_m
         reason = "obstacle_in_stop_box" if stop else "clear"
+        speed_limit_mps = None
+        details = None
+        if self._path_aware_enabled:
+            decision = evaluate_path_aware_stop(
+                points,
+                self._path_in_body(now_s, message.header.stamp),
+                self._config,
+                self._path_config,
+                measured_speed_mps=(
+                    self._measured_speed_mps
+                    if 0.0 <= now_s - self._odom_received_s <= self._max_odom_age_s
+                    else None
+                ),
+            )
+            stop = self._stop_latch.update(decision.stop, now_s)
+            reason = decision.reason if decision.stop or not stop else "release_hold"
+            slowing = self._slow_latch.update(
+                decision.speed_limit_mps is not None or stop, now_s
+            )
+            speed_limit_mps = self._path_config.slow_speed_mps if slowing else None
+            details = {
+                "path_valid": decision.path_valid,
+                "fixed_box_point_count": decision.fixed_count,
+                "path_collision_point_count": decision.path_collision_count,
+                "emergency_point_count": decision.emergency_count,
+                "slow_point_count": decision.slow_count,
+                "speed_limit_mps": speed_limit_mps,
+                "emergency_distance_m": decision.emergency_distance_m,
+            }
         self._publish(
             stop,
             reason,
@@ -278,6 +499,8 @@ class ProximityStopNode(Node):
             frame_id,
             age_s,
             nearest_distance_m,
+            speed_limit_mps=speed_limit_mps,
+            details=details,
         )
         if visualization_due:
             visualization_result = evaluate_fused_local_clearance(
@@ -301,8 +524,23 @@ class ProximityStopNode(Node):
         frame_id: str,
         scan_age_s: float | None,
         nearest_obstacle_distance_m: float | None,
+        *,
+        speed_limit_mps: float | None = None,
+        details: dict | None = None,
     ) -> None:
         self._stop_publisher.publish(Bool(data=stop))
+        if self._speed_limit_publisher is not None:
+            self._speed_limit_publisher.publish(
+                Float32(
+                    data=(
+                        speed_limit_mps
+                        if speed_limit_mps is not None
+                        else self._path_config.slow_speed_mps
+                        if reason in {"frame_mismatch", "stale_scan", "invalid_scan_stamp"}
+                        else 0.0
+                    )
+                )
+            )
         self._status_publisher.publish(
             String(
                 data=json.dumps(
@@ -313,6 +551,7 @@ class ProximityStopNode(Node):
                         "frame_id": frame_id,
                         "scan_age_s": scan_age_s,
                         "nearest_obstacle_distance_m": nearest_obstacle_distance_m,
+                        **(details or {}),
                     },
                     separators=(",", ":"),
                 )

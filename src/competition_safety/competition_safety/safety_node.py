@@ -12,7 +12,7 @@ from geometry_msgs.msg import Twist, TwistStamped, Vector3Stamped
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from ranger_msgs.msg import MotionState, SystemState
-from std_msgs.msg import Bool, String
+from std_msgs.msg import Bool, Float32, String
 
 from competition_control.mppi_controller import BodyCommand
 from competition_safety.shutdown_guard import publish_shutdown_zero_if_ready
@@ -33,6 +33,12 @@ class SafetyNode(Node):
         self._avoidance_timeout_s = float(
             self.declare_parameter("avoidance_timeout_s", 0.30).value
         )
+        self._require_avoidance_speed_limit = bool(
+            self.declare_parameter("require_avoidance_speed_limit", False).value
+        )
+        self._avoidance_speed_limit_seen = False
+        self._avoidance_speed_limit_received_s = 0.0
+        self._avoidance_speed_limit_mps: float | None = None
         self._require_traffic_rules = bool(
             self.declare_parameter("require_traffic_rules", False).value
         )
@@ -171,6 +177,17 @@ class SafetyNode(Node):
             self._traffic_rules_callback,
             20,
         )
+        if self._require_avoidance_speed_limit:
+            self.create_subscription(
+                Float32,
+                str(
+                    self.declare_parameter(
+                        "avoidance_speed_limit_topic", "/avoidance/speed_limit"
+                    ).value
+                ),
+                self._avoidance_speed_limit_callback,
+                20,
+            )
         self.create_subscription(
             Bool,
             str(
@@ -230,6 +247,12 @@ class SafetyNode(Node):
         self._avoidance_stop = bool(message.data)
         self._avoidance_seen = True
         self._avoidance_received_s = self._now_s()
+
+    def _avoidance_speed_limit_callback(self, message: Float32) -> None:
+        limit = float(message.data)
+        self._avoidance_speed_limit_seen = math.isfinite(limit) and limit >= 0.0
+        self._avoidance_speed_limit_received_s = self._now_s()
+        self._avoidance_speed_limit_mps = limit if limit != 0.0 else None
 
     def _traffic_rules_callback(self, message: Bool) -> None:
         self._traffic_rules_stop = bool(message.data)
@@ -333,6 +356,15 @@ class SafetyNode(Node):
                 state_valid=self._state_valid,
                 avoidance_ready=avoidance_ready,
                 avoidance_stop=self._avoidance_stop,
+                avoidance_speed_limit_ready=(
+                    not self._require_avoidance_speed_limit
+                    or (
+                        self._avoidance_speed_limit_seen
+                        and 0.0 <= now_s - self._avoidance_speed_limit_received_s
+                        <= self._avoidance_timeout_s
+                    )
+                ),
+                avoidance_speed_limit_mps=self._avoidance_speed_limit_mps,
                 chassis_fault=chassis_fault,
                 system_ready=system_fresh and motion_fresh,
                 ackermann_mode=ackermann_mode,
