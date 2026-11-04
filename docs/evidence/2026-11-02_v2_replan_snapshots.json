@@ -1,0 +1,581 @@
+{
+  "note": "V1 recorded outputs checked against nearest preceding full grid with stamped TF and conservative occupied-cell areas; not a closed-loop V2 test.",
+  "counts": {
+    "accepted": 55,
+    "rejected": 107
+  },
+  "rejected_examples": [
+    {
+      "t": 24.707385744,
+      "points": 49,
+      "occupied_cells": 3597
+    },
+    {
+      "t": 25.626632688,
+      "points": 48,
+      "occupied_cells": 3631
+    },
+    {
+      "t": 26.124420515,
+      "points": 47,
+      "occupied_cells": 3646
+    },
+    {
+      "t": 26.800864221,
+      "points": 49,
+      "occupied_cells": 3624
+    },
+    {
+      "t": 27.612610994,
+      "points": 47,
+      "occupied_cells": 3687
+    },
+    {
+      "t": 29.479578279,
+      "points": 43,
+      "occupied_cells": 3761
+    },
+    {
+      "t": 29.605925295,
+      "points": 42,
+      "occupied_cells": 3761
+    },
+    {
+      "t": 30.115780651,
+      "points": 42,
+      "occupied_cells": 3800
+    },
+    {
+      "t": 32.116405672,
+      "points": 42,
+      "occupied_cells": 3777
+    },
+    {
+      "t": 32.700723721,
+      "points": 43,
+      "occupied_cells": 3750
+    },
+    {
+      "t": 33.211284127,
+      "points": 43,
+      "occupied_cells": 3694
+    },
+    {
+      "t": 34.201506264,
+      "points": 45,
+      "occupied_cells": 3520
+    },
+    {
+      "t": 35.70573676,
+      "points": 45,
+      "occupied_cells": 3399
+    },
+    {
+      "t": 36.155507513,
+      "points": 43,
+      "occupied_cells": 3465
+    },
+    {
+      "t": 36.673063398,
+      "points": 43,
+      "occupied_cells": 3470
+    },
+    {
+      "t": 37.18440188,
+      "points": 45,
+      "occupied_cells": 3573
+    },
+    {
+      "t": 37.638509174,
+      "points": 43,
+      "occupied_cells": 3921
+    },
+    {
+      "t": 38.164635103,
+      "points": 45,
+      "occupied_cells": 4000
+    },
+    {
+      "t": 39.148407505,
+      "points": 45,
+      "occupied_cells": 3916
+    },
+    {
+      "t": 40.264312346,
+      "points": 47,
+      "occupied_cells": 3761
+    },
+    {
+      "t": 40.698779892,
+      "points": 45,
+      "occupied_cells": 3779
+    },
+    {
+      "t": 41.151538318,
+      "points": 43,
+      "occupied_cells": 3744
+    },
+    {
+      "t": 42.149678089,
+      "points": 43,
+      "occupied_cells": 3367
+    },
+    {
+      "t": 42.615019453,
+      "points": 43,
+      "occupied_cells": 3227
+    },
+    {
+      "t": 43.115949376,
+      "points": 43,
+      "occupied_cells": 3384
+    },
+    {
+      "t": 43.613168093,
+      "points": 43,
+      "occupied_cells": 3364
+    },
+    {
+      "t": 44.12466921,
+      "points": 43,
+      "occupied_cells": 3417
+    },
+    {
+      "t": 44.607172419,
+      "points": 42,
+      "occupied_cells": 3305
+    },
+    {
+      "t": 45.139143422,
+      "points": 43,
+      "occupied_cells": 2953
+    },
+    {
+      "t": 45.680248905,
+      "points": 47,
+      "occupied_cells": 2949
+    },
+    {
+      "t": 46.131520835,
+      "points": 46,
+      "occupied_cells": 3006
+    },
+    {
+      "t": 55.147399718,
+      "points": 45,
+      "occupied_cells": 2804
+    },
+    {
+      "t": 55.679421301,
+      "points": 45,
+      "occupied_cells": 2725
+    },
+    {
+      "t": 59.124316373,
+      "points": 45,
+      "occupied_cells": 2747
+    },
+    {
+      "t": 64.62251369,
+      "points": 45,
+      "occupied_cells": 2730
+    },
+    {
+      "t": 65.125469511,
+      "points": 45,
+      "occupied_cells": 2765
+    },
+    {
+      "t": 65.611431904,
+      "points": 45,
+      "occupied_cells": 2788
+    },
+    {
+      "t": 69.146491733,
+      "points": 45,
+      "occupied_cells": 2776
+    },
+    {
+      "t": 69.639308008,
+      "points": 45,
+      "occupied_cells": 2746
+    },
+    {
+      "t": 72.13707361,
+      "points": 45,
+      "occupied_cells": 2713
+    },
+    {
+      "t": 73.128269671,
+      "points": 45,
+      "occupied_cells": 2718
+    },
+    {
+      "t": 74.644561609,
+      "points": 45,
+      "occupied_cells": 2770
+    },
+    {
+      "t": 76.643712305,
+      "points": 45,
+      "occupied_cells": 2765
+    },
+    {
+      "t": 77.146468791,
+      "points": 45,
+      "occupied_cells": 2584
+    },
+    {
+      "t": 80.625192725,
+      "points": 45,
+      "occupied_cells": 2854
+    },
+    {
+      "t": 84.642483361,
+      "points": 45,
+      "occupied_cells": 2875
+    },
+    {
+      "t": 89.128378842,
+      "points": 45,
+      "occupied_cells": 2851
+    },
+    {
+      "t": 92.608429273,
+      "points": 45,
+      "occupied_cells": 2775
+    },
+    {
+      "t": 93.158681972,
+      "points": 45,
+      "occupied_cells": 2951
+    },
+    {
+      "t": 94.641830538,
+      "points": 43,
+      "occupied_cells": 2944
+    },
+    {
+      "t": 95.623483948,
+      "points": 43,
+      "occupied_cells": 3005
+    },
+    {
+      "t": 96.124177269,
+      "points": 43,
+      "occupied_cells": 2963
+    },
+    {
+      "t": 97.141037142,
+      "points": 41,
+      "occupied_cells": 3059
+    },
+    {
+      "t": 97.610442793,
+      "points": 41,
+      "occupied_cells": 3016
+    },
+    {
+      "t": 98.129977647,
+      "points": 43,
+      "occupied_cells": 2990
+    },
+    {
+      "t": 98.620608536,
+      "points": 43,
+      "occupied_cells": 2927
+    },
+    {
+      "t": 99.166762751,
+      "points": 43,
+      "occupied_cells": 2886
+    },
+    {
+      "t": 99.621089122,
+      "points": 43,
+      "occupied_cells": 2888
+    },
+    {
+      "t": 100.132637928,
+      "points": 43,
+      "occupied_cells": 2685
+    },
+    {
+      "t": 114.649924706,
+      "points": 41,
+      "occupied_cells": 2724
+    },
+    {
+      "t": 118.144905101,
+      "points": 41,
+      "occupied_cells": 2614
+    },
+    {
+      "t": 118.623860493,
+      "points": 40,
+      "occupied_cells": 2566
+    },
+    {
+      "t": 119.111519208,
+      "points": 39,
+      "occupied_cells": 2614
+    },
+    {
+      "t": 125.121693736,
+      "points": 41,
+      "occupied_cells": 4232
+    },
+    {
+      "t": 126.126174478,
+      "points": 41,
+      "occupied_cells": 3874
+    },
+    {
+      "t": 126.646349147,
+      "points": 43,
+      "occupied_cells": 3956
+    },
+    {
+      "t": 128.155413801,
+      "points": 43,
+      "occupied_cells": 4335
+    },
+    {
+      "t": 129.260956599,
+      "points": 41,
+      "occupied_cells": 4326
+    },
+    {
+      "t": 130.141913576,
+      "points": 41,
+      "occupied_cells": 4250
+    },
+    {
+      "t": 130.650429873,
+      "points": 43,
+      "occupied_cells": 4304
+    },
+    {
+      "t": 132.164645827,
+      "points": 43,
+      "occupied_cells": 3909
+    },
+    {
+      "t": 132.611909925,
+      "points": 42,
+      "occupied_cells": 3646
+    },
+    {
+      "t": 133.116314067,
+      "points": 41,
+      "occupied_cells": 4005
+    },
+    {
+      "t": 133.613326483,
+      "points": 40,
+      "occupied_cells": 3771
+    },
+    {
+      "t": 134.176276439,
+      "points": 43,
+      "occupied_cells": 3510
+    },
+    {
+      "t": 134.632523601,
+      "points": 43,
+      "occupied_cells": 3802
+    },
+    {
+      "t": 135.16156762,
+      "points": 45,
+      "occupied_cells": 3780
+    },
+    {
+      "t": 135.614144185,
+      "points": 44,
+      "occupied_cells": 3701
+    },
+    {
+      "t": 137.155225122,
+      "points": 41,
+      "occupied_cells": 3488
+    },
+    {
+      "t": 137.6138559,
+      "points": 40,
+      "occupied_cells": 3403
+    },
+    {
+      "t": 138.111639768,
+      "points": 39,
+      "occupied_cells": 3454
+    },
+    {
+      "t": 138.617687285,
+      "points": 43,
+      "occupied_cells": 3350
+    },
+    {
+      "t": 139.137242529,
+      "points": 43,
+      "occupied_cells": 3470
+    },
+    {
+      "t": 139.621344916,
+      "points": 43,
+      "occupied_cells": 3556
+    },
+    {
+      "t": 140.128356772,
+      "points": 41,
+      "occupied_cells": 3646
+    },
+    {
+      "t": 141.647308954,
+      "points": 39,
+      "occupied_cells": 3836
+    },
+    {
+      "t": 143.670208765,
+      "points": 39,
+      "occupied_cells": 3842
+    },
+    {
+      "t": 144.127116924,
+      "points": 39,
+      "occupied_cells": 3906
+    },
+    {
+      "t": 144.623933873,
+      "points": 39,
+      "occupied_cells": 3791
+    },
+    {
+      "t": 145.148331901,
+      "points": 43,
+      "occupied_cells": 3641
+    },
+    {
+      "t": 147.113490132,
+      "points": 43,
+      "occupied_cells": 3648
+    },
+    {
+      "t": 148.644783693,
+      "points": 43,
+      "occupied_cells": 3703
+    },
+    {
+      "t": 150.638014152,
+      "points": 43,
+      "occupied_cells": 3767
+    },
+    {
+      "t": 152.143935227,
+      "points": 42,
+      "occupied_cells": 3712
+    },
+    {
+      "t": 153.128564043,
+      "points": 42,
+      "occupied_cells": 3738
+    },
+    {
+      "t": 154.12797177,
+      "points": 42,
+      "occupied_cells": 3751
+    },
+    {
+      "t": 155.12192464,
+      "points": 42,
+      "occupied_cells": 3668
+    },
+    {
+      "t": 157.118513167,
+      "points": 42,
+      "occupied_cells": 3666
+    },
+    {
+      "t": 157.620064848,
+      "points": 42,
+      "occupied_cells": 3703
+    },
+    {
+      "t": 158.112740379,
+      "points": 42,
+      "occupied_cells": 3660
+    },
+    {
+      "t": 159.647888205,
+      "points": 42,
+      "occupied_cells": 3824
+    },
+    {
+      "t": 164.151337525,
+      "points": 41,
+      "occupied_cells": 3943
+    },
+    {
+      "t": 164.656754757,
+      "points": 43,
+      "occupied_cells": 3865
+    },
+    {
+      "t": 166.142050871,
+      "points": 41,
+      "occupied_cells": 3972
+    },
+    {
+      "t": 166.61227332,
+      "points": 41,
+      "occupied_cells": 4078
+    },
+    {
+      "t": 168.120318373,
+      "points": 82,
+      "occupied_cells": 4170
+    },
+    {
+      "t": 168.638791698,
+      "points": 43,
+      "occupied_cells": 3702
+    }
+  ],
+  "replanning_snapshots": [
+    {
+      "t": 25.127207737,
+      "status": "REPLANNED",
+      "output_valid": true,
+      "elapsed_ms": 161.50050800024474
+    },
+    {
+      "t": 30.115780651,
+      "status": "REPLANNED_SHORT_REJOIN",
+      "output_valid": true,
+      "elapsed_ms": 491.6366819998075
+    },
+    {
+      "t": 33.211284127,
+      "status": "REPLANNED",
+      "output_valid": true,
+      "elapsed_ms": 180.84213699967222
+    },
+    {
+      "t": 35.121595949,
+      "status": "REPLANNED",
+      "output_valid": true,
+      "elapsed_ms": 170.06823200063081
+    },
+    {
+      "t": 37.18440188,
+      "status": "REPLANNED",
+      "output_valid": true,
+      "elapsed_ms": 101.74568999991607
+    },
+    {
+      "t": 55.147399718,
+      "error": "hybrid_astar found no forward pose-constrained path from (-20.961, 2.911, 2.886) to (-24.971, 3.354, 3.025)",
+      "elapsed_ms": 48.181314000430575
+    }
+  ]
+}

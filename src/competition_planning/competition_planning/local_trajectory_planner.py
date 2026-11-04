@@ -57,8 +57,13 @@ class LocalReplanConfig:
     reference_priority_footprint: AsymmetricFootprint | None = None
     obstacle_aware_heuristic: bool = False
     minimum_short_rejoin_distance_m: float = 0.0
+    retain_safe_detour: bool = False
+    dynamic_obstacle_cell_size_m: float = 0.0
+    smooth_detour_reconnect: bool = False
 
     def __post_init__(self) -> None:
+        if not math.isfinite(self.dynamic_obstacle_cell_size_m) or self.dynamic_obstacle_cell_size_m < 0:
+            raise ValueError("dynamic obstacle cell size must be finite and nonnegative")
         if not math.isfinite(self.minimum_short_rejoin_distance_m) or not (
             0.0 <= self.minimum_short_rejoin_distance_m <= self.lookahead_distance_m
         ):
@@ -149,6 +154,7 @@ class LocalTrajectoryPlanner:
         self._held_rejoin_index: int | None = None
         self._last_safe_path: tuple[PathPoint, ...] = ()
         self._last_safe_rejoin_index: int | None = None
+        self._detour_active = False
         self._pending_relaxed_span: tuple[int, int] | None = None
         self._completed_relaxed_span: tuple[int, int] | None = None
 
@@ -347,6 +353,7 @@ class LocalTrajectoryPlanner:
         live_map, obstacle_count = _overlay_obstacles(
             planning_map,
             dynamic_obstacle_points,
+            cell_size_m=self._config.dynamic_obstacle_cell_size_m,
         )
         relaxed = relaxed_span is not None
         blocked_relaxed_rejoin = False
@@ -551,7 +558,18 @@ class LocalTrajectoryPlanner:
                     path_is_navigable=True,
                     planning_grid_cell_count=live_map.width * live_map.height,
                 )
+        if self._config.retain_safe_detour and not relaxed and self._detour_active:
+            tail = self._safe_last_path(current_pose=current_pose, planner=planner)
+            if tail and self._validated_detour_tail(tail, planner):
+                return LocalPlan(
+                    path=tail, reference_start_index=start_index,
+                    rejoin_index=self._last_safe_rejoin_index or rejoin_index,
+                    dynamic_obstacle_count=obstacle_count, status="DETOUR_CONTINUE",
+                    path_is_navigable=True,
+                    planning_grid_cell_count=live_map.width * live_map.height,
+                )
         if not relaxed and planner.path_is_navigable(local_reference):
+            self._detour_active = False
             if transitioning_from_relaxed:
                 self._completed_relaxed_span = relaxed_span
                 self._pending_relaxed_span = None
@@ -665,6 +683,7 @@ class LocalTrajectoryPlanner:
                 self._pending_relaxed_span = None
             self._held_relaxed_path = ()
             self._held_rejoin_index = None
+        self._detour_active = not relaxed
         self._remember_safe_path(path, rejoin_index)
         return LocalPlan(
             path=path,
@@ -675,6 +694,32 @@ class LocalTrajectoryPlanner:
             path_is_navigable=planner.path_is_navigable(path),
             planning_grid_cell_count=live_map.width * live_map.height,
         )
+
+    def path_is_collision_free(self, path, dynamic_obstacle_points) -> bool:
+        """Check every output segment against the same complete obstacle snapshot."""
+        if len(path) < 2:
+            return False
+        try:
+            grid = _crop_planning_map(self._static_map, path[0], path,
+                                      margin_m=self._config.search_padding_m)
+            live, _ = _overlay_obstacles(grid, dynamic_obstacle_points,
+                                        cell_size_m=self._config.dynamic_obstacle_cell_size_m)
+            return self._planner(live, path).path_is_navigable(_dense_path(path))
+        except (ValueError, GridPlanningError):
+            return False
+
+    def _validated_detour_tail(self, path, planner) -> bool:
+        """Validate the moving connector as well as the stored path on the live map."""
+        first, second = path[:2]
+        direction = math.atan2(second.y-first.y, second.x-first.x)
+        heading_error = math.atan2(math.sin(direction-first.yaw),
+                                   math.cos(direction-first.yaw))
+        if abs(heading_error) > self._config.goal_heading_tolerance_rad:
+            return False
+        length = sum(math.hypot(b.x-a.x, b.y-a.y) for a,b in zip(path,path[1:]))
+        if length < 1.0:
+            return False
+        return planner.path_is_navigable(_dense_path(path))
 
     def _splice_held_path_to_reference(
         self,
@@ -820,6 +865,27 @@ class LocalTrajectoryPlanner:
         if not last_tail:
             return ()
         candidate = (current_pose, *last_tail[1:])
+        if self._config.smooth_detour_reconnect:
+            if self._validated_detour_tail(candidate, planner) and _splice_respects_turning_radius(
+                candidate, min_turning_radius_m=self._config.min_turning_radius_m
+            ):
+                return candidate
+            # Tracking drift makes a straight snap to the nearest 10cm sample
+            # infeasible. Rejoin farther along the SAME validated detour.
+            for distance in (0.6, 0.9, 1.2):
+                index = _lookahead_index(last_tail, 0, distance)
+                if index >= len(last_tail)-1:
+                    continue
+                bridge = planner.connect_forward(current_pose, last_tail[index])
+                if not bridge:
+                    continue
+                joined = (*bridge, *last_tail[index+1:])
+                if (all(_splice_respects_turning_radius(
+                        joined[i:i+3], min_turning_radius_m=self._config.min_turning_radius_m
+                    ) for i in range(len(joined)-2))
+                        and self._validated_detour_tail(joined, planner)):
+                    return tuple(joined)
+            return ()
         if not _splice_respects_turning_radius(
             candidate,
             min_turning_radius_m=self._config.min_turning_radius_m,
@@ -1639,6 +1705,8 @@ def _select_navigable_rejoin_index(
 def _overlay_obstacles(
     static_map: OccupancyGridMap,
     points: Iterable[tuple[float, float]],
+    *,
+    cell_size_m: float = 0.0,
 ) -> tuple[OccupancyGridMap, int]:
     occupied = list(static_map.occupied)
     count = 0
@@ -1648,7 +1716,14 @@ def _overlay_obstacles(
         cell = static_map.world_to_cell(x, y)
         if not static_map.contains(cell):
             continue
-        occupied[static_map.index(cell)] = True
+        # A transformed occupied square is an area, not a point. Cover its
+        # rotated footprint conservatively so re-rasterization cannot punch holes.
+        radius = cell_size_m / math.sqrt(2.0)
+        lo = static_map.world_to_cell(x-radius, y+radius)
+        hi = static_map.world_to_cell(x+radius, y-radius)
+        for row in range(max(0, lo[1]), min(static_map.height-1, hi[1])+1):
+            for col in range(max(0, lo[0]), min(static_map.width-1, hi[0])+1):
+                occupied[static_map.index((col, row))] = True
         count += 1
     return (
         OccupancyGridMap(
@@ -1713,6 +1788,19 @@ def _wrap_angle(value: float) -> float:
     return (value + math.pi) % (2.0 * math.pi) - math.pi
 
 
+def _dense_path(path):
+    dense = []
+    for a, b in zip(path, path[1:]):
+        steps = max(1, math.ceil(math.hypot(b.x-a.x, b.y-a.y) / 0.025))
+        delta = _wrap_angle(b.yaw-a.yaw)
+        dense.extend(PathPoint(a.x+(b.x-a.x)*i/steps,
+                               a.y+(b.y-a.y)*i/steps,
+                               a.yaw+delta*i/steps) for i in range(steps))
+    if path:
+        dense.append(path[-1])
+    return tuple(dense)
+
+
 def occupied_grid_cell_centers(
     data: Iterable[int],
     *,
@@ -1726,6 +1814,7 @@ def occupied_grid_cell_centers(
     x_max_m: float,
     y_half_width_m: float,
     max_points: int,
+    preserve_all: bool = False,
 ) -> tuple[tuple[float, float], ...]:
     """Extract bounded obstacle cells from an already-inflated local costmap."""
 
@@ -1749,7 +1838,7 @@ def occupied_grid_cell_centers(
             continue
         occupied.append((x, y))
 
-    if len(occupied) <= max_points:
+    if preserve_all or len(occupied) <= max_points:
         return tuple(occupied)
     stride = math.ceil(len(occupied) / max_points)
     return tuple(occupied[::stride][:max_points])

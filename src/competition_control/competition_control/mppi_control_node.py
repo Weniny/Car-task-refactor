@@ -807,6 +807,13 @@ class MPPIControlNode(Node):
         if self._precision_active:
             self._local_plan_update_mode = "precision_fixed_reference"
             return
+        if not message.poses:
+            self._accepted_local_geometry = None
+            self._latest_local_plan_stamp_s = None
+            self._local_plan_update_mode = "cleared"
+            self._local_plan_error = None
+            self._controller.reset()
+            return
         if message.header.frame_id != self._map_frame:
             self._local_plan_error = (
                 f"frame_mismatch:{message.header.frame_id}->{self._map_frame}"

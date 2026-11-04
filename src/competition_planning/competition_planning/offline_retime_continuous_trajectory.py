@@ -38,6 +38,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     result = retime_continuous_trajectory(
         load_yaml_file(reference_path),
         load_yaml_file(args.optimizer_params),
+        route_speed_profile=load_yaml_file(args.route).get("route_speed_profile"),
     )
     artifact = result.to_dict()
     sources = resolve_trajectory_source_paths(

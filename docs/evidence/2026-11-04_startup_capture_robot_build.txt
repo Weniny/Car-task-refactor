@@ -1,0 +1,237 @@
+Candidate extracted: /home/agilex/competition_startup_capture_20261104_ws
+No ROS processes started. Next: cd /home/agilex/competition_startup_capture_20261104_ws && bash scripts/build_candidate.sh
+Candidate integrity PASS: startup_capture_20261104 122 files
+Starting >>> competition_localization
+Starting >>> competition_planning
+running develop
+running develop
+running egg_info
+creating competition_localization.egg-info
+writing competition_localization.egg-info/PKG-INFO
+writing dependency_links to competition_localization.egg-info/dependency_links.txt
+writing entry points to competition_localization.egg-info/entry_points.txt
+writing requirements to competition_localization.egg-info/requires.txt
+writing top-level names to competition_localization.egg-info/top_level.txt
+writing manifest file 'competition_localization.egg-info/SOURCES.txt'
+reading manifest file 'competition_localization.egg-info/SOURCES.txt'
+writing manifest file 'competition_localization.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_localization/lib/python3.10/site-packages/competition-localization.egg-link (link to .)
+Installing fastlio_anchor_node script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_localization/lib/competition_localization
+
+Installed /home/agilex/competition_startup_capture_20261104_ws/build/competition_localization
+running symlink_data
+creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_localization/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_localization/resource/competition_localization -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_localization/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_localization/package.xml -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_localization/share/competition_localization
+running egg_info
+creating competition_planning.egg-info
+writing competition_planning.egg-info/PKG-INFO
+writing dependency_links to competition_planning.egg-info/dependency_links.txt
+writing entry points to competition_planning.egg-info/entry_points.txt
+writing requirements to competition_planning.egg-info/requires.txt
+writing top-level names to competition_planning.egg-info/top_level.txt
+writing manifest file 'competition_planning.egg-info/SOURCES.txt'
+Finished <<< competition_localization [4.21s]
+reading manifest file 'competition_planning.egg-info/SOURCES.txt'
+writing manifest file 'competition_planning.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/python3.10/site-packages/competition-planning.egg-link (link to .)
+Installing local_replanner_node script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/competition_planning
+Installing offline_continuous_trajectory script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/competition_planning
+Installing offline_footprint_check script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/competition_planning
+Installing offline_global_plan script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/competition_planning
+Installing offline_optimized_trajectory script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/competition_planning
+Installing offline_retime_continuous_trajectory script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/competition_planning
+Installing semantic_global_path_node script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/lib/competition_planning
+
+Installed /home/agilex/competition_startup_capture_20261104_ws/build/competition_planning
+running symlink_data
+creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_planning/resource/competition_planning -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_planning/package.xml -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_planning/share/competition_planning
+Finished <<< competition_planning [4.33s]
+Starting >>> competition_control
+running develop
+running egg_info
+creating competition_control.egg-info
+writing competition_control.egg-info/PKG-INFO
+writing dependency_links to competition_control.egg-info/dependency_links.txt
+writing entry points to competition_control.egg-info/entry_points.txt
+writing requirements to competition_control.egg-info/requires.txt
+writing top-level names to competition_control.egg-info/top_level.txt
+writing manifest file 'competition_control.egg-info/SOURCES.txt'
+reading manifest file 'competition_control.egg-info/SOURCES.txt'
+writing manifest file 'competition_control.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_control/lib/python3.10/site-packages/competition-control.egg-link (link to .)
+Installing mppi_control_node script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_control/lib/competition_control
+Installing ranger_twist_adapter_node script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_control/lib/competition_control
+
+Installed /home/agilex/competition_startup_capture_20261104_ws/build/competition_control
+running symlink_data
+creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_control/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_control/resource/competition_control -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_control/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_control/package.xml -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_control/share/competition_control
+Finished <<< competition_control [3.95s]
+Starting >>> competition_safety
+running develop
+running egg_info
+creating competition_safety.egg-info
+writing competition_safety.egg-info/PKG-INFO
+writing dependency_links to competition_safety.egg-info/dependency_links.txt
+writing entry points to competition_safety.egg-info/entry_points.txt
+writing requirements to competition_safety.egg-info/requires.txt
+writing top-level names to competition_safety.egg-info/top_level.txt
+writing manifest file 'competition_safety.egg-info/SOURCES.txt'
+reading manifest file 'competition_safety.egg-info/SOURCES.txt'
+writing manifest file 'competition_safety.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_safety/lib/python3.10/site-packages/competition-safety.egg-link (link to .)
+Installing proximity_stop_node script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_safety/lib/competition_safety
+Installing safety_node script to /home/agilex/competition_startup_capture_20261104_ws/install/competition_safety/lib/competition_safety
+
+Installed /home/agilex/competition_startup_capture_20261104_ws/build/competition_safety
+running symlink_data
+creating /home/agilex/competition_startup_capture_20261104_ws/install/competition_safety/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_safety/resource/competition_safety -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_safety/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/competition_safety/package.xml -> /home/agilex/competition_startup_capture_20261104_ws/install/competition_safety/share/competition_safety
+Finished <<< competition_safety [3.80s]
+Starting >>> forward_rejoin_bringup
+running develop
+running egg_info
+creating forward_rejoin_bringup.egg-info
+writing forward_rejoin_bringup.egg-info/PKG-INFO
+writing dependency_links to forward_rejoin_bringup.egg-info/dependency_links.txt
+writing requirements to forward_rejoin_bringup.egg-info/requires.txt
+writing top-level names to forward_rejoin_bringup.egg-info/top_level.txt
+writing manifest file 'forward_rejoin_bringup.egg-info/SOURCES.txt'
+reading manifest file 'forward_rejoin_bringup.egg-info/SOURCES.txt'
+writing manifest file 'forward_rejoin_bringup.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/lib/python3.10/site-packages/forward-rejoin-bringup.egg-link (link to .)
+
+Installed /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup
+running symlink_data
+creating /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup/resource/forward_rejoin_bringup -> /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/ament_index/resource_index/packages
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup/package.xml -> /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup
+creating /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup/launch
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup/launch/startup_capture_050_030_inflation025.launch.py -> /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup/launch
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup/launch/forward_rejoin_behavior_050_030_inflation025.launch.py -> /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup/launch
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup/launch/forward_rejoin_050_030_inflation025.launch.py -> /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup/launch
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup/launch/forward_rejoin_050_030.launch.py -> /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup/launch
+creating /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup/rviz
+symbolically linking /home/agilex/competition_startup_capture_20261104_ws/build/forward_rejoin_bringup/rviz/navigation_debug_view.rviz -> /home/agilex/competition_startup_capture_20261104_ws/install/forward_rejoin_bringup/share/forward_rejoin_bringup/rviz
+Finished <<< forward_rejoin_bringup [3.89s]
+
+Summary: 5 packages finished [16.3s]
+{
+  "status": "PASS",
+  "imports": {
+    "competition_planning.startup_capture": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/startup_capture.py",
+    "competition_planning.path_guard": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/path_guard.py",
+    "competition_planning.local_trajectory_planner": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/local_trajectory_planner.py",
+    "competition_control.mppi_controller": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_control/competition_control/mppi_controller.py",
+    "competition_safety.supervisor": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_safety/competition_safety/supervisor.py",
+    "competition_localization.state_estimator": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_localization/competition_localization/state_estimator.py"
+  }
+}
+test_capture_distance_uses_segment_not_nearest_vertex (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_clear_reference_keeps_nominal_goal (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_far_obstacle_does_not_trigger_early_detour (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_goal_is_after_blockage_and_clear_run (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_no_pre_obstacle_short_goal_when_exit_is_blocked (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_reject_invalid_intervals (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_rotated_observation_window_reserves_body_and_tracking_space (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_second_blockage_does_not_erase_an_earlier_usable_exit (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_segment_leaving_blockage_is_not_counted_as_clear (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+test_unobserved_space_is_not_a_free_rejoin (test_forward_rejoin_policy.ForwardRejoinPolicyTests) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.002s
+
+OK
+test_controller_drops_cleared_geometry_and_resets (__main__.CandidateIntegration) ... ok
+test_current_curvature_reaches_first_search_node (__main__.CandidateIntegration) ... ok
+test_dense_collision_check_rejects_obstacle_between_waypoints (__main__.CandidateIntegration) ... ok
+test_no_reference_handoff_while_car_is_laterally_offset (__main__.CandidateIntegration) ... ok
+test_odom_retains_curvature_at_stop_and_bounds_noise (__main__.CandidateIntegration) ... ok
+test_stop_clears_displayed_path_before_publishing_stop (__main__.CandidateIntegration) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.068s
+
+OK
+test_braking_limit_satisfies_budget (test_behavior_guard.BehaviorGuardTests) ... ok
+test_clear_reference_discards_prestart_detour_after_two_observations (test_behavior_guard.BehaviorGuardTests) ... ok
+test_controller_rechecks_remaining_distance_as_vehicle_advances (test_behavior_guard.BehaviorGuardTests) ... ok
+test_current_blockage_prevents_prestart_clear (test_behavior_guard.BehaviorGuardTests) ... ok
+test_far_blockage_yields_checked_prefix_and_retains_original_goal (test_behavior_guard.BehaviorGuardTests) ... ok
+test_large_capture_offset_does_not_bridge_to_old_path (test_behavior_guard.BehaviorGuardTests) ... ok
+test_moving_route_does_not_discard_detour (test_behavior_guard.BehaviorGuardTests) ... ok
+test_near_blockage_cannot_fit_stopping_distance (test_behavior_guard.BehaviorGuardTests) ... ok
+test_no_history_never_creates_a_fake_prefix (test_behavior_guard.BehaviorGuardTests) ... ok
+test_nonfinite_guard_and_braking_inputs_rejected (test_behavior_guard.BehaviorGuardTests) ... ok
+test_observation_boundary_caps_prefix (test_behavior_guard.BehaviorGuardTests) ... ok
+test_prefix_ends_at_first_bad_segment_even_if_route_is_clear_beyond (test_behavior_guard.BehaviorGuardTests) ... ok
+test_projection_does_not_count_path_behind_vehicle (test_behavior_guard.BehaviorGuardTests) ... ok
+test_stale_or_mismatched_ticket_holds (test_behavior_guard.BehaviorGuardTests) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.372s
+
+OK
+test_clear_path_removes_tickets_pending_path_and_geometry (__main__.Callbacks) ... ok
+test_guard_before_path_keeps_previous_pair_then_accepts (__main__.Callbacks) ... ok
+test_guard_expiry_holds_even_with_fresh_geometry (__main__.Callbacks) ... ok
+test_path_before_guard_keeps_previous_pair_then_accepts (__main__.Callbacks) ... ok
+test_prefix_cannot_release_a_car_that_has_already_held (__main__.Callbacks) ... ok
+test_stale_controller_state_or_moving_odom_cannot_reset_detour (__main__.Callbacks) ... ok
+test_wrong_guard_cannot_release_pending_path (__main__.Callbacks) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.383s
+
+OK
+test_actual_rear_pose_builds_small_capture_with_correct_tangents (test_startup_capture.StartupCaptureTests) ... ok
+test_initial_capture_collision_is_checked_even_if_reference_is_clear (test_startup_capture.StartupCaptureTests) ... ok
+test_large_lateral_error_does_not_replace_a_detour (test_startup_capture.StartupCaptureTests) ... ok
+test_moving_cycle_keeps_capture_and_does_not_return_to_old_curve (test_startup_capture.StartupCaptureTests) ... ok
+test_obstacle_on_nominal_reference_does_not_trigger_clear_reset (test_startup_capture.StartupCaptureTests) ... ok
+test_old_curve_replaced_after_two_checked_cycles (test_startup_capture.StartupCaptureTests) ... ok
+test_outside_existing_start_gate_is_not_relaxed (test_startup_capture.StartupCaptureTests) ... ok
+test_rear_position_is_not_reported_as_large_lateral_error (test_startup_capture.StartupCaptureTests) ... ok
+test_rotated_map_frame_has_equivalent_capture (test_startup_capture.StartupCaptureTests) ... ok
+test_short_goal_that_cannot_fit_capture_is_rejected (test_startup_capture.StartupCaptureTests) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.105s
+
+OK
+Arguments (pass arguments as '<name>:=<value>'):
+
+    'trajectory_file':
+        Unverified 0.50/0.30 full-loop candidate with frozen baseline geometry.
+        (default: '/home/agilex/competition_startup_capture_20261104_ws/artifacts/indoor_manual_six_anchor_v3_radius120_050straight_030turn_trajectory.yaml')
+
+    'local_replanner_frequency_hz':
+        Local replanner update frequency in Hz.
+        (default: '2.0')
+
+    'start_chassis_adapter':
+        False keeps real /cmd_vel disconnected.
+        (default: 'false')
+
+    'safety_output_topic':
+        no description given
+        (default: '/cmd_vel_safe')
+
+    'chassis_adapter_input_topic':
+        no description given
+        (default: '/cmd_vel_safe')
+
+    'chassis_adapter_output_topic':
+        no description given
+        (default: '/cmd_vel')
+Build and interface loading checks passed. No navigation or chassis was started.

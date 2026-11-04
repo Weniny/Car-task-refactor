@@ -1,0 +1,29 @@
+[
+  {
+    "planner_stop_t": 40.915577832,
+    "odom_stopped_t": 41.798145987,
+    "stop_delay_s": 0.8825681550000013,
+    "odom_travel_after_stop_m": 0.13241754874081768,
+    "pose_displacement_m": 0.10123566551562438,
+    "max_safe_speed_during_stop_response_mps": 0.018000000000000006,
+    "continuous_zero_command": false
+  },
+  {
+    "planner_stop_t": 71.922215092,
+    "odom_stopped_t": 72.777624629,
+    "stop_delay_s": 0.8554095369999999,
+    "odom_travel_after_stop_m": 0.09961896124727096,
+    "pose_displacement_m": 0.06385416388484837,
+    "max_safe_speed_during_stop_response_mps": 0.0,
+    "continuous_zero_command": true
+  },
+  {
+    "planner_stop_t": 176.915224626,
+    "odom_stopped_t": 177.717807161,
+    "stop_delay_s": 0.8025825349999991,
+    "odom_travel_after_stop_m": 0.10828522083155673,
+    "pose_displacement_m": 0.09203901093463077,
+    "max_safe_speed_during_stop_response_mps": 0.0,
+    "continuous_zero_command": true
+  }
+]

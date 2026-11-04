@@ -1,0 +1,19 @@
+{
+  "bag": {
+    "bag_path": "/home/agilex/competition_rebuild_ws/log/retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218/rosbag/rosbag_0.db3",
+    "bag_bytes": 72032256,
+    "bag_sha256": "5d40fb2435da97dfcb8c4cebd5c188b70b4e2c72a48b00e7c24281a6aba90c69"
+  },
+  "diagnostic_archive": {
+    "path": "output/diagnostics/obstacle_origin_20261103.zip",
+    "sha256": "49745fa9d2f68febf8d1e05a3809bb81a9d36b06f426a5418e4a69cc60fd6f5e",
+    "bytes": 3347972
+  },
+  "scripts": {
+    "scripts/analyze_obstacle_origin.py": "131bafb0a37944b6ec5ae737ef4649d1c7edfcccaf399e071ee05505ed5c08f2",
+    "scripts/probe_obstacle_origin.py": "e862f57d3649bd3ee5e59fbef6e083dc84b4ae1df4bdba412664932c045aa1ae",
+    "scripts/check_origin_path_following.py": "e69ff418b57680f4cc986677058e24bb70b7c8da7962c6f973bfe90e97ed8eac",
+    "scripts/plot_obstacle_origin.py": "448e0bba22923a7d82ecb007c1d3f2a15d176670c392cd5e6ed5ae3302be9971"
+  },
+  "status": "Analysis complete; goal-only and soft-clearance-only candidates not accepted; no runtime deployment or hardware test."
+}

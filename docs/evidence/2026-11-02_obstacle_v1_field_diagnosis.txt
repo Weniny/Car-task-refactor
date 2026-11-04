@@ -1,0 +1,167 @@
+/rebuild_local_replanner:
+  ros__parameters:
+    active_checkpoint_ref_topic: /mission/active_checkpoint_ref
+    base_frame: body
+    costmap_occupancy_threshold: 50
+    costmap_topic: /avoidance/local_costmap
+    curvature_bins: 9
+    docking_activation_distance_m: 1.5
+    docking_costmap_occupancy_threshold: 100
+    docking_departure_refs_csv: ''
+    docking_front_clearance_m: 0.1
+    docking_min_turning_radius_m: 0.6
+    docking_non_work_side_clearance_m: 0.1
+    docking_rear_clearance_m: 0.1
+    docking_shelf_filter_distance_m: 1.0
+    docking_shelf_physical_guard_m: 0.05
+    docking_vehicle_length_m: 0.72
+    docking_vehicle_width_m: 0.5
+    docking_work_side_clearance_m: 0.03
+    empty_history_planning_timeout_s: 0.4
+    expected_obstacle_frame: body
+    final_obstacle_checkpoint_ref: finish_park
+    final_obstacle_costmap_occupancy_threshold: 100
+    final_obstacle_front_clearance_m: 0.05
+    final_obstacle_inflation_radius_m: 0.05
+    final_obstacle_left_clearance_m: 0.05
+    final_obstacle_rear_clearance_m: 0.05
+    final_obstacle_right_clearance_m: 0.05
+    final_obstacle_vehicle_length_m: 0.72
+    final_obstacle_vehicle_width_m: 0.5
+    frequency_hz: 2.0
+    goal_heading_tolerance_deg: 20.0
+    goal_position_tolerance_m: 0.15
+    heading_bins: 72
+    inflation_radius_m: 0.04
+    local_stop_request_topic: /planning/local_stop_request
+    local_trajectory_topic: /planning/local_trajectory
+    lookahead_distance_m: 4.0
+    map_file: /home/agilex/competition_rebuild_ws/maps/indoor_manual_final/map.yaml
+    map_frame: map
+    max_expansions: 250000
+    max_obstacle_age_s: 0.9
+    max_obstacle_points: 2000
+    max_odom_age_s: 0.5
+    min_turning_radius_m: 0.6
+    minimum_short_rejoin_distance_m: 2.0
+    obstacle_aware_heuristic: false
+    obstacle_clearance_distance_m: 0.0
+    obstacle_clearance_weight: 0.0
+    obstacle_source: costmap
+    obstacle_x_max_m: 5.0
+    obstacle_x_min_m: 0.05
+    obstacle_y_half_width_m: 2.5
+    odom_topic: /odom
+    planning_timeout_s: 0.4
+    reference_deviation_weight: 2.0
+    reference_priority_activation_distance_m: 0.0
+    reference_priority_costmap_occupancy_threshold: 100
+    reference_priority_front_clearance_m: 0.05
+    reference_priority_inflation_radius_m: 0.0
+    reference_priority_left_clearance_m: 0.05
+    reference_priority_rear_clearance_m: 0.05
+    reference_priority_right_clearance_m: 0.05
+    reference_priority_segment_entry_ref: ''
+    reference_priority_segment_exit_ref: ''
+    reference_priority_vehicle_length_m: 0.72
+    reference_priority_vehicle_width_m: 0.5
+    reference_search_window_points: 160
+    relaxed_activation_distance_m: 0.0
+    relaxed_corridor_half_width_m: 0.85
+    relaxed_extension_curvature_bins: 7
+    relaxed_extension_timeout_s: 0.35
+    relaxed_goal_heading_tolerance_deg: 20.0
+    relaxed_reference_deviation_weight: 0.5
+    relaxed_segment_entry_ref: ''
+    relaxed_segment_exit_ref: ''
+    relaxed_step_length_m: 0.3
+    retain_safe_detour: true
+    sample_spacing_m: 0.1
+    search_heuristic_weight: 1.6
+    search_padding_m: 1.5
+    semantic_map_file: /home/agilex/competition_rebuild_ws/maps/indoor_manual_final/semantic_map_six_anchor_v3_radius120.yaml
+    status_topic: /planning/local_replan_status
+    step_length_m: 0.2
+    trajectory_file: /home/agilex/competition_rebuild_ws/artifacts/indoor_manual_six_anchor_v3_radius120_050straight_030turn_trajectory.yaml
+    trajectory_switch_improvement_ratio: 0.15
+    use_sim_time: false
+
+/rebuild_replan_proximity_stop:
+  ros__parameters:
+    costmap_topic: /avoidance/local_costmap
+    expected_frame_id: body
+    front_half_angle_rad: 0.4363
+    fusion_frame_count: 1
+    grid_inflation_radius_m: 0.44
+    grid_resolution_m: 0.05
+    grid_x_max_m: 5.5
+    grid_x_min_m: -0.5
+    grid_y_max_m: 2.5
+    grid_y_min_m: -2.5
+    input_scan_topic: /scan
+    input_type: laser_scan
+    lateral_half_width_m: 0.45
+    marker_topic: /avoidance/markers
+    max_scan_age_s: 0.3
+    min_points: 3
+    obstacle_slowdown_distance_m: 3.0
+    obstacle_slowdown_enabled: true
+    obstacle_slowdown_half_width_m: 0.8
+    obstacle_slowdown_speed_mps: 0.2
+    path_aware_stop_enabled: false
+    scan_bin_count: 360
+    scan_qos_depth: 1
+    scan_qos_reliability: best_effort
+    scan_range_max_m: 6.0
+    scan_range_min_m: 0.1
+    scan_topic: /avoidance/scan
+    status_topic: /avoidance/proximity_status
+    stop_distance_m: 0.4
+    stop_request_topic: /avoidance/stop_request
+    use_sim_time: false
+    vehicle_length_m: 0.72
+    vehicle_width_m: 0.5
+    visualization_rate_hz: 5.0
+    x_min_m: 0.25
+    z_max_m: 0.8
+    z_min_m: -0.25
+
+bag duration: 196.6s
+route enabled: 17.1..174.1s (156.9s), progress 1..197
+controller: [('TRACKING', 1634), ('LOCAL_PLANNER_STOP', 1506)]
+replanner: [('HYBRID_ASTAR_NO_FEASIBLE_PATH', 1515), ('DETOUR_CONTINUE', 694), ('REPLANNED', 582), ('REFERENCE_CLEAR', 211), ('SAFE_PATH_HOLD', 134), ('HYBRID_ASTAR_TIMEOUT', 4)]
+safety: [('SAFE_HOLD', 1507), ('SAFE_ACTIVE', 1381), ('SAFE_RECOVERY', 129), ('SAFE_LIMITED', 123)]
+safety reasons: [('controller_not_tracking', 1507), ('tracking_recovery', 129), ('acceleration_limited', 128), ('avoidance_speed_limited', 5)]
+stop samples: local=1519/3140, avoidance=0/3140
+planning time: median=25.1ms p95=107.2ms max=465.5ms
+replanner failure details: [(('HYBRID_ASTAR_TIMEOUT', 'hybrid_astar search exceeded 0.400 s'), 2), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-20.444, 2.711, 3.089) to (-24.475, 3.296, 3.025)'), 1), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-20.902, 2.892, 2.895) to (-24.922, 3.348, 3.025)'), 1), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-20.965, 2.922, 2.887) to (-24.971, 3.354, 3.025)'), 1), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-20.961, 2.919, 2.888) to (-24.971, 3.354, 3.025)'), 1)]
+
+10s bins (time, progress, safe/odom speed, local/avoidance stop %, replan/safety):
+  17.1..  27.1    1..  33 safe=0.158 odom=0.152 raw=0.201 err=0.11m/8.6deg stop=1/0% DETOUR_CONTINUE/SAFE_ACTIVE
+  27.1..  37.1   33..  69 safe=0.186 odom=0.185 raw=0.207 err=0.03m/2.6deg stop=0/0% DETOUR_CONTINUE/SAFE_ACTIVE
+  37.1..  47.1   69..  99 safe=0.136 odom=0.135 raw=0.135 err=0.05m/5.1deg stop=10/0% REPLANNED/SAFE_ACTIVE
+  47.1..  57.1   99..  99 safe=0.002 odom=0.002 raw=0.002 err=0.01m/0.3deg stop=90/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+  57.1..  67.1   99.. 100 safe=0.005 odom=0.004 raw=0.005 err=0.01m/1.1deg stop=81/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+  67.1..  77.1  100.. 100 safe=0.004 odom=0.002 raw=0.004 err=0.01m/0.6deg stop=72/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+  77.1..  87.1  100.. 100 safe=0.002 odom=0.002 raw=0.002 err=0.01m/1.1deg stop=85/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+  87.1..  97.1  100.. 101 safe=0.005 odom=0.004 raw=0.005 err=0.02m/1.4deg stop=70/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+  97.1.. 107.1  101.. 104 safe=0.027 odom=0.025 raw=0.027 err=0.02m/2.3deg stop=66/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 107.1.. 117.1  104.. 106 safe=0.013 odom=0.011 raw=0.013 err=0.01m/1.2deg stop=75/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 117.1.. 127.1  106.. 137 safe=0.165 odom=0.161 raw=0.235 err=0.40m/13.2deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 127.1.. 137.1  137.. 176 safe=0.202 odom=0.199 raw=0.213 err=0.06m/1.2deg stop=0/0% REPLANNED/SAFE_ACTIVE
+ 137.1.. 147.1  176.. 189 safe=0.079 odom=0.080 raw=0.078 err=0.05m/2.8deg stop=40/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_ACTIVE
+ 147.1.. 157.1  189.. 190 safe=0.003 odom=0.002 raw=0.003 err=0.02m/1.8deg stop=67/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 157.1.. 167.1  190.. 192 safe=0.009 odom=0.007 raw=0.009 err=0.02m/0.7deg stop=60/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 167.1.. 177.1  192.. 197 safe=0.028 odom=0.026 raw=0.028 err=0.27m/3.3deg stop=57/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+
+stationary episodes (>5s while route enabled):
+47.2..55.9s (8.7s) progress=99..99 safe_v=0.001 raw_v=0.001 safe_abs_w=0.001 avoidance=0% max_error=0.01m/0.2deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 159), ('REPLANNED', 16)] safety=[('SAFE_HOLD', 160), ('SAFE_ACTIVE', 15)] reasons=[('controller_not_tracking', 160)]
+56.4..65.4s (9.0s) progress=99..99 safe_v=0.001 raw_v=0.002 safe_abs_w=0.001 avoidance=0% max_error=0.01m/0.5deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 157), ('DETOUR_CONTINUE', 24)] safety=[('SAFE_HOLD', 157), ('SAFE_ACTIVE', 24)] reasons=[('controller_not_tracking', 157)]
+70.4..77.4s (7.0s) progress=100..100 safe_v=0.003 raw_v=0.004 safe_abs_w=0.001 avoidance=0% max_error=0.01m/0.6deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 99), ('SAFE_PATH_HOLD', 42)] safety=[('SAFE_HOLD', 97), ('SAFE_ACTIVE', 44)] reasons=[('controller_not_tracking', 97)]
+77.8..93.4s (15.6s) progress=100..100 safe_v=0.001 raw_v=0.002 safe_abs_w=0.001 avoidance=0% max_error=0.02m/1.3deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 267), ('SAFE_PATH_HOLD', 34)] safety=[('SAFE_HOLD', 268), ('SAFE_ACTIVE', 44)] reasons=[('controller_not_tracking', 268)]
+101.2..115.4s (14.3s) progress=104..104 safe_v=0.001 raw_v=0.001 safe_abs_w=0.000 avoidance=0% max_error=0.01m/0.3deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 270), ('REPLANNED', 9)] safety=[('SAFE_HOLD', 271), ('SAFE_ACTIVE', 15)] reasons=[('controller_not_tracking', 271)]
+145.9..157.9s (12.0s) progress=189..190 safe_v=0.003 raw_v=0.004 safe_abs_w=0.002 avoidance=0% max_error=0.02m/1.8deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 158), ('DETOUR_CONTINUE', 83)] safety=[('SAFE_HOLD', 156), ('SAFE_ACTIVE', 85)] reasons=[('controller_not_tracking', 156)]
+158.9..164.9s (6.0s) progress=191..191 safe_v=0.002 raw_v=0.002 safe_abs_w=0.001 avoidance=0% max_error=0.01m/0.6deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 96), ('SAFE_PATH_HOLD', 10)] safety=[('SAFE_HOLD', 97), ('SAFE_ACTIVE', 24)] reasons=[('controller_not_tracking', 97)]
+
+tracking recovery episodes (>2s):
+119.7..124.7s progress=113..128 raw_v=0.283 safe_v=0.151 max_error=0.40m/13.0deg

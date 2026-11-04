@@ -298,6 +298,8 @@ def optimize_continuous_route_trajectory(
 def retime_continuous_trajectory(
     artifact: Mapping[str, Any],
     optimizer_config: dict[str, Any] | None = None,
+    *,
+    route_speed_profile: Mapping[str, Any] | None = None,
 ) -> ContinuousRouteTrajectory:
     """Apply a new speed profile while preserving frozen route geometry."""
 
@@ -326,6 +328,7 @@ def retime_continuous_trajectory(
         params,
         distances=distances,
         curvatures=curvatures,
+        route_speed_profile=route_speed_profile,
     )
     return ContinuousRouteTrajectory(
         frame_id=str(artifact.get("frame_id", "map")),

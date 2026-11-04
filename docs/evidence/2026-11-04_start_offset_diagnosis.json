@@ -1,0 +1,52 @@
+{
+  "status": "REPRODUCED",
+  "sample_bag_s": 37.187365887,
+  "reference_start": [
+    -16.083,
+    2.309,
+    3.0165
+  ],
+  "localized_pose": [
+    -15.79161187620295,
+    2.309142673908845,
+    3.1344084062529074
+  ],
+  "distance_to_path_start_m": 0.29138815872613694,
+  "longitudinal_offset_m": -0.28909344851334634,
+  "lateral_offset_m": -0.03649708306795941,
+  "heading_error_deg": 6.755654047405509,
+  "preflight_start_distance_limit_m": 0.3,
+  "prestart_clear_distance_limit_m": 0.15,
+  "static_reference_blocked": [],
+  "live_reference_blocked": [],
+  "retained_path_max_distance_to_reference_m": 0.38112330988609455,
+  "actual_pose_two_clear_cycles": [
+    {
+      "status": "FORWARD_REJOIN_HOLD",
+      "clear_count": 0,
+      "rejoin_index": 61
+    },
+    {
+      "status": "FORWARD_REJOIN_HOLD",
+      "clear_count": 0,
+      "rejoin_index": 61
+    }
+  ],
+  "longitudinal_only_corrected_two_clear_cycles": [
+    {
+      "status": "FORWARD_REJOIN_HOLD",
+      "clear_count": 1,
+      "rejoin_index": 61
+    },
+    {
+      "status": "REFERENCE_CLEAR",
+      "clear_count": 2,
+      "rejoin_index": 61
+    }
+  ],
+  "limitations": [
+    "Localization-derived pose, not an independent survey of true physical position.",
+    "Counterfactual changes longitudinal pose only; no robot moved and no runtime code/parameters changed.",
+    "Exact trigger that first generated the retained detour predates this recording."
+  ]
+}

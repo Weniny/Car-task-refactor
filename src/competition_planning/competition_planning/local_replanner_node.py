@@ -96,7 +96,19 @@ class LocalReplannerNode(Node):
                 "docking departure refs are not pickup/drop docks: "
                 + ", ".join(sorted(unknown_departure_refs))
             )
+        self._complete_costmap = bool(
+            self.declare_parameter("complete_costmap_validation", False).value
+        )
         self._config = LocalReplanConfig(
+            smooth_detour_reconnect=bool(
+                self.declare_parameter("smooth_detour_reconnect", False).value
+            ),
+            dynamic_obstacle_cell_size_m=float(
+                self.declare_parameter("dynamic_obstacle_cell_size_m", 0.0).value
+            ),
+            retain_safe_detour=bool(
+                self.declare_parameter("retain_safe_detour", False).value
+            ),
             lookahead_distance_m=float(
                 self.declare_parameter("lookahead_distance_m", 3.00).value
             ),
@@ -570,6 +582,10 @@ class LocalReplannerNode(Node):
 
     def _costmap_callback(self, message: OccupancyGrid) -> None:
         received_s = self._now_s()
+        if self._complete_costmap and _stamp_to_seconds(message.header.stamp) <= 0:
+            self._obstacle_points_map = None
+            self._publish_stop("COSTMAP_INVALID_STAMP")
+            return
         if (
             self._expected_obstacle_frame
             and message.header.frame_id != self._expected_obstacle_frame
@@ -601,7 +617,8 @@ class LocalReplannerNode(Node):
             map_from_obstacle = self._tf_buffer.lookup_transform(
                 self._map_frame,
                 message.header.frame_id,
-                rclpy.time.Time(),
+                (rclpy.time.Time.from_msg(message.header.stamp)
+                 if self._complete_costmap else rclpy.time.Time()),
                 timeout=Duration(seconds=0.02),
             )
             obstacle_points = occupied_grid_cell_centers(
@@ -616,6 +633,7 @@ class LocalReplannerNode(Node):
                 x_max_m=self._obstacle_x_max_m,
                 y_half_width_m=self._obstacle_y_half_width_m,
                 max_points=self._max_obstacle_points,
+                preserve_all=self._complete_costmap,
             )
             raw_obstacle_points = occupied_grid_cell_centers(
                 message.data,
@@ -929,6 +947,13 @@ class LocalReplannerNode(Node):
             )
             return
 
+        if not result.path_is_navigable or (
+            self._complete_costmap and not self._planner.path_is_collision_free(
+                result.path, obstacle_points
+            )
+        ):
+            self._publish_stop("OUTPUT_PATH_COLLISION", obstacle_age_s=obstacle_age_s)
+            return
         self._previous_reference_index = result.reference_start_index
         publish_now = self.get_clock().now()
         self._path_publisher.publish(
@@ -1005,6 +1030,10 @@ class LocalReplannerNode(Node):
 
     def _publish_stop(self, status: str, **fields: object) -> None:
         self._stop_publisher.publish(Bool(data=True))
+        if self._complete_costmap:
+            self._path_publisher.publish(
+                _path_message((), self._map_frame, self.get_clock().now().to_msg())
+            )
         self._publish_status(status, stop_requested=True, **fields)
 
     def _publish_status(self, status: str, **fields: object) -> None:

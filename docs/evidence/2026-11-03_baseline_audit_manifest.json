@@ -1,0 +1,17 @@
+{
+  "scope": "Verified 2026-11-02 19:45 clear-field 050/030 baseline and pre-V1 obstacle record only. No current robot connection. Hashes describe local files today, not a historical complete software freeze.",
+  "files": {
+    "src/rebuild_bringup/launch/rebuild_navigation_replan_radius120_050straight_030turn_guarded.launch.py": "16cdd63cb9a2f8a6c2202441accdf7016d1c6bbf008e472cb044b1f8225ac558",
+    "config/control/control_params_rebuild_050straight_030turn.yaml": "7739f211ab75916d683520cbc22a0efd28f4792732503b2216138c22ece5df10",
+    "config/safety/safety_params_rebuild_050straight_030turn.yaml": "2ada3de80e4bded24fd332cb43f6c1f3adfdff437e349fdd8fdd775e69a99bc0",
+    "config/planning/continuous_trajectory_radius120_050straight_030turn.yaml": "241ad6ccb125eeee62459344c37965522732384aca4457aae36889bba99daa48",
+    "config/planning/semantic_lidar_guarded_six_anchor_radius120.yaml": "08d4beee6d3b105c44289aca3714163f018fcda62d30902306b4701f3ee59d7b",
+    "artifacts/indoor_manual_six_anchor_v3_radius120_050straight_030turn_trajectory.yaml": "ca1f38ed8adf87015d99e42a7669534e3ca8aedb9037e374ed6f7a1fe5585704"
+  },
+  "geometry": {
+    "vehicle_length_m": 0.72,
+    "vehicle_width_m": 0.5,
+    "circumscribed_radius_m": 0.4382921400162225,
+    "inscribed_radius_m": 0.25
+  }
+}

@@ -1,0 +1,1350 @@
+
+FILE src/competition_control/competition_control/mppi_control_node.py BASELINE git_HEAD_pre_candidate
+--- competition
+
++++ verified_baseline
+
+@@ -394,7 +394,13 @@
+
+             progress_index=0,
+         )
+         self._logged_route_speed_zone_state = (None, "NONE")
+-        self._route_enabled = False
++        self._route_enable_required = bool(
++            self.declare_parameter(
++                "require_route_enable",
++                self._checkpoint_route_enabled,
++            ).value
++        )
++        self._route_enabled = not self._route_enable_required
+         self._avoidance_stop_requested = self._checkpoint_route_enabled
+         self._visual_task_stop_requested = False
+         self._visual_stop_confirmation = VisualStopConfirmationGate(
+@@ -419,8 +425,11 @@
+
+         )
+         self._visual_stop_confirmed = False
+         self._mission_speed_limit_mps: float | None = None
++        self._avoidance_speed_limit_mps: float | None = None
+         self._mission_phase = (
+-            "MISSION_DISARMED" if self._checkpoint_route_enabled else "CONTINUOUS_ROUTE"
++            "MISSION_DISARMED"
++            if self._route_enable_required
++            else "CONTINUOUS_ROUTE"
+         )
+         self._reset_precision_controller()
+         self._segmented_state_machine = None
+@@ -632,7 +641,7 @@
+
+             self._initialpose_callback,
+             10,
+         )
+-        if self._checkpoint_route_enabled:
++        if self._checkpoint_route_enabled or self._route_enable_required:
+             self.create_subscription(
+                 Bool,
+                 str(
+@@ -686,6 +695,17 @@
+
+                     ).value
+                 ),
+                 self._mission_speed_limit_callback,
++                10,
++            )
++            self.create_subscription(
++                Float32,
++                str(
++                    self.declare_parameter(
++                        "avoidance_speed_limit_topic",
++                        "/avoidance/speed_limit",
++                    ).value
++                ),
++                self._avoidance_speed_limit_callback,
+                 10,
+             )
+         self._reference_path_publisher.publish(
+@@ -897,6 +917,12 @@
+
+ 
+     def _route_enable_callback(self, message: Bool) -> None:
+         self._route_enabled = bool(message.data)
++        if self._route_enable_required and self._segmented_state_machine is None:
++            self._mission_phase = (
++                "CONTINUOUS_ROUTE"
++                if self._route_enabled
++                else "MISSION_DISARMED"
++            )
+         if not self._route_enabled:
+             self._requested_release_segment_index = None
+ 
+@@ -924,6 +950,12 @@
+
+     def _mission_speed_limit_callback(self, message: Float32) -> None:
+         limit = float(message.data)
+         self._mission_speed_limit_mps = limit if limit > 0.0 else None
++
++    def _avoidance_speed_limit_callback(self, message: Float32) -> None:
++        limit = float(message.data)
++        self._avoidance_speed_limit_mps = (
++            limit if math.isfinite(limit) and limit > 0.0 else None
++        )
+ 
+     def _shelf_scan_callback(self, message: LaserScan) -> None:
+         config = self._active_precision_config()
+@@ -1421,6 +1453,13 @@
+
+                         now_s,
+                         local_plan_age_s,
+                     )
++                elif self._route_enable_required and not self._route_enabled:
++                    command = BodyCommand.hold(
++                        target_index=0,
++                        lateral_error_m=0.0,
++                        heading_error_rad=0.0,
++                        status="ROUTE_DISABLED",
++                    )
+                 elif self._replanning_enabled and self._local_stop_requested:
+                     command = BodyCommand.hold(
+                         target_index=0,
+@@ -1468,6 +1507,7 @@
+
+             limit
+             for limit in (
+                 self._mission_speed_limit_mps,
++                self._avoidance_speed_limit_mps,
+                 self._route_speed_decision.speed_limit_mps,
+             )
+             if limit is not None
+@@ -1526,6 +1566,7 @@
+
+                         "mission_phase": self._mission_phase,
+                         "route_enabled": self._route_enabled,
+                         "mission_speed_limit_mps": self._mission_speed_limit_mps,
++                        "avoidance_speed_limit_mps": self._avoidance_speed_limit_mps,
+                         "route_speed_limit_mps": (
+                             self._route_speed_decision.speed_limit_mps
+                         ),
+
+FILE src/competition_planning/competition_planning/hybrid_astar_planner.py BASELINE git_HEAD_pre_candidate
+--- competition
+
++++ verified_baseline
+
+@@ -90,6 +90,7 @@
+
+         obstacle_clearance_weight: float = 0.0,
+         search_heuristic_weight: float = 1.0,
+         footprint: AsymmetricFootprint | None = None,
++        obstacle_aware_heuristic: bool = False,
+     ) -> None:
+         if min_turning_radius_m <= 0.0:
+             raise GridPlanningError("hybrid_astar requires a positive min_turning_radius_m")
+@@ -160,6 +161,8 @@
+
+         self._obstacle_clearance_weight = obstacle_clearance_weight
+         self._search_heuristic_weight = search_heuristic_weight
+         self._footprint = footprint
++        self._obstacle_aware_heuristic = obstacle_aware_heuristic
++        self._goal_distance_field: tuple[float, ...] = ()
+         self._obstacle_clearance_cost_by_cell: tuple[float, ...] | None = (
+             None
+             if obstacle_clearance_distance_m > 0.0 and obstacle_clearance_weight > 0.0
+@@ -327,6 +330,10 @@
+
+         self._require_navigable(start.x, start.y, start.yaw, "start")
+         self._require_navigable(goal.x, goal.y, goal.yaw, "goal")
+         bounds = self._bounds(start, goal)
++        self._goal_distance_field = (
++            self._build_goal_distance_field(goal, bounds, deadline_s)
++            if self._obstacle_aware_heuristic else ()
++        )
+         start_node = _Node(
+             start.x,
+             start.y,
+@@ -572,7 +579,67 @@
+
+         distance = math.hypot(goal.x - node.x, goal.y - node.y)
+         heading = abs(_wrap_angle(goal.yaw - node.yaw))
+         min_radius = 1.0 / abs(self._curvatures[-1])
+-        return distance + 0.25 * min_radius * heading
++        estimate = distance + 0.25 * min_radius * heading
++        if self._goal_distance_field:
++            cell = self._map.world_to_cell(node.x, node.y)
++            if self._map.contains(cell):
++                grid_distance = self._goal_distance_field[self._map.index(cell)]
++                if math.isfinite(grid_distance):
++                    estimate = max(estimate, grid_distance)
++        return estimate
++
++    def _build_goal_distance_field(
++        self,
++        goal: PathPoint,
++        bounds: tuple[int, int, int, int],
++        deadline_s: float | None,
++    ) -> tuple[float, ...]:
++        # Grid distances guide the pose search; they never replace motion checks.
++        distances = [math.inf] * len(self._blocked)
++        goal_cell = self._map.world_to_cell(goal.x, goal.y)
++        distances[self._map.index(goal_cell)] = 0.0
++        queue = [(0.0, goal_cell)]
++        min_col, max_col, min_row, max_row = bounds
++        visited = 0
++        while queue:
++            if (
++                visited % 64 == 0
++                and deadline_s is not None
++                and time.monotonic() >= deadline_s
++            ):
++                raise HybridAStarTimeout(
++                    "hybrid_astar budget exhausted building obstacle heuristic"
++                )
++            distance, cell = heapq.heappop(queue)
++            if distance > distances[self._map.index(cell)]:
++                continue
++            visited += 1
++            col, row = cell
++            for dx, dy in (
++                (-1, -1), (0, -1), (1, -1), (-1, 0),
++                (1, 0), (-1, 1), (0, 1), (1, 1),
++            ):
++                neighbor = (col + dx, row + dy)
++                if not (
++                    min_col <= neighbor[0] <= max_col
++                    and min_row <= neighbor[1] <= max_row
++                ):
++                    continue
++                index = self._map.index(neighbor)
++                if self._blocked[index]:
++                    continue
++                if dx and dy and (
++                    self._blocked[self._map.index((col + dx, row))]
++                    or self._blocked[self._map.index((col, row + dy))]
++                ):
++                    continue
++                candidate = distance + self._map.resolution * (
++                    math.sqrt(2) if dx and dy else 1.0
++                )
++                if candidate < distances[index]:
++                    distances[index] = candidate
++                    heapq.heappush(queue, (candidate, neighbor))
++        return tuple(distances)
+ 
+     def _at_goal(
+         self,
+
+FILE src/competition_planning/competition_planning/local_replanner_node.py BASELINE robot_pre_v1_backup
+--- competition
+
++++ verified_baseline
+
+@@ -213,6 +213,12 @@
+
+                     "search_heuristic_weight",
+                     1.0,
+                 ).value
++            ),
++            obstacle_aware_heuristic=bool(
++                self.declare_parameter("obstacle_aware_heuristic", False).value
++            ),
++            minimum_short_rejoin_distance_m=float(
++                self.declare_parameter("minimum_short_rejoin_distance_m", 0.0).value
+             ),
+             reference_priority_segment_entry_ref=str(
+                 self.declare_parameter(
+@@ -903,6 +909,7 @@
+
+             self._publish_stop(
+                 "HYBRID_ASTAR_TIMEOUT",
+                 detail=str(exc),
++                rejoin_attempts=getattr(exc, "rejoin_attempts", []),
+                 obstacle_age_s=obstacle_age_s,
+                 odom_age_s=odom_age_s,
+                 planning_time_ms=(time.perf_counter() - started_at) * 1000.0,
+@@ -914,6 +921,7 @@
+
+             self._publish_stop(
+                 "HYBRID_ASTAR_NO_FEASIBLE_PATH",
+                 detail=str(exc),
++                rejoin_attempts=getattr(exc, "rejoin_attempts", []),
+                 obstacle_age_s=obstacle_age_s,
+                 odom_age_s=odom_age_s,
+                 docking_departure_context=docking_departure_context,
+
+FILE src/competition_planning/competition_planning/local_trajectory_planner.py BASELINE robot_pre_v1_backup
+--- competition
+
++++ verified_baseline
+
+@@ -4,6 +4,7 @@
+
+ 
+ from dataclasses import dataclass, replace
+ import math
++import time
+ from typing import Any, Iterable, Mapping, Sequence
+ 
+ from competition_planning.hybrid_astar_planner import (
+@@ -54,8 +55,14 @@
+
+     reference_priority_activation_distance_m: float = 0.0
+     reference_priority_inflation_radius_m: float = 0.0
+     reference_priority_footprint: AsymmetricFootprint | None = None
++    obstacle_aware_heuristic: bool = False
++    minimum_short_rejoin_distance_m: float = 0.0
+ 
+     def __post_init__(self) -> None:
++        if not math.isfinite(self.minimum_short_rejoin_distance_m) or not (
++            0.0 <= self.minimum_short_rejoin_distance_m <= self.lookahead_distance_m
++        ):
++            raise ValueError("minimum short rejoin distance must fit inside lookahead")
+         if self.lookahead_distance_m <= 0.0:
+             raise ValueError("lookahead_distance_m must be positive")
+         if self.reference_deviation_weight < 0.0:
+@@ -562,16 +569,24 @@
+
+             )
+ 
+         try:
+-            path = planner.plan(
+-                (
+-                    PathPoint(
+-                        current_pose.x,
+-                        current_pose.y,
+-                        current_pose.yaw,
+-                        ref_id=local_reference[0].ref_id,
+-                    ),
+-                    local_reference[-1],
+-                )
++            (
++                path,
++                rejoin_index,
++                local_reference,
++                planner,
++                short_rejoin_used,
++            ) = self._plan_with_short_rejoin(
++                reference_path=reference_path,
++                current_pose=current_pose,
++                live_map=live_map,
++                start_index=start_index,
++                rejoin_index=rejoin_index,
++                local_reference=local_reference,
++                planner=planner,
++                relaxed=relaxed,
++                reduced_curvature_lattice=(
++                    blocked_relaxed_rejoin or extension_timeout_s is not None
++                ),
+             )
+         except GridPlanningError as exc:
+             held_path = (
+@@ -612,7 +627,7 @@
+
+                 path_is_navigable=True,
+                 planning_grid_cell_count=live_map.width * live_map.height,
+             )
+-        status = "REPLANNED"
++        status = "REPLANNED_SHORT_REJOIN" if short_rejoin_used else "REPLANNED"
+         if relaxed:
+             held_path = (
+                 fallback_held_path
+@@ -837,6 +852,127 @@
+
+         ):
+             return ()
+         return held_tail
++
++    def _plan_with_short_rejoin(
++        self,
++        *,
++        reference_path: Sequence[PathPoint],
++        current_pose: PathPoint,
++        live_map: OccupancyGridMap,
++        start_index: int,
++        rejoin_index: int,
++        local_reference: tuple[PathPoint, ...],
++        planner: HybridAStarPlanner,
++        relaxed: bool,
++        reduced_curvature_lattice: bool,
++    ) -> tuple[
++        tuple[PathPoint, ...],
++        int,
++        tuple[PathPoint, ...],
++        HybridAStarPlanner,
++        bool,
++    ]:
++        start_pose = PathPoint(
++            current_pose.x,
++            current_pose.y,
++            current_pose.yaw,
++            ref_id=local_reference[0].ref_id,
++        )
++        attempts: list[dict[str, object]] = []
++
++        def attempt(search_planner, search_reference, index, timeout_s):
++            started = time.perf_counter()
++            record = {
++                "rejoin_index": index,
++                "goal": [search_reference[-1].x, search_reference[-1].y],
++                "timeout_s": timeout_s,
++            }
++            attempts.append(record)
++            try:
++                candidate_path = tuple(
++                    search_planner.plan((start_pose, search_reference[-1]))
++                )
++                if (
++                    index != rejoin_index
++                    and self._config.minimum_short_rejoin_distance_m > 0.0
++                ):
++                    length_m = sum(
++                        math.hypot(b.x - a.x, b.y - a.y)
++                        for a, b in zip(candidate_path, candidate_path[1:])
++                    )
++                    if length_m + 1e-9 < self._config.minimum_short_rejoin_distance_m:
++                        raise GridPlanningError(
++                            f"short rejoin path covers only {length_m:.3f} m; "
++                            f"requires {self._config.minimum_short_rejoin_distance_m:.3f} m"
++                        )
++                return candidate_path
++            except GridPlanningError as exc:
++                record["error_type"] = type(exc).__name__
++                record["detail"] = str(exc)
++                raise
++            finally:
++                record["elapsed_ms"] = (time.perf_counter() - started) * 1000
++
++        try:
++            return (
++                attempt(planner, local_reference, rejoin_index, None),
++                rejoin_index,
++                local_reference,
++                planner,
++                False,
++            )
++        except GridPlanningError as exc:
++            primary_error = exc
++            last_error = exc
++
++        # A full rolling horizon can become unreachable after a legitimate
++        # turn-in lag. Try shorter, still collision-checked rejoin horizons.
++        candidate_indexes: list[int] = []
++        for distance_m in (2.0, 1.2):
++            if distance_m < self._config.minimum_short_rejoin_distance_m:
++                continue
++            candidate_index = _lookahead_index(
++                reference_path,
++                start_index,
++                min(distance_m, self._config.lookahead_distance_m),
++            )
++            if (
++                start_index < candidate_index < rejoin_index
++                and candidate_index not in candidate_indexes
++            ):
++                candidate_indexes.append(candidate_index)
++
++        for candidate_index in candidate_indexes:
++            candidate_reference = tuple(
++                reference_path[start_index : candidate_index + 1]
++            )
++            candidate_planner = self._planner(
++                live_map,
++                candidate_reference,
++                relaxed=relaxed,
++                planning_timeout_s=0.10,
++                reduced_curvature_lattice=reduced_curvature_lattice,
++            )
++            try:
++                return (
++                    attempt(
++                        candidate_planner, candidate_reference, candidate_index, 0.10
++                    ),
++                    candidate_index,
++                    candidate_reference,
++                    candidate_planner,
++                    True,
++                )
++            except GridPlanningError as exc:
++                last_error = exc
++
++        error = (
++            primary_error
++            if self._config.minimum_short_rejoin_distance_m > 0.0
++            else last_error
++        )
++        error.rejoin_attempts = attempts
++        raise error
+ 
+     def _remember_safe_path(
+         self,
+@@ -905,6 +1041,7 @@
+
+             obstacle_clearance_weight=config.obstacle_clearance_weight,
+             search_heuristic_weight=config.search_heuristic_weight,
+             footprint=config.footprint,
++            obstacle_aware_heuristic=config.obstacle_aware_heuristic,
+         )
+ 
+ 
+
+FILE src/competition_safety/competition_safety/proximity_stop_node.py BASELINE robot_pre_v1_backup
+--- competition
+
++++ verified_baseline
+
+@@ -5,10 +5,12 @@
+
+ 
+ from collections import deque
+ import json
++import math
+ 
+ import rclpy
+-from nav_msgs.msg import OccupancyGrid
++from nav_msgs.msg import OccupancyGrid, Odometry, Path
+ from rclpy.node import Node
++from rclpy.time import Time
+ from rclpy.qos import (
+     DurabilityPolicy,
+     HistoryPolicy,
+@@ -16,7 +18,8 @@
+
+     ReliabilityPolicy,
+ )
+ from sensor_msgs.msg import LaserScan
+-from std_msgs.msg import Bool, String
++from std_msgs.msg import Bool, Float32, String
++from tf2_ros import Buffer, TransformException, TransformListener
+ from visualization_msgs.msg import Marker, MarkerArray
+ 
+ from competition_safety.proximity_stop import (
+@@ -27,6 +30,11 @@
+
+     evaluate_local_clearance,
+     evaluate_fused_local_clearance,
+     laser_scan_points,
++)
++from competition_safety.path_aware_proximity import (
++    PathAwareConfig,
++    StopReleaseLatch,
++    evaluate_path_aware_stop,
+ )
+ 
+ 
+@@ -126,6 +134,111 @@
+
+         )
+         if self._vehicle_length_m <= 0.0 or self._vehicle_width_m <= 0.0:
+             raise ValueError("vehicle dimensions must be positive")
++        self._path_aware_enabled = bool(
++            self.declare_parameter("path_aware_stop_enabled", False).value
++        )
++        self._latest_path: Path | None = None
++        self._path_received_s = 0.0
++        self._measured_speed_mps: float | None = None
++        self._odom_received_s = 0.0
++        self._speed_limit_publisher = None
++        if self._path_aware_enabled:
++            self._path_aware_scan_age_s = float(
++                self.declare_parameter("path_aware_max_scan_age_s", 0.20).value
++            )
++            if not 0.0 < self._path_aware_scan_age_s <= self._max_scan_age_s:
++                raise ValueError("path-aware scan age must fit inside the scan timeout")
++            self._max_path_age_s = float(
++                self.declare_parameter("max_local_path_age_s", 1.0).value
++            )
++            if self._max_path_age_s <= 0.0:
++                raise ValueError("max_local_path_age_s must be positive")
++            self._path_config = PathAwareConfig(
++                slow_distance_m=float(
++                    self.declare_parameter("slow_distance_m", 2.5).value
++                ),
++                slow_speed_mps=float(
++                    self.declare_parameter("slow_speed_mps", 0.25).value
++                ),
++                emergency_distance_m=float(
++                    self.declare_parameter("emergency_distance_m", 1.75).value
++                ),
++                minimum_emergency_distance_m=float(
++                    self.declare_parameter("minimum_emergency_distance_m", 0.65).value
++                ),
++                emergency_half_width_m=float(
++                    self.declare_parameter("emergency_half_width_m", 0.35).value
++                ),
++                swept_radius_m=float(
++                    self.declare_parameter("swept_radius_m", 0.65).value
++                ),
++                path_start_tolerance_m=float(
++                    self.declare_parameter("path_start_tolerance_m", 0.40).value
++                ),
++                max_path_segment_m=float(
++                    self.declare_parameter("max_path_segment_m", 0.35).value
++                ),
++                release_hold_s=float(
++                    self.declare_parameter("release_hold_s", 0.40).value
++                ),
++                clear_scan_count=int(
++                    self.declare_parameter("clear_scan_count", 3).value
++                ),
++                max_speed_mps=float(
++                    self.declare_parameter("path_aware_max_speed_mps", 0.50).value
++                ),
++                min_deceleration_mps2=float(
++                    self.declare_parameter("path_aware_min_deceleration_mps2", 0.18).value
++                ),
++                reaction_time_s=float(
++                    self.declare_parameter("reaction_time_s", 0.90).value
++                ),
++                stopping_margin_m=float(
++                    self.declare_parameter("stopping_margin_m", 0.20).value
++                ),
++                front_overhang_m=self._vehicle_length_m * 0.5,
++            )
++            self._path_config.validate(self._config)
++            minimum_radius = math.hypot(
++                self._vehicle_length_m * 0.5, self._vehicle_width_m * 0.5
++            ) + 0.05 + self._path_config.max_speed_mps * self._path_aware_scan_age_s
++            if self._path_config.swept_radius_m < minimum_radius:
++                raise ValueError("swept_radius_m does not cover the vehicle footprint")
++            self._stop_latch = StopReleaseLatch(
++                self._path_config.release_hold_s,
++                self._path_config.clear_scan_count,
++            )
++            self._slow_latch = StopReleaseLatch(
++                self._path_config.release_hold_s,
++                self._path_config.clear_scan_count,
++            )
++            self._tf_buffer = Buffer()
++            self._tf_listener = TransformListener(self._tf_buffer, self)
++            self._max_odom_age_s = float(
++                self.declare_parameter("path_aware_max_odom_age_s", 0.20).value
++            )
++            if self._max_odom_age_s <= 0.0:
++                raise ValueError("path_aware_max_odom_age_s must be positive")
++            self.create_subscription(Odometry, "/odom", self._odom_callback, 10)
++            self.create_subscription(
++                Path,
++                str(
++                    self.declare_parameter(
++                        "local_trajectory_topic", "/planning/local_trajectory"
++                    ).value
++                ),
++                self._path_callback,
++                10,
++            )
++            self._speed_limit_publisher = self.create_publisher(
++                Float32,
++                str(
++                    self.declare_parameter(
++                        "avoidance_speed_limit_topic", "/avoidance/speed_limit"
++                    ).value
++                ),
++                10,
++            )
+         self._stop_publisher = self.create_publisher(
+             Bool,
+             str(
+@@ -200,11 +313,76 @@
+
+             f"min_points={self._config.min_points}, "
+             f"obstacle_layer={visualization_rate_hz:.1f}Hz/"
+             f"{fusion_frame_count}_frame_fusion, "
+-            f"qos={scan_qos_reliability}/keep_last_{scan_qos_depth}"
++            f"qos={scan_qos_reliability}/keep_last_{scan_qos_depth}, "
++            f"path_aware={self._path_aware_enabled}"
+         )
+ 
+     def _now_s(self) -> float:
+         return self.get_clock().now().nanoseconds / 1e9
++
++    def _path_callback(self, message: Path) -> None:
++        self._latest_path = message
++        self._path_received_s = self._now_s()
++
++    def _odom_callback(self, message: Odometry) -> None:
++        now_s = self._now_s()
++        age_s = now_s - _stamp_to_seconds(message.header.stamp)
++        if not 0.0 <= age_s <= self._max_odom_age_s:
++            self._measured_speed_mps = None
++            return
++        self._measured_speed_mps = math.hypot(
++            message.twist.twist.linear.x, message.twist.twist.linear.y
++        )
++        self._odom_received_s = now_s
++
++    def _path_in_body(self, now_s: float, scan_stamp) -> tuple[tuple[float, float], ...] | None:
++        path = self._latest_path
++        if path is None or not 0.0 <= now_s - self._path_received_s <= self._max_path_age_s:
++            return None
++        stamp_s = _stamp_to_seconds(path.header.stamp)
++        if stamp_s <= 0.0 or not 0.0 <= now_s - stamp_s <= self._max_path_age_s:
++            return None
++        if not path.header.frame_id or any(
++            pose.header.frame_id
++            and pose.header.frame_id != path.header.frame_id
++            for pose in path.poses
++        ):
++            return None
++        if path.header.frame_id == self._expected_frame_id:
++            # A moving body-frame path needs a two-time transform; reject for now.
++            return None
++        try:
++            transform = self._tf_buffer.lookup_transform(
++                self._expected_frame_id,
++                path.header.frame_id,
++                Time.from_msg(scan_stamp),
++            )
++        except TransformException:
++            return None
++        transform_stamp_s = _stamp_to_seconds(transform.header.stamp)
++        if (
++            transform_stamp_s <= 0.0
++            or not 0.0 <= now_s - transform_stamp_s <= self._max_path_age_s
++        ):
++            return None
++        translation = transform.transform.translation
++        rotation = transform.transform.rotation
++        yaw = math.atan2(
++            2.0 * (rotation.w * rotation.z + rotation.x * rotation.y),
++            1.0 - 2.0 * (rotation.y**2 + rotation.z**2),
++        )
++        cosine, sine = math.cos(yaw), math.sin(yaw)
++        return tuple(
++            (
++                translation.x
++                + cosine * pose.pose.position.x
++                - sine * pose.pose.position.y,
++                translation.y
++                + sine * pose.pose.position.x
++                + cosine * pose.pose.position.y,
++            )
++            for pose in path.poses
++        )
+ 
+     def _scan_callback(self, message: LaserScan) -> None:
+         now_s = self._now_s()
+@@ -218,6 +396,8 @@
+
+         frame_id = message.header.frame_id
+         if self._expected_frame_id and frame_id != self._expected_frame_id:
+             self._visualization_point_frames.clear()
++            if self._path_aware_enabled:
++                self._stop_latch.update(True, now_s)
+             self._publish(True, "frame_mismatch", 0, frame_id, None, None)
+             if visualization_due:
+                 result = evaluate_local_clearance(
+@@ -236,8 +416,20 @@
+
+ 
+         scan_stamp_s = _stamp_to_seconds(message.header.stamp)
+         age_s = now_s - scan_stamp_s if scan_stamp_s > 0.0 else None
+-        if age_s is not None and age_s > self._max_scan_age_s:
++        if self._path_aware_enabled and (age_s is None or age_s < 0.0):
+             self._visualization_point_frames.clear()
++            self._stop_latch.update(True, now_s)
++            self._publish(True, "invalid_scan_stamp", 0, frame_id, age_s, None)
++            return
++        allowed_scan_age_s = (
++            self._path_aware_scan_age_s
++            if self._path_aware_enabled
++            else self._max_scan_age_s
++        )
++        if age_s is not None and age_s > allowed_scan_age_s:
++            self._visualization_point_frames.clear()
++            if self._path_aware_enabled:
++                self._stop_latch.update(True, now_s)
+             self._publish(True, "stale_scan", 0, frame_id, age_s, None)
+             if visualization_due:
+                 result = evaluate_local_clearance(
+@@ -271,6 +463,35 @@
+
+         count = result.point_count
+         nearest_distance_m = result.nearest_obstacle_distance_m
+         reason = "obstacle_in_stop_box" if stop else "clear"
++        speed_limit_mps = None
++        details = None
++        if self._path_aware_enabled:
++            decision = evaluate_path_aware_stop(
++                points,
++                self._path_in_body(now_s, message.header.stamp),
++                self._config,
++                self._path_config,
++                measured_speed_mps=(
++                    self._measured_speed_mps
++                    if 0.0 <= now_s - self._odom_received_s <= self._max_odom_age_s
++                    else None
++                ),
++            )
++            stop = self._stop_latch.update(decision.stop, now_s)
++            reason = decision.reason if decision.stop or not stop else "release_hold"
++            slowing = self._slow_latch.update(
++                decision.speed_limit_mps is not None or stop, now_s
++            )
++            speed_limit_mps = self._path_config.slow_speed_mps if slowing else None
++            details = {
++                "path_valid": decision.path_valid,
++                "fixed_box_point_count": decision.fixed_count,
++                "path_collision_point_count": decision.path_collision_count,
++                "emergency_point_count": decision.emergency_count,
++                "slow_point_count": decision.slow_count,
++                "speed_limit_mps": speed_limit_mps,
++                "emergency_distance_m": decision.emergency_distance_m,
++            }
+         self._publish(
+             stop,
+             reason,
+@@ -278,6 +499,8 @@
+
+             frame_id,
+             age_s,
+             nearest_distance_m,
++            speed_limit_mps=speed_limit_mps,
++            details=details,
+         )
+         if visualization_due:
+             visualization_result = evaluate_fused_local_clearance(
+@@ -301,8 +524,23 @@
+
+         frame_id: str,
+         scan_age_s: float | None,
+         nearest_obstacle_distance_m: float | None,
++        *,
++        speed_limit_mps: float | None = None,
++        details: dict | None = None,
+     ) -> None:
+         self._stop_publisher.publish(Bool(data=stop))
++        if self._speed_limit_publisher is not None:
++            self._speed_limit_publisher.publish(
++                Float32(
++                    data=(
++                        speed_limit_mps
++                        if speed_limit_mps is not None
++                        else self._path_config.slow_speed_mps
++                        if reason in {"frame_mismatch", "stale_scan", "invalid_scan_stamp"}
++                        else 0.0
++                    )
++                )
++            )
+         self._status_publisher.publish(
+             String(
+                 data=json.dumps(
+@@ -313,6 +551,7 @@
+
+                         "frame_id": frame_id,
+                         "scan_age_s": scan_age_s,
+                         "nearest_obstacle_distance_m": nearest_obstacle_distance_m,
++                        **(details or {}),
+                     },
+                     separators=(",", ":"),
+                 )
+
+FILE src/competition_safety/competition_safety/safety_node.py BASELINE git_HEAD_pre_candidate
+--- competition
+
++++ verified_baseline
+
+@@ -12,7 +12,7 @@
+
+ from nav_msgs.msg import Odometry
+ from rclpy.node import Node
+ from ranger_msgs.msg import MotionState, SystemState
+-from std_msgs.msg import Bool, String
++from std_msgs.msg import Bool, Float32, String
+ 
+ from competition_control.mppi_controller import BodyCommand
+ from competition_safety.shutdown_guard import publish_shutdown_zero_if_ready
+@@ -33,6 +33,12 @@
+
+         self._avoidance_timeout_s = float(
+             self.declare_parameter("avoidance_timeout_s", 0.30).value
+         )
++        self._require_avoidance_speed_limit = bool(
++            self.declare_parameter("require_avoidance_speed_limit", False).value
++        )
++        self._avoidance_speed_limit_seen = False
++        self._avoidance_speed_limit_received_s = 0.0
++        self._avoidance_speed_limit_mps: float | None = None
+         self._require_traffic_rules = bool(
+             self.declare_parameter("require_traffic_rules", False).value
+         )
+@@ -132,6 +138,9 @@
+
+         self._measured_speed_mps = 0.0
+         self._system_state: SystemState | None = None
+         self._system_received_s = 0.0
++        self._dry_run_allow_standby_mode = bool(
++            self.declare_parameter("dry_run_allow_standby_mode", False).value
++        )
+         self._motion_mode: MotionState | None = None
+         self._motion_received_s = 0.0
+ 
+@@ -168,6 +177,17 @@
+
+             self._traffic_rules_callback,
+             20,
+         )
++        if self._require_avoidance_speed_limit:
++            self.create_subscription(
++                Float32,
++                str(
++                    self.declare_parameter(
++                        "avoidance_speed_limit_topic", "/avoidance/speed_limit"
++                    ).value
++                ),
++                self._avoidance_speed_limit_callback,
++                20,
++            )
+         self.create_subscription(
+             Bool,
+             str(
+@@ -227,6 +247,12 @@
+
+         self._avoidance_stop = bool(message.data)
+         self._avoidance_seen = True
+         self._avoidance_received_s = self._now_s()
++
++    def _avoidance_speed_limit_callback(self, message: Float32) -> None:
++        limit = float(message.data)
++        self._avoidance_speed_limit_seen = math.isfinite(limit) and limit >= 0.0
++        self._avoidance_speed_limit_received_s = self._now_s()
++        self._avoidance_speed_limit_mps = limit if limit != 0.0 else None
+ 
+     def _traffic_rules_callback(self, message: Bool) -> None:
+         self._traffic_rules_stop = bool(message.data)
+@@ -324,10 +350,21 @@
+
+                 state_stamp_s=state_stamp_s,
+                 measured_speed_mps=self._measured_speed_mps,
+                 estop_ready=estop_ready,
+-                remote_ready=can_control_ready,
++                remote_ready=(
++                    can_control_ready or self._dry_run_allow_standby_mode
++                ),
+                 state_valid=self._state_valid,
+                 avoidance_ready=avoidance_ready,
+                 avoidance_stop=self._avoidance_stop,
++                avoidance_speed_limit_ready=(
++                    not self._require_avoidance_speed_limit
++                    or (
++                        self._avoidance_speed_limit_seen
++                        and 0.0 <= now_s - self._avoidance_speed_limit_received_s
++                        <= self._avoidance_timeout_s
++                    )
++                ),
++                avoidance_speed_limit_mps=self._avoidance_speed_limit_mps,
+                 chassis_fault=chassis_fault,
+                 system_ready=system_fresh and motion_fresh,
+                 ackermann_mode=ackermann_mode,
+
+FILE src/competition_safety/competition_safety/supervisor.py BASELINE current_verified_curvature_fix
+--- competition
+
++++ verified_baseline
+
+@@ -55,6 +55,8 @@
+
+     traffic_rules_ready: bool = True
+     traffic_rules_stop: bool = False
+     mission_task_stop: bool = False
++    avoidance_speed_limit_ready: bool = True
++    avoidance_speed_limit_mps: float | None = None
+ 
+ 
+ @dataclass(frozen=True)
+@@ -133,6 +135,8 @@
+
+                 previous_speed
+                 - self._limits.max_deceleration_mps2 * self._period(context.now_s),
+             )
++            if context.avoidance_speed_limit_mps is not None:
++                speed = min(speed, context.avoidance_speed_limit_mps)
+             self._record_output(speed, context.now_s)
+             if speed > 1e-9:
+                 return SafeCommand(
+@@ -158,6 +162,7 @@
+
+         speed = command.linear_x_mps
+         lateral_speed = command.linear_y_mps
+         yaw_rate = command.yaw_rate_radps
++        avoidance_limit = context.avoidance_speed_limit_mps
+         if requested_mode == "spin":
+             bounded_yaw_rate = min(
+                 self._limits.max_spin_yaw_rate_radps,
+@@ -191,6 +196,9 @@
+
+                 context,
+                 reasons,
+             )
++            if avoidance_limit is not None and bounded_speed > avoidance_limit:
++                bounded_speed = avoidance_limit
++                reasons.append("avoidance_speed_limited")
+             scale = bounded_speed / requested_speed if requested_speed > 1e-12 else 0.0
+             self._record_output(bounded_speed, context.now_s)
+             return SafeCommand(
+@@ -227,6 +235,14 @@
+
+         if abs(acceleration_bounded_speed - bounded_speed) > 1e-12:
+             reasons.append("acceleration_limited")
+         bounded_speed = acceleration_bounded_speed
++
++        if avoidance_limit is not None and bounded_speed > avoidance_limit:
++            bounded_speed = avoidance_limit
++            reasons.append("avoidance_speed_limited")
++        if speed > 1e-12 and bounded_speed < speed:
++            # Every speed reduction must preserve the requested turn radius,
++            # including tracking recovery and acceleration from a stop.
++            yaw_rate *= bounded_speed / speed
+ 
+         max_yaw_rate = abs(bounded_speed) / self._limits.min_turning_radius_m
+         bounded_yaw_rate = min(max_yaw_rate, max(-max_yaw_rate, yaw_rate))
+@@ -334,6 +350,13 @@
+
+             reasons.append("invalid_state")
+         if not context.avoidance_ready:
+             reasons.append("avoidance_stale")
++        if not context.avoidance_speed_limit_ready:
++            reasons.append("avoidance_speed_limit_stale")
++        if context.avoidance_speed_limit_mps is not None and (
++            not math.isfinite(context.avoidance_speed_limit_mps)
++            or context.avoidance_speed_limit_mps < 0.0
++        ):
++            reasons.append("invalid_avoidance_speed_limit")
+         if context.avoidance_stop:
+             reasons.append("avoidance_stop")
+         if not context.traffic_rules_ready:
+
+FILE src/competition_planning/competition_planning/semantic_planner.py BASELINE git_HEAD_pre_candidate
+--- competition
+
++++ verified_baseline
+
+@@ -326,7 +326,7 @@
+
+     planner_plugin = str(params.get("plugin", ""))
+     frame_id = str(semantic_map.get("frame_id", "map"))
+     route_name = str(route.get("route_name", ""))
+-    if planner_plugin != "hybrid_astar":
++    if planner_plugin not in {"hybrid_astar", "semantic_corridor"}:
+         failure = PlanFailure(
+             step_id="continuous_route",
+             step_type="CONTROL_ROUTE",
+@@ -371,24 +371,43 @@
+
+         )
+ 
+     started_at = time.perf_counter()
+-    try:
+-        planner = _load_hybrid_planner(semantic_map, params)
+-        path = planner.plan([point for point in waypoints if point is not None])
+-    except Exception as exc:
+-        failure = PlanFailure(
+-            step_id="continuous_route",
+-            step_type="CONTROL_ROUTE",
+-            reason="hybrid_planning_failed",
+-            detail=str(exc),
+-        )
+-        return ContinuousRoutePlan(
+-            frame_id=frame_id,
+-            route_name=route_name,
+-            path=(),
+-            planner_plugin=planner_plugin,
+-            planning_time_ms=(time.perf_counter() - started_at) * 1000.0,
+-            failures=(failure,),
+-        )
++    if planner_plugin == "semantic_corridor":
++        semantic_route = plan_route(route, semantic_map, planning_config)
++        if semantic_route.failures:
++            return ContinuousRoutePlan(
++                frame_id=frame_id,
++                route_name=route_name,
++                path=(),
++                planner_plugin=planner_plugin,
++                planning_time_ms=(time.perf_counter() - started_at) * 1000.0,
++                failures=tuple(semantic_route.failures),
++            )
++
++        path = []
++        for step_plan in semantic_route.plans:
++            step_path = list(step_plan.path)
++            if path and step_path:
++                step_path = step_path[1:]
++            path.extend(step_path)
++    else:
++        try:
++            planner = _load_hybrid_planner(semantic_map, params)
++            path = planner.plan([point for point in waypoints if point is not None])
++        except Exception as exc:
++            failure = PlanFailure(
++                step_id="continuous_route",
++                step_type="CONTROL_ROUTE",
++                reason="hybrid_planning_failed",
++                detail=str(exc),
++            )
++            return ContinuousRoutePlan(
++                frame_id=frame_id,
++                route_name=route_name,
++                path=(),
++                planner_plugin=planner_plugin,
++                planning_time_ms=(time.perf_counter() - started_at) * 1000.0,
++                failures=(failure,),
++            )
+ 
+     elapsed_ms = (time.perf_counter() - started_at) * 1000.0
+     timeout_ms = float(params.get("planning_timeout_ms", 500.0))
+@@ -656,6 +675,18 @@
+
+                         current_ref,
+                     )
+ 
++    smoother_plugin = "none"
++    if smoother is not None:
++        smoothing_input = _with_semantic_anchor_yaws(path, points)
++        smoothed_path = smoother.smooth(smoothing_input)
++        if smoothed_path == smoothing_input:
++            smoother_plugin = "none_insufficient_anchors"
++        elif grid_planner is not None and not grid_planner.path_is_navigable(smoothed_path):
++            smoother_plugin = "none_collision_fallback"
++        else:
++            path = smoothed_path
++            smoother_plugin = "cubic_bezier"
++
+     validation_failure = _validate_path(
+         step,
+         path,
+@@ -672,21 +703,12 @@
+
+             )
+         ),
+         check_corridor_distance=used_plugin == "semantic_corridor",
++        corridor_reference=(
++            path if used_plugin == "semantic_corridor" else None
++        ),
+     )
+     if validation_failure is not None:
+         return None, validation_failure, current_ref
+-
+-    smoother_plugin = "none"
+-    if smoother is not None:
+-        smoothing_input = _with_semantic_anchor_yaws(path, points)
+-        smoothed_path = smoother.smooth(smoothing_input)
+-        if smoothed_path == smoothing_input:
+-            smoother_plugin = "none_insufficient_anchors"
+-        elif grid_planner is not None and not grid_planner.path_is_navigable(smoothed_path):
+-            smoother_plugin = "none_collision_fallback"
+-        else:
+-            path = smoothed_path
+-            smoother_plugin = "cubic_bezier"
+ 
+     plan = StepPlan(
+         step_id=step_id,
+@@ -785,6 +807,7 @@
+
+     margin_m: float,
+     min_turning_radius_m: float,
+     check_corridor_distance: bool = True,
++    corridor_reference: tuple[PathPoint, ...] | None = None,
+ ) -> PlanFailure | None:
+     width_m = float(centerline.get("width_m", 0.0))
+     max_distance_m = width_m / 2.0 - margin_m
+@@ -795,11 +818,14 @@
+
+             f"centerline width {width_m:.3f} leaves no room after margin {margin_m:.3f}",
+         )
+ 
+-    centerline_points = []
+-    for ref in centerline.get("points", []):
+-        point = map_model.point(str(ref))
+-        if point is not None:
+-            centerline_points.append(point)
++    if corridor_reference is not None:
++        centerline_points = list(corridor_reference)
++    else:
++        centerline_points = []
++        for ref in centerline.get("points", []):
++            point = map_model.point(str(ref))
++            if point is not None:
++                centerline_points.append(point)
+ 
+     effective_area = map_model.polygon(map_model.effective_area.get("vertices"))
+     for point in path:
+@@ -943,16 +969,23 @@
+
+     params = planning_config.get("trajectory_smoother", {})
+     if not bool(params.get("enabled", False)):
+         return None
++
+     plugin = str(params.get("plugin", "cubic_bezier"))
+-    if plugin != "cubic_bezier":
+-        return None
+-
+-    from competition_planning.trajectory_smoother import CubicBezierSmoother
+-
+-    return CubicBezierSmoother(
+-        sample_spacing_m=float(params.get("sample_spacing_m", 0.20)),
+-        tangent_scale=float(params.get("tangent_scale", 0.75)),
+-    )
++    from competition_planning.trajectory_smoother import (
++        CircularArcSmoother,
++        CubicBezierSmoother,
++    )
++
++    if plugin == "cubic_bezier":
++        return CubicBezierSmoother(
++            sample_spacing_m=float(params.get("sample_spacing_m", 0.20)),
++            tangent_scale=float(params.get("tangent_scale", 0.75)),
++        )
++    if plugin == "circular_arc":
++        return CircularArcSmoother(
++            sample_spacing_m=float(params.get("sample_spacing_m", 0.05)),
++        )
++    return None
+ 
+ 
+ def _with_semantic_anchor_yaws(
+
+FILE src/competition_planning/competition_planning/trajectory_parameterizer.py BASELINE git_HEAD_pre_candidate
+
+FILE src/competition_planning/competition_planning/trajectory_smoother.py BASELINE git_HEAD_pre_candidate
+--- competition
+
++++ verified_baseline
+
+@@ -68,9 +68,11 @@
+
+         if index == 0:
+             next_point = anchors[index + 1]
+             route_tangent = (next_point.x - point.x, next_point.y - point.y)
++            local_spacing_m = math.hypot(*route_tangent)
+         elif index == len(anchors) - 1:
+             previous = anchors[index - 1]
+             route_tangent = (point.x - previous.x, point.y - previous.y)
++            local_spacing_m = math.hypot(*route_tangent)
+         else:
+             previous = anchors[index - 1]
+             next_point = anchors[index + 1]
+@@ -78,7 +80,18 @@
+
+                 (next_point.x - previous.x) * 0.5,
+                 (next_point.y - previous.y) * 0.5,
+             )
+-        tangents.append(_compatible_yaw_tangent(point, route_tangent, tangent_scale))
++            local_spacing_m = min(
++                math.hypot(point.x - previous.x, point.y - previous.y),
++                math.hypot(next_point.x - point.x, next_point.y - point.y),
++            )
++
++        tangent = _compatible_yaw_tangent(point, route_tangent, tangent_scale)
++        tangent_length_m = math.hypot(*tangent)
++        max_length_m = local_spacing_m * tangent_scale
++        if tangent_length_m > max_length_m > 1e-9:
++            ratio = max_length_m / tangent_length_m
++            tangent = (tangent[0] * ratio, tangent[1] * ratio)
++        tangents.append(tangent)
+     return tangents
+ 
+ 
+@@ -141,3 +154,105 @@
+
+         + 6.0 * u * t * (p2[1] - p1[1])
+         + 3.0 * t * t * (p3[1] - p2[1]),
+     )
++
++
++class CircularArcSmoother:
++    """Sample exact circular arcs encoded as entry/turn/exit anchor triples."""
++
++    def __init__(self, *, sample_spacing_m: float) -> None:
++        self._sample_spacing_m = max(0.05, sample_spacing_m)
++
++    def smooth(self, path: Sequence[PathPoint]) -> tuple[PathPoint, ...]:
++        anchors = [point for point in path if point.ref_id]
++        if len(anchors) < 4:
++            return tuple(path)
++
++        output = [anchors[0]]
++        index = 0
++        while index < len(anchors) - 1:
++            if index + 3 < len(anchors) and self._is_arc(
++                anchors[index + 1], anchors[index + 2], anchors[index + 3]
++            ):
++                self._append_line(output, anchors[index], anchors[index + 1])
++                self._append_arc(
++                    output,
++                    anchors[index + 1],
++                    anchors[index + 2],
++                    anchors[index + 3],
++                )
++                index += 3
++            else:
++                self._append_line(output, anchors[index], anchors[index + 1])
++                index += 1
++        return tuple(output)
++
++    @staticmethod
++    def _is_arc(entry: PathPoint, turn: PathPoint, exit: PathPoint) -> bool:
++        if not entry.ref_id or not entry.ref_id.endswith("_entry"):
++            return False
++        prefix = entry.ref_id[:-len("_entry")]
++        return turn.ref_id == f"{prefix}_turn" and exit.ref_id == f"{prefix}_exit"
++
++    def _append_line(self, output, start: PathPoint, end: PathPoint) -> None:
++        dx, dy = end.x - start.x, end.y - start.y
++        length_m = math.hypot(dx, dy)
++        if length_m <= 1e-9:
++            return
++        yaw = math.atan2(dy, dx)
++        count = max(1, math.ceil(length_m / self._sample_spacing_m))
++        for index in range(1, count + 1):
++            ratio = index / count
++            output.append(PathPoint(
++                x=start.x + dx * ratio,
++                y=start.y + dy * ratio,
++                yaw=yaw,
++                ref_id=end.ref_id if index == count else None,
++            ))
++
++    def _append_arc(self, output, start: PathPoint, mid: PathPoint, end: PathPoint) -> None:
++        center = self._circumcenter(start, mid, end)
++        if center is None:
++            self._append_line(output, start, mid)
++            self._append_line(output, mid, end)
++            return
++
++        cx, cy = center
++        start_angle = math.atan2(start.y - cy, start.x - cx)
++        mid_angle = math.atan2(mid.y - cy, mid.x - cx)
++        end_angle = math.atan2(end.y - cy, end.x - cx)
++        ccw_end = (end_angle - start_angle) % (2.0 * math.pi)
++        ccw_mid = (mid_angle - start_angle) % (2.0 * math.pi)
++        direction = 1.0 if ccw_mid <= ccw_end else -1.0
++        radius_m = math.hypot(start.x - cx, start.y - cy)
++
++        self._append_arc_segment(output, start, mid, cx, cy, radius_m, direction)
++        self._append_arc_segment(output, mid, end, cx, cy, radius_m, direction)
++
++    def _append_arc_segment(self, output, start, end, cx, cy, radius_m, direction) -> None:
++        start_angle = math.atan2(start.y - cy, start.x - cx)
++        end_angle = math.atan2(end.y - cy, end.x - cx)
++        ccw = (end_angle - start_angle) % (2.0 * math.pi)
++        sweep = ccw if direction > 0.0 else ccw - 2.0 * math.pi
++        count = max(1, math.ceil(abs(sweep) * radius_m / self._sample_spacing_m))
++        for index in range(1, count + 1):
++            angle = start_angle + sweep * index / count
++            output.append(PathPoint(
++                x=cx + radius_m * math.cos(angle),
++                y=cy + radius_m * math.sin(angle),
++                yaw=angle + direction * math.pi / 2.0,
++                ref_id=end.ref_id if index == count else None,
++            ))
++
++    @staticmethod
++    def _circumcenter(first, second, third):
++        ax, ay = first.x, first.y
++        bx, by = second.x, second.y
++        cx, cy = third.x, third.y
++        denominator = 2.0 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by))
++        if abs(denominator) <= 1e-9:
++            return None
++        aa, bb, cc = ax * ax + ay * ay, bx * bx + by * by, cx * cx + cy * cy
++        return (
++            (aa * (by - cy) + bb * (cy - ay) + cc * (ay - by)) / denominator,
++            (aa * (cx - bx) + bb * (ax - cx) + cc * (bx - ax)) / denominator,
++        )

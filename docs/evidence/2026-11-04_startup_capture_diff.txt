@@ -1,0 +1,992 @@
+--- parent/README.md
++++ startup/README.md
+@@ -1,14 +1,10 @@
+-# Behavior repair candidate 20261104
++# Startup capture repair 20261104
+ 
+-Parent: the 2026-11-04 single-loop field pass with 0.25 m grid inflation.
+-This isolated workspace has not completed a field motion test.
++Isolated successor to forward_rejoin_behavior_20261104. Handles a localized car
++parked behind the first reference endpoint inside the existing start envelope.
++A collision-checked, curvature-bounded tangent capture replaces the stale detour
++after two fresh stationary assessments. Localization and global route are unchanged.
+ 
+-Changes: discard unnecessary pre-departure detours after fresh clear observations;
+-allow a rechecked stopping prefix after a far-path search failure; require an
+-expiring path-specific speed guard in the controller. A held car requires a full
+-plan before restarting. Collision inflation, speed limits, MPPI core, Safety
+-supervisor and localization estimator retain the passed parent's settings/code.
+-
+-Use only forward_rejoin_behavior_050_030_inflation025.launch.py for this repair.
+-See RUNBOOK.md. Build and import checks do not start hardware or enable a route.
+-The passed workspace /home/agilex/competition_forward_rejoin_20261103_ws is retained.
++Use startup_capture_050_030_inflation025.launch.py. See RUNBOOK.md.
++The old workspaces remain available. Field motion acceptance is pending.
++MPPI, Safety, dynamic prefix guard, speed limits and inflation retain the parent.
+--- parent/RUNBOOK.md
++++ startup/RUNBOOK.md
+@@ -1,14 +1,14 @@
+-# 2026-11-04 行为修复候选操作单
++# 2026-11-04 起点后方起步修复操作单
+ 
+-本候选由当天已完成一次整圈的 0.25 膨胀版本复制建立，原工作区保留。A–D 底盘、雷达、地图和定位沿用当天流程；定位启动并进入 active 后，在 RViz 按实车位置发布初始位姿。E/F/G 使用下述新环境。E 不能与旧导航 E 同时运行。
++本候选从当天行为修复版本独立复制建立，修复起点后方约 0.29 m 时旧绕行线不退出的问题；原工作区保留。A–D 底盘、雷达、地图和定位沿用当天流程；定位启动并进入 active 后，在 RViz 按实车位置发布初始位姿。E/F/G 使用下述新环境。E 不能与旧导航 E 同时运行。
+ 
+ 本候选尚需实车复测，离线模型和隔离 ROS 检查不代替现场验收。扫描范围、0.25 膨胀、0.10 跟踪余量、0.60 最小转弯半径、0.50/0.30 速度及近障硬停保留。当前点模型的整车足迹覆盖限制仍存在。
+ 
+ ## 独立安装和构建
+ 
+ ```bash
+-python3 /home/agilex/install_behavior_repair_20261104.py
+-cd /home/agilex/competition_forward_rejoin_behavior_20261104_ws
++python3 /home/agilex/install_startup_capture_20261104.py
++cd /home/agilex/competition_startup_capture_20261104_ws
+ bash scripts/build_candidate.sh
+ ```
+ 
+@@ -19,46 +19,46 @@
+ 旧 E 先 Ctrl+C；A–D 正常时沿用。正式 E 不使用测试隔离域 ROS_DOMAIN_ID=94。
+ 
+ ```bash
+-source /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/source_candidate_runtime.sh
+-ros2 launch forward_rejoin_bringup forward_rejoin_behavior_050_030_inflation025.launch.py start_chassis_adapter:=true
++source /home/agilex/competition_startup_capture_20261104_ws/scripts/source_candidate_runtime.sh
++ros2 launch forward_rejoin_bringup startup_capture_050_030_inflation025.launch.py start_chassis_adapter:=true
+ ```
+ 
+ ## F：门检
+ 
+ ```bash
+-source /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/source_candidate_runtime.sh
+-python3 /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/check_import_origin.py
++source /home/agilex/competition_startup_capture_20261104_ws/scripts/source_candidate_runtime.sh
++python3 /home/agilex/competition_startup_capture_20261104_ws/scripts/check_import_origin.py
+ ros2 param get /rebuild_replan_mppi require_local_plan_guard
+ ros2 param get /rebuild_local_replanner behavior_guard_enabled
+ ros2 param get /rebuild_replan_proximity_stop grid_inflation_radius_m
+-timeout 35s python3 /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/navigation_preflight.py --timeout 20
++timeout 35s python3 /home/agilex/competition_startup_capture_20261104_ws/scripts/navigation_preflight.py --timeout 20
+ ```
+ 
+-参数应为 true、true、0.25，门检通过。起步区域畅通时，等待规划状态 REFERENCE_CLEAR；确有障碍时可为完整 REPLANNED/FORWARD_REJOIN_HOLD，不能凭 VALIDATED_PREFIX 发车。定位误差门检沿用原标准。
++参数应为 true、true、0.25，门检通过。起点后方的小幅合法偏差会生成 STARTUP_CAPTURE；已贴近参考线时为 REFERENCE_CLEAR，确有障碍时可为完整绕行路径。不能凭 VALIDATED_PREFIX 发车。门检新增当前版本及静止起步评估完成检查，位置 0.30 m、朝向 12° 门限保持原值。
+ 
+ ## G：新开整圈录制
+ 
+ ```bash
+-source /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/source_candidate_runtime.sh
+-bash /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/record_navigation_trial.sh obstacle_behavior_repair_full_loop
++source /home/agilex/competition_startup_capture_20261104_ws/scripts/source_candidate_runtime.sh
++bash /home/agilex/competition_startup_capture_20261104_ws/scripts/record_navigation_trial.sh obstacle_startup_capture_full_loop
+ ```
+ 
+ 确认录制后，F 人工发车：
+ 
+ ```bash
+-python3 /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/route_command.py start
++python3 /home/agilex/competition_startup_capture_20261104_ws/scripts/route_command.py start
+ ```
+ 
+ 结束时 F 停车：
+ 
+ ```bash
+-python3 /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/route_command.py stop
++python3 /home/agilex/competition_startup_capture_20261104_ws/scripts/route_command.py stop
+ ```
+ 
+ 确认停稳后 Ctrl+C 结束 G。录制增加 /planning/local_plan_guard。移动障碍物时标记：
+ 
+ ```bash
+-python3 /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/mark_trial_event.py obstacle_moved
++python3 /home/agilex/competition_startup_capture_20261104_ws/scripts/mark_trial_event.py obstacle_moved
+ ```
+ 
+ 直接整圈，重点看空场起步的多余绕行与行人前方横穿时的连续性。前段必须满足停车距离，已经停车后仍需完整路径成功才能恢复。
+@@ -68,8 +68,8 @@
+ 停止新 E，在新终端 source 原工作区并运行原入口：
+ 
+ ```bash
+-source /home/agilex/competition_forward_rejoin_20261103_ws/scripts/source_candidate_runtime.sh
+-ros2 launch forward_rejoin_bringup forward_rejoin_050_030_inflation025.launch.py start_chassis_adapter:=true
++source /home/agilex/competition_forward_rejoin_behavior_20261104_ws/scripts/source_candidate_runtime.sh
++ros2 launch forward_rejoin_bringup forward_rejoin_behavior_050_030_inflation025.launch.py start_chassis_adapter:=true
+ ```
+ 
+ F/G 也切回原工作区。不能混用新门检与旧控制器。
+--- parent/scripts/build_candidate.sh
++++ startup/scripts/build_candidate.sh
+@@ -14,5 +14,6 @@
+ python3 scripts/test_forward_rejoin_integration.py --runtime "$COMPETITION_FORWARD_WS"
+ python3 -m unittest discover -s src/competition_planning/test -p test_behavior_guard.py -v
+ python3 scripts/test_behavior_callbacks.py --runtime "$COMPETITION_FORWARD_WS"
+-ros2 launch forward_rejoin_bringup forward_rejoin_behavior_050_030_inflation025.launch.py --show-args
++python3 -m unittest discover -s src/competition_planning/test -p test_startup_capture.py -v
++ros2 launch forward_rejoin_bringup startup_capture_050_030_inflation025.launch.py --show-args
+ echo "Build and interface loading checks passed. No navigation or chassis was started."
+--- parent/scripts/check_import_origin.py
++++ startup/scripts/check_import_origin.py
+@@ -6,7 +6,7 @@
+ 
+ root=Path(__file__).resolve().parents[1]
+ found={}
+-for name in ['competition_planning.path_guard','competition_planning.local_trajectory_planner','competition_control.mppi_controller','competition_safety.supervisor','competition_localization.state_estimator']:
++for name in ['competition_planning.startup_capture','competition_planning.path_guard','competition_planning.local_trajectory_planner','competition_control.mppi_controller','competition_safety.supervisor','competition_localization.state_estimator']:
+     module=importlib.import_module(name)
+     path=Path(module.__file__).resolve()
+     if not path.is_relative_to(root):
+--- parent/scripts/check_startup_capture_repair.py
++++ startup/scripts/check_startup_capture_repair.py
+@@ -0,0 +1,107 @@
++#!/usr/bin/env python3
++"""Recorded behind-start case: geometry, rolling MPPI/Safety, and handoff."""
++import argparse
++import dataclasses
++import json
++import math
++from pathlib import Path
++import sys
++
++ap=argparse.ArgumentParser(description=__doc__)
++ap.add_argument('--runtime',type=Path,required=True)
++ap.add_argument('--snapshots',type=Path,required=True)
++ap.add_argument('--output',type=Path,required=True)
++args=ap.parse_args()
++for name in ['competition_planning','competition_control','competition_safety']:
++    sys.path.insert(0,str(args.runtime/'src'/name))
++import yaml
++import numpy as np
++from competition_planning.semantic_planner import PathPoint
++from competition_planning.startup_capture import start_offsets
++from competition_planning.local_trajectory_planner import LocalTrajectoryPlanner,LocalReplanConfig,_crop_planning_map,_overlay_obstacles
++from competition_planning.occupancy_grid_planner import OccupancyGridMap
++from competition_planning.forward_rejoin import ObservationWindow
++from competition_planning.trajectory_parameterizer import parameterize_local_path
++from competition_control.mppi_controller import MPPIController,MPPIParams,VehicleState,ControlTrajectory,ControlTrajectoryPoint
++from competition_control.local_plan_continuity import local_paths_are_equivalent
++from competition_safety.supervisor import SafetySupervisor,SafetyLimits,SafetyContext
++
++scenes=json.loads(args.snapshots.read_text());scene=min(scenes,key=lambda r:abs(r['t']-37.2))
++records=yaml.safe_load((args.runtime/'artifacts/indoor_manual_six_anchor_v3_radius120_050straight_030turn_trajectory.yaml').read_text())['points']
++ref=tuple(PathPoint(r['x'],r['y'],r['yaw']) for r in records)
++static=OccupancyGridMap.from_yaml(args.runtime/'maps/indoor_manual_final/map.yaml')
++cfg=LocalReplanConfig(lookahead_distance_m=3.,inflation_radius_m=.04,search_padding_m=1.5,
++    min_turning_radius_m=.6,planning_timeout_s=.4,empty_history_planning_timeout_s=.4,
++    relaxed_extension_timeout_s=.35,forward_rejoin_enabled=True,tracking_clearance_m=.1,
++    goal_position_tolerance_m=.15,goal_heading_tolerance_rad=math.radians(20),search_heuristic_weight=1.6)
++lp=LocalTrajectoryPlanner(static,cfg)
++lp._last_safe_path=tuple(PathPoint(*r) for r in scene['path']);lp._last_safe_rejoin_index=scene['rejoin_index'];lp._forward_rejoin_target_index=scene['rejoin_index']
++initial=PathPoint(*scene['pose']);world=np.asarray(scene['inflated_world'])
++kw=dict(reference_path=ref,current_pose=initial,dynamic_obstacle_points=tuple(map(tuple,world)),
++    previous_reference_index=0,prestart_stationary=True,observation_window=ObservationWindow(*scene['pose'],-.5,-2.5,5.5,2.5))
++first=lp.plan(**kw);prepared=lp.plan(**kw)
++assert prepared.status=='STARTUP_CAPTURE'
++assert prepared.path[0]==initial
++max_lateral=max(abs(start_offsets(ref[0],p)[1]) for p in prepared.path)
++assert max_lateral<.08,(max_lateral,prepared.status)
++max_curvature=max(abs(math.atan2(math.sin(b.yaw-a.yaw),math.cos(b.yaw-a.yaw)))/math.hypot(b.x-a.x,b.y-a.y) for a,b in zip(prepared.path,prepared.path[1:]))
++assert max_curvature<=1/.6
++baseline=args.runtime/'log/retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218'
++def params(n):return next(iter(yaml.safe_load((baseline/(n+'.yaml')).read_text()).values()))['ros__parameters']
++def fields(cls,row):return {k:v for k,v in row.items() if k in {f.name for f in dataclasses.fields(cls)}}
++row=params('mppi');values=fields(MPPIParams,row);values['goal_heading_tolerance_rad']=math.radians(row['goal_heading_tolerance_deg']);mp=MPPIParams(**values)
++row=params('safety');values=fields(SafetyLimits,row)
++for name in ['recovery_heading_error','recovery_clear_heading_error','max_heading_error']:
++    values[name+'_rad']=math.radians(row[name+'_deg'])
++safety=SafetySupervisor(SafetyLimits(**values))
++semantic=yaml.safe_load((args.runtime/'maps/indoor_manual_final/semantic_map_six_anchor_v3_radius120.yaml').read_text())
++optimizer=yaml.safe_load((args.runtime/'config/planning/continuous_trajectory_radius120_050straight_030turn.yaml').read_text())
++optimizer['trajectory_optimizer']['max_curvature_1pm']=1/.6
++def trajectory(geometry):
++    out=parameterize_local_path(geometry,semantic,optimizer)
++    return ControlTrajectory('map','startup_capture_check',tuple(ControlTrajectoryPoint(v.x,v.y,v.yaw,v.s,v.curvature,v.v,v.t) for v in out.points))
++accepted=prepared.path;ctrl=MPPIController(trajectory(accepted),mp,random_seed=7)
++state=VehicleState(initial.x,initial.y,initial.yaw,0.);previous=0;last_k=0.;samples=[];plans=[]
++crop=_crop_planning_map(static,initial,ref[:130],margin_m=2.)
++live,_=_overlay_obstacles(crop,tuple(map(tuple,world)));checker=lp._planner(live,ref[:130])
++goal=ref[81];outcome='TIME_LIMIT';pending=None
++for tick in range(600):
++    t=tick*.05
++    if tick%10==0:
++        c,s=math.cos(state.yaw),math.sin(state.yaw)
++        body=(world-[state.x,state.y])@np.array([[c,-s],[s,c]])
++        visible=world[(body[:,0]>=-.5)&(body[:,0]<5.5)&(abs(body[:,1])<2.5)]
++        out=lp.plan(reference_path=ref,current_pose=PathPoint(state.x,state.y,state.yaw),
++            dynamic_obstacle_points=tuple(map(tuple,visible)),previous_reference_index=previous,
++            observation_window=ObservationWindow(state.x,state.y,state.yaw,-.5,-2.5,5.5,2.5),initial_curvature_1pm=last_k)
++        previous=out.reference_start_index;plans.append({'t':t,'status':out.status})
++        pending=(tick+3,out.path) # explicit 0.15s path delivery delay
++    if pending and tick>=pending[0]:
++        geometry=pending[1];pending=None
++        if not local_paths_are_equivalent(accepted,geometry,position_tolerance_m=.05,heading_tolerance_rad=math.radians(5)):
++            ctrl.replace_trajectory(trajectory(geometry));accepted=geometry
++    cmd=ctrl.compute_command(state)
++    safe=safety.filter_command(cmd,SafetyContext(1+t,1+t,1+t,state.linear_speed_mps,True,True,True,True,False,False))
++    target=safe.linear_x_mps
++    v=state.linear_speed_mps+(target-state.linear_speed_mps)*.2 # 0.25s velocity response
++    if abs(target)>1e-6:last_k=safe.yaw_rate_radps/target
++    w=v*last_k;direction=state.yaw+w*.025
++    state=VehicleState(state.x+v*math.cos(direction)*.05,state.y+v*math.sin(direction)*.05,state.yaw+w*.05,v)
++    samples.append({'t':t,'x':state.x,'y':state.y,'v':v,'status':cmd.status,'safety':safe.status,
++        'cross_track_m':start_offsets(ref[0],PathPoint(state.x,state.y,state.yaw))[1]})
++    if not checker.path_is_navigable((PathPoint(state.x,state.y,state.yaw),)):
++        outcome='PREDICTED_COLLISION';break
++    if ((state.x-goal.x)*math.cos(goal.yaw)+(state.y-goal.y)*math.sin(goal.yaw)>=0
++        and abs(start_offsets(goal,PathPoint(state.x,state.y,state.yaw))[1])<.1):
++        outcome='PASSED_START_SECTION';break
++result={'status':'PASS' if outcome=='PASSED_START_SECTION' else 'FAIL','outcome':outcome,
++    'recorded_pose':scene['pose'],'old_path_deviation_m':scene['path_reference_max_deviation_m'],
++    'new_initial_path_lateral_max_m':max_lateral,'new_initial_path_curvature_max_1pm':max_curvature,
++    'model_s':t,'max_model_lateral_m':max(abs(s['cross_track_m']) for s in samples),
++    'hold_s':sum(s['status']!='TRACKING' or s['safety']=='SAFE_HOLD' for s in samples)*.05,
++    'plans':plans,'samples':samples,
++    'limitations':['Frozen recorded costmap, synthetic 0.25s speed response and 0.15s path delivery delay.',
++        'Local start section only; no live chassis or full-loop acceptance.']}
++args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
++print(json.dumps({k:v for k,v in result.items() if k not in ['plans','samples','limitations']}))
++assert result['status']=='PASS' and result['hold_s']==0
+--- parent/scripts/navigation_preflight.py
++++ startup/scripts/navigation_preflight.py
+@@ -122,6 +122,12 @@
+         if control.get("local_guard_ready") is not True:
+             problems.append("fresh matched path guard is not ready")
+         replan = self.replan_status
++        if replan.get("startup_capture_supported") is not True:
++            problems.append("startup capture repair is not active")
++        if replan.get("startup_assessed") is not True:
++            problems.append("waiting for fresh stationary startup assessment")
++        if replan.get("startup_capture_pending"):
++            problems.append("waiting for second fresh startup assessment")
+         if replan.get("status") == "VALIDATED_PREFIX":
+             problems.append("start requires a full local plan, not a stopping prefix")
+         if replan.get("stop_requested") is not False:
+@@ -172,9 +178,10 @@
+         position_error = math.hypot(translation.x - start_x, translation.y - start_y)
+         yaw = yaw_from_quaternion(rotation.z, rotation.w)
+         yaw_error = abs(math.degrees(wrap(yaw - start_yaw)))
+-        if position_error > 0.30:
++        from competition_planning.startup_capture import START_POSITION_TOLERANCE_M, START_HEADING_TOLERANCE_DEG
++        if position_error > START_POSITION_TOLERANCE_M:
+             problems.append(f"start position error is {position_error:.3f}m")
+-        if yaw_error > 12.0:
++        if yaw_error > START_HEADING_TOLERANCE_DEG:
+             problems.append(f"start heading error is {yaw_error:.2f}deg")
+ 
+         print(
+--- parent/scripts/smoke_startup_capture_ros.py
++++ startup/scripts/smoke_startup_capture_ros.py
+@@ -0,0 +1,122 @@
++#!/usr/bin/env python3
++"""Exercise real ROS nodes in domain 94 on localhost, with no chassis adapter."""
++import json
++import math
++import os
++from pathlib import Path
++import signal
++import subprocess
++import time
++
++if os.environ.get('ROS_DOMAIN_ID')!='94' or os.environ.get('ROS_LOCALHOST_ONLY')!='1':
++    raise SystemExit('Requires isolated ROS_DOMAIN_ID=94 and ROS_LOCALHOST_ONLY=1')
++root=Path(os.environ['COMPETITION_FORWARD_WS'])
++out=root/'log/startup_capture_ros_check_20261104';out.mkdir(parents=True,exist_ok=True)
++log=(out/'launch.log').open('w')
++proc=subprocess.Popen(['ros2','launch','forward_rejoin_bringup',
++    'startup_capture_050_030_inflation025.launch.py','start_chassis_adapter:=false'],
++    stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
++node=None;paused_pid=None
++try:
++    import rclpy
++    from rclpy.node import Node
++    from geometry_msgs.msg import TransformStamped,Twist
++    from nav_msgs.msg import Odometry
++    from sensor_msgs.msg import LaserScan
++    from std_msgs.msg import Bool,String
++    from ranger_msgs.msg import SystemState,MotionState
++    from tf2_ros import TransformBroadcaster
++    import yaml
++    ref=yaml.safe_load((root/'artifacts/indoor_manual_six_anchor_v3_radius120_050straight_030turn_trajectory.yaml').read_text())['points'][0]
++    localized={'x':-15.79161187620295,'y':2.309142673908845,'yaw':3.1344084062529074}
++    rclpy.init();node=Node('startup_capture_ros_check')
++    observed={'control':None,'planner':None,'safe':None,'nonzero_safe':0,'control_statuses':[]}
++    def status(key):
++        def accept(m):
++            row=json.loads(m.data);observed[key]=row
++            if key=='control':observed['control_statuses'].append(row['status'])
++        return accept
++    node.create_subscription(String,'/control/status',status('control'),10)
++    node.create_subscription(String,'/planning/local_replan_status',status('planner'),10)
++    def safe(m):
++        observed['safe']=[m.linear.x,m.linear.y,m.angular.z]
++        if max(map(abs,observed['safe']))>1e-6:observed['nonzero_safe']+=1
++    node.create_subscription(Twist,'/cmd_vel_safe',safe,10)
++    tf=TransformBroadcaster(node)
++    odom_pub=node.create_publisher(Odometry,'/odom',10)
++    scan_pub=node.create_publisher(LaserScan,'/scan',10)
++    sys_pub=node.create_publisher(SystemState,'/system_state',10)
++    mode_pub=node.create_publisher(MotionState,'/motion_state',10)
++    route_pub=node.create_publisher(Bool,'/mission/route_enable',10)
++    def tick():
++        if proc.poll() is not None:raise RuntimeError('isolated launch exited')
++        stamp=node.get_clock().now().to_msg()
++        tr=TransformStamped();tr.header.stamp=stamp;tr.header.frame_id='map';tr.child_frame_id='body'
++        tr.transform.translation.x=localized['x'];tr.transform.translation.y=localized['y']
++        tr.transform.rotation.z=math.sin(localized['yaw']/2);tr.transform.rotation.w=math.cos(localized['yaw']/2);tf.sendTransform(tr)
++        odom=Odometry();odom.header.stamp=stamp;odom.header.frame_id='odom';odom.child_frame_id='body';odom_pub.publish(odom)
++        scan=LaserScan();scan.header.stamp=stamp;scan.header.frame_id='body'
++        scan.angle_min=-math.pi/2;scan.angle_max=math.pi/2;scan.angle_increment=math.pi/360
++        scan.range_min=.1;scan.range_max=6.;scan.ranges=[float('inf')]*361;scan_pub.publish(scan)
++        system=SystemState();system.header.stamp=stamp;system.control_mode=1;system.error_code=0
++        system.motion_mode=0;system.battery_voltage=49.5;sys_pub.publish(system)
++        mode=MotionState();mode.header.stamp=stamp;mode.motion_mode=0;mode_pub.publish(mode)
++        rclpy.spin_once(node,timeout_sec=.02)
++    def wait_for(test,timeout,label):
++        end=time.monotonic()+timeout
++        while time.monotonic()<end:
++            tick()
++            if test():return
++        raise RuntimeError(label+': '+json.dumps(observed))
++    wait_for(lambda:observed['control'] and observed['planner']
++        and observed['control'].get('status')=='ROUTE_DISABLED'
++        and observed['control'].get('local_guard_required') is True
++        and observed['planner'].get('status')=='STARTUP_CAPTURE'
++        and observed['planner'].get('startup_assessed') is True,35,'startup')
++    if node.get_publishers_info_by_topic('/cmd_vel'):raise RuntimeError('unexpected chassis publisher')
++    if observed['nonzero_safe']:raise RuntimeError('nonzero command before synthetic enable')
++    route_pub.publish(Bool(data=True))
++    wait_for(lambda:observed['control'].get('status')=='TRACKING'
++        and observed['control'].get('local_guard_speed_limit_mps')==.5
++        and observed['nonzero_safe']>5,12,'guarded synthetic tracking')
++    # Pause only a process in the session created by this check. Never use a
++    # name-based kill/stop that could affect real navigation in another domain.
++    matches=[]
++    for entry in Path('/proc').iterdir():
++        if not entry.name.isdigit():continue
++        try:
++            pid=int(entry.name)
++            if os.getsid(pid)!=proc.pid:continue
++            cmd=(entry/'cmdline').read_bytes().replace(b'\0',b' ')
++            if b'/lib/competition_planning/local_replanner_node ' in cmd:matches.append(pid)
++        except (ProcessLookupError,PermissionError,FileNotFoundError):pass
++    if len(matches)!=1:raise RuntimeError('cannot identify unique isolated replanner: '+str(matches))
++    paused_pid=matches[0];os.kill(paused_pid,signal.SIGSTOP)
++    hold_started=time.monotonic()
++    wait_for(lambda:observed['control'].get('status')=='LOCAL_PLAN_GUARD_HOLD'
++        and observed['safe'] is not None and max(map(abs,observed['safe']))<1e-6,2.,'expired guard hold')
++    expiry_hold_delay=time.monotonic()-hold_started
++    os.kill(paused_pid,signal.SIGCONT);paused_pid=None
++    wait_for(lambda:observed['control'].get('status')=='TRACKING',8,'fresh full plan recovery')
++    route_pub.publish(Bool(data=False))
++    wait_for(lambda:observed['control'].get('status')=='ROUTE_DISABLED'
++        and observed['safe'] is not None and max(map(abs,observed['safe']))<1e-6,3,'final disarm')
++    assert not node.get_publishers_info_by_topic('/cmd_vel')
++    result={'status':'PASS','ros_domain_id':94,'localhost_only':True,'chassis_adapter':False,
++        'cmd_vel_publishers':0,'synthetic_tracking_checked':True,'guard_expiry_hold_checked':True,
++        'expiry_hold_delay_s':expiry_hold_delay,'full_plan_recovery_checked':True,
++        'final_route_enabled':False,'observations':observed}
++    (out/'result.json').write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
++finally:
++    if paused_pid is not None:
++        try:os.kill(paused_pid,signal.SIGCONT)
++        except ProcessLookupError:pass
++    if node is not None:
++        node.destroy_node()
++        if rclpy.ok():rclpy.shutdown()
++    if proc.poll() is None:
++        os.killpg(proc.pid,signal.SIGINT)
++        try:proc.wait(timeout=10)
++        except subprocess.TimeoutExpired:
++            os.killpg(proc.pid,signal.SIGTERM);proc.wait(timeout=5)
++    log.close()
+--- parent/scripts/source_candidate_base.sh
++++ startup/scripts/source_candidate_base.sh
+@@ -8,7 +8,7 @@
+   IFS=: read -ra _forward_entries <<< "${!_forward_var-}"
+   for _forward_entry in "${_forward_entries[@]}"; do
+     case "$_forward_entry" in
+-      /home/agilex/competition_forward_rejoin_20261103_ws/install|/home/agilex/competition_forward_rejoin_20261103_ws/install/*|/home/agilex/competition_ws/install|/home/agilex/competition_ws/install/*|/home/agilex/competition_rebuild_ws/install|/home/agilex/competition_rebuild_ws/install/*|"$_forward_ws"/install|"$_forward_ws"/install/*) continue ;;
++      /home/agilex/competition_forward_rejoin_behavior_20261104_ws/install|/home/agilex/competition_forward_rejoin_behavior_20261104_ws/install/*|/home/agilex/competition_forward_rejoin_20261103_ws/install|/home/agilex/competition_forward_rejoin_20261103_ws/install/*|/home/agilex/competition_ws/install|/home/agilex/competition_ws/install/*|/home/agilex/competition_rebuild_ws/install|/home/agilex/competition_rebuild_ws/install/*|"$_forward_ws"/install|"$_forward_ws"/install/*) continue ;;
+     esac
+     [[ -n "$_forward_entry" ]] && _forward_out="${_forward_out:+$_forward_out:}$_forward_entry"
+   done
+--- parent/src/competition_planning/competition_planning/local_replanner_node.py
++++ startup/src/competition_planning/competition_planning/local_replanner_node.py
+@@ -1053,6 +1053,8 @@
+             stop_requested=False,
+             speed_limit_mps=result.speed_limit_mps,
+             continuation_clear_distance_m=result.continuation_clear_distance_m,
++            startup_capture_goal_index=getattr(self._planner,"_startup_capture_goal",None),
++            startup_capture_pending=self._planner._prestart_clear_count == 1,
+             continuation_failure=locals().get("continuation_failure"),
+             continuation_detail=locals().get("continuation_detail"),
+             obstacle_age_s=obstacle_age_s,
+@@ -1134,6 +1136,8 @@
+                         "status": status,
+                         "costmap_frame": self._obstacle_frame,
+                         "forward_rejoin_enabled": self._config.forward_rejoin_enabled,
++                        "startup_capture_supported": True,
++                        "startup_assessed": getattr(self._planner,"_prestart_assessed",False),
+                         "tracking_clearance_m": self._config.tracking_clearance_m,
+                         "initial_curvature_1pm": self._initial_curvature_1pm,
+                         "full_costmap_used": self._config.forward_rejoin_enabled,
+--- parent/src/competition_planning/competition_planning/local_trajectory_planner.py
++++ startup/src/competition_planning/competition_planning/local_trajectory_planner.py
+@@ -159,6 +159,8 @@
+         self._forward_rejoin_target_index: int | None = None
+         self._forward_blocked_reference = False
+         self._prestart_clear_count = 0
++        self._startup_capture_goal = None
++        self._prestart_assessed = False
+         self._planning_deadline_s: float | None = None
+         self._pending_relaxed_span: tuple[int, int] | None = None
+         self._completed_relaxed_span: tuple[int, int] | None = None
+@@ -271,6 +273,7 @@
+                     current_pose.y-reference_path[target].y) <= self._config.min_turning_radius_m
+                 if aligned and (reached or start_index >= target):
+                     self._forward_rejoin_target_index = None
++                    self._startup_capture_goal = None
+                 elif target < len(reference_path) and start_index < target:
+                     rejoin_index = target
+                 else:
+@@ -605,11 +608,31 @@
+             nominal = tuple(reference_path[start_index:nominal_end+1])
+             from competition_planning.forward_rejoin import path_capture_error
+             error, heading = path_capture_error(nominal, current_pose)
++            capture = ()
++            if prestart_stationary and start_index == 0:
++                from competition_planning.startup_capture import startup_capture_path
++                capture = startup_capture_path(reference_path,current_pose,goal_index=nominal_end,
++                    sample_spacing_m=self._config.sample_spacing_m,
++                    min_turning_radius_m=self._config.min_turning_radius_m,
++                    capture_half_width_m=self._config.tracking_clearance_m)
++                if capture and (not planner.path_is_navigable(nominal)
++                    or not planner.path_is_navigable(capture)):
++                    capture = ()
+             clear_prestart = (prestart_stationary and planner.path_is_navigable(nominal)
+-                and error <= self._config.goal_position_tolerance_m
+-                and abs(heading) <= self._config.goal_heading_tolerance_rad)
++                and ((error <= self._config.goal_position_tolerance_m
++                      and abs(heading) <= self._config.goal_heading_tolerance_rad) or bool(capture)))
+             self._prestart_clear_count = self._prestart_clear_count+1 if clear_prestart else 0
++            self._prestart_assessed = bool(prestart_stationary and (not clear_prestart or self._prestart_clear_count >= 2))
+             if self._prestart_clear_count >= 2:
++                if capture:
++                    self._forward_rejoin_target_index = nominal_end
++                    self._forward_blocked_reference = False
++                    self._startup_capture_goal = nominal_end
++                    self._remember_safe_path(capture,nominal_end)
++                    return LocalPlan(path=capture,reference_start_index=start_index,rejoin_index=nominal_end,
++                        dynamic_obstacle_count=obstacle_count,status="STARTUP_CAPTURE",
++                        path_is_navigable=True,planning_grid_cell_count=live_map.width*live_map.height)
++                self._startup_capture_goal = None
+                 self._forward_rejoin_target_index = None
+                 self._forward_blocked_reference = False
+                 self._last_safe_path = ()
+@@ -627,7 +650,8 @@
+                 self._remember_safe_path(held, rejoin_index)
+                 return LocalPlan(path=held, reference_start_index=start_index,
+                     rejoin_index=rejoin_index, dynamic_obstacle_count=obstacle_count,
+-                    status="FORWARD_REJOIN_HOLD", path_is_navigable=True,
++                    status=("STARTUP_CAPTURE_HOLD" if self._startup_capture_goal == rejoin_index
++                        else "FORWARD_REJOIN_HOLD"), path_is_navigable=True,
+                     planning_grid_cell_count=live_map.width*live_map.height)
+         if (not relaxed and planner.path_is_navigable(local_reference)
+             and not (self._config.forward_rejoin_enabled and self._forward_rejoin_target_index is not None)):
+@@ -709,6 +733,7 @@
+                 path_is_navigable=True,
+                 planning_grid_cell_count=live_map.width * live_map.height,
+             )
++        self._startup_capture_goal = None
+         status = "REPLANNED_SHORT_REJOIN" if short_rejoin_used else "REPLANNED"
+         if relaxed:
+             held_path = (
+--- parent/src/competition_planning/competition_planning/startup_capture.py
++++ startup/src/competition_planning/competition_planning/startup_capture.py
+@@ -0,0 +1,71 @@
++"""Small, checked start capture for a car parked behind a finite reference.
++
++The start envelope is the existing preflight envelope, not a wider arrival
++tolerance. This helper never moves localization or changes the global route.
++"""
++import math
++from competition_planning.semantic_planner import PathPoint
++
++START_POSITION_TOLERANCE_M = 0.30
++START_HEADING_TOLERANCE_DEG = 12.0
++
++
++def start_offsets(origin, pose):
++    c,s=math.cos(origin.yaw),math.sin(origin.yaw)
++    dx,dy=pose.x-origin.x,pose.y-origin.y
++    return (c*dx+s*dy,-s*dx+c*dy,
++        math.atan2(math.sin(pose.yaw-origin.yaw),math.cos(pose.yaw-origin.yaw)))
++
++
++def startup_capture_path(reference, pose, *, goal_index, sample_spacing_m,
++                         min_turning_radius_m, capture_half_width_m):
++    """Return a tangent-continuous cubic, or no candidate outside the start envelope.
++
++Collision checking is the caller's responsibility, using the current inflated
++map. Only the initial behind-start case is handled here.
++"""
++    if not 0 < goal_index < len(reference):
++        return ()
++    along,lateral,heading=start_offsets(reference[0],pose)
++    if (not all(math.isfinite(v) for v in (along,lateral,heading))
++        or along >= -1e-6
++        or math.hypot(along,lateral) > START_POSITION_TOLERANCE_M+1e-9
++        or abs(lateral) > capture_half_width_m
++        or abs(heading) > math.radians(START_HEADING_TOLERANCE_DEG)+1e-9):
++        return ()
++    if sample_spacing_m <= 0 or min_turning_radius_m <= 0:
++        raise ValueError("invalid capture geometry bounds")
++    goal=reference[goal_index]
++    chord=math.hypot(goal.x-pose.x,goal.y-pose.y)
++    if chord < 2*min_turning_radius_m:
++        return ()
++    h=chord/3.0
++    p0=(pose.x,pose.y)
++    p1=(pose.x+h*math.cos(pose.yaw),pose.y+h*math.sin(pose.yaw))
++    p2=(goal.x-h*math.cos(goal.yaw),goal.y-h*math.sin(goal.yaw))
++    p3=(goal.x,goal.y)
++    # Dense analytic curvature checks and a <= sample-spacing control polygon
++    # bound avoid hiding a sharp bend between output points.
++    polygon=sum(math.hypot(b[0]-a[0],b[1]-a[1]) for a,b in zip((p0,p1,p2),(p1,p2,p3)))
++    steps=max(2,math.ceil(polygon/sample_spacing_m))
++    path=[]
++    for j in range(2*steps+1):
++        u=j/(2*steps);v=1-u
++        x=v**3*p0[0]+3*v*v*u*p1[0]+3*v*u*u*p2[0]+u**3*p3[0]
++        y=v**3*p0[1]+3*v*v*u*p1[1]+3*v*u*u*p2[1]+u**3*p3[1]
++        dx=3*(v*v*(p1[0]-p0[0])+2*v*u*(p2[0]-p1[0])+u*u*(p3[0]-p2[0]))
++        dy=3*(v*v*(p1[1]-p0[1])+2*v*u*(p2[1]-p1[1])+u*u*(p3[1]-p2[1]))
++        ddx=6*(v*(p2[0]-2*p1[0]+p0[0])+u*(p3[0]-2*p2[0]+p1[0]))
++        ddy=6*(v*(p2[1]-2*p1[1]+p0[1])+u*(p3[1]-2*p2[1]+p1[1]))
++        norm=math.hypot(dx,dy)
++        if norm < 1e-9 or abs(dx*ddy-dy*ddx)/norm**3 > 1/min_turning_radius_m+1e-9:
++            return ()
++        if j%2==0:path.append(PathPoint(x,y,math.atan2(dy,dx)))
++    path[0]=PathPoint(pose.x,pose.y,pose.yaw)
++    path[-1]=goal
++    for a,b in zip(path,path[1:]):
++        ds=math.hypot(b.x-a.x,b.y-a.y)
++        dtheta=math.atan2(math.sin(b.yaw-a.yaw),math.cos(b.yaw-a.yaw))
++        if ds < 1e-9 or abs(dtheta)/ds > 1/min_turning_radius_m+1e-9:
++            return ()
++    return tuple(path)
+--- parent/src/competition_planning/test/test_startup_capture.py
++++ startup/src/competition_planning/test/test_startup_capture.py
+@@ -0,0 +1,95 @@
++import math
++from pathlib import Path
++import sys
++import unittest
++
++sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
++from competition_planning.semantic_planner import PathPoint
++from competition_planning.startup_capture import startup_capture_path,start_offsets
++from competition_planning.local_trajectory_planner import LocalReplanConfig,LocalTrajectoryPlanner
++from competition_planning.occupancy_grid_planner import OccupancyGridMap
++from competition_planning.forward_rejoin import ObservationWindow
++
++
++class StartupCaptureTests(unittest.TestCase):
++    def setUp(self):
++        self.ref=tuple(PathPoint(i*.05,0,0) for i in range(121))
++        self.pose=PathPoint(-.289,-.0365,math.radians(6.76))
++        self.kw=dict(goal_index=60,sample_spacing_m=.1,min_turning_radius_m=.6,capture_half_width_m=.1)
++        self.grid=OccupancyGridMap(200,120,.05,-2,-3,(False,)*24000)
++        self.cfg=LocalReplanConfig(lookahead_distance_m=3,inflation_radius_m=.04,
++            min_turning_radius_m=.6,goal_position_tolerance_m=.15,goal_heading_tolerance_rad=math.radians(20),
++            forward_rejoin_enabled=True,tracking_clearance_m=.1,
++            planning_timeout_s=.4,empty_history_planning_timeout_s=.4,relaxed_extension_timeout_s=.35)
++
++    def planner(self):
++        lp=LocalTrajectoryPlanner(self.grid,self.cfg)
++        lp._forward_rejoin_target_index=60;lp._last_safe_rejoin_index=60
++        lp._last_safe_path=(self.pose,PathPoint(.3,-.2,0),PathPoint(1.5,-.38,0),self.ref[60])
++        return lp
++
++    def plan(self,p,**overrides):
++        args=dict(reference_path=self.ref,current_pose=self.pose,dynamic_obstacle_points=(),
++            prestart_stationary=True,observation_window=ObservationWindow(self.pose.x,self.pose.y,self.pose.yaw,-.5,-2.5,5.5,2.5))
++        args.update(overrides);return p.plan(**args)
++
++    def test_actual_rear_pose_builds_small_capture_with_correct_tangents(self):
++        path=startup_capture_path(self.ref,self.pose,**self.kw)
++        self.assertEqual(path[0],self.pose);self.assertEqual(path[-1],self.ref[60])
++        self.assertLess(max(abs(p.y) for p in path),.06)
++        self.assertTrue(all(b.x>a.x for a,b in zip(path,path[1:])))
++
++    def test_old_curve_replaced_after_two_checked_cycles(self):
++        p=self.planner();first=self.plan(p);second=self.plan(p)
++        self.assertEqual(first.status,'FORWARD_REJOIN_HOLD')
++        self.assertEqual(second.status,'STARTUP_CAPTURE')
++        self.assertLess(max(abs(r.y) for r in second.path),.06)
++
++    def test_moving_cycle_keeps_capture_and_does_not_return_to_old_curve(self):
++        p=self.planner();self.plan(p);out=self.plan(p)
++        moving=self.plan(p,prestart_stationary=False)
++        self.assertEqual(moving.status,'STARTUP_CAPTURE_HOLD')
++        self.assertEqual(moving.path,out.path)
++
++    def test_rear_position_is_not_reported_as_large_lateral_error(self):
++        along,cross,heading=start_offsets(self.ref[0],self.pose)
++        self.assertAlmostEqual(along,-.289);self.assertAlmostEqual(cross,-.0365)
++
++    def test_rotated_map_frame_has_equivalent_capture(self):
++        a=2.6;c,s=math.cos(a),math.sin(a)
++        def tx(p):return PathPoint(12+c*p.x-s*p.y,-3+s*p.x+c*p.y,p.yaw+a)
++        path=startup_capture_path(tuple(tx(p) for p in self.ref),tx(self.pose),**self.kw)
++        original=startup_capture_path(self.ref,self.pose,**self.kw)
++        self.assertEqual(len(path),len(original))
++        for p,q in zip(path,map(tx,original)):
++            self.assertAlmostEqual(p.x,q.x);self.assertAlmostEqual(p.y,q.y)
++
++    def test_outside_existing_start_gate_is_not_relaxed(self):
++        self.assertFalse(startup_capture_path(self.ref,PathPoint(-.31,0,0),**self.kw))
++        self.assertFalse(startup_capture_path(self.ref,PathPoint(-.2,0,math.radians(13)),**self.kw))
++
++    def test_large_lateral_error_does_not_replace_a_detour(self):
++        self.assertFalse(startup_capture_path(self.ref,PathPoint(-.2,.15,0),**self.kw))
++
++    def test_initial_capture_collision_is_checked_even_if_reference_is_clear(self):
++        p=self.planner()
++        # Occupancy on the new startup curve behind the nominal reference.
++        for _ in range(2):
++            try:out=self.plan(p,dynamic_obstacle_points=((-.18,-.03),))
++            except RuntimeError:continue
++            self.assertNotEqual(out.status,'STARTUP_CAPTURE')
++        self.assertNotEqual(p._startup_capture_goal,60)
++
++    def test_obstacle_on_nominal_reference_does_not_trigger_clear_reset(self):
++        p=self.planner()
++        for _ in range(2):
++            try:out=self.plan(p,dynamic_obstacle_points=((1.5,0),))
++            except RuntimeError:continue
++            self.assertNotEqual(out.status,'STARTUP_CAPTURE')
++        self.assertEqual(p._prestart_clear_count,0)
++
++    def test_short_goal_that_cannot_fit_capture_is_rejected(self):
++        self.assertFalse(startup_capture_path(self.ref,self.pose,**(self.kw|{'goal_index':5})))
++
++
++if __name__=='__main__':unittest.main()
+--- parent/src/forward_rejoin_bringup/launch/forward_rejoin_050_030.launch.py
++++ startup/src/forward_rejoin_bringup/launch/forward_rejoin_050_030.launch.py
+@@ -12,7 +12,7 @@
+ from launch_ros.actions import Node
+ 
+ 
+-WS = Path(os.environ.get("COMPETITION_FORWARD_WS", "/home/agilex/competition_forward_rejoin_behavior_20261104_ws"))
++WS = Path(os.environ.get("COMPETITION_FORWARD_WS", "/home/agilex/competition_startup_capture_20261104_ws"))
+ 
+ 
+ def _load_yaml(path: Path) -> dict:
+--- parent/src/forward_rejoin_bringup/launch/forward_rejoin_050_030_inflation025.launch.py
++++ startup/src/forward_rejoin_bringup/launch/forward_rejoin_050_030_inflation025.launch.py
+@@ -12,7 +12,7 @@
+ from launch_ros.actions import Node
+ 
+ 
+-WS = Path(os.environ.get("COMPETITION_FORWARD_WS", "/home/agilex/competition_forward_rejoin_behavior_20261104_ws"))
++WS = Path(os.environ.get("COMPETITION_FORWARD_WS", "/home/agilex/competition_startup_capture_20261104_ws"))
+ 
+ 
+ def _load_yaml(path: Path) -> dict:
+--- parent/src/forward_rejoin_bringup/launch/forward_rejoin_behavior_050_030_inflation025.launch.py
++++ startup/src/forward_rejoin_bringup/launch/forward_rejoin_behavior_050_030_inflation025.launch.py
+@@ -12,7 +12,7 @@
+ from launch_ros.actions import Node
+ 
+ 
+-WS = Path(os.environ.get("COMPETITION_FORWARD_WS", "/home/agilex/competition_forward_rejoin_behavior_20261104_ws"))
++WS = Path(os.environ.get("COMPETITION_FORWARD_WS", "/home/agilex/competition_startup_capture_20261104_ws"))
+ 
+ 
+ def _load_yaml(path: Path) -> dict:
+--- parent/src/forward_rejoin_bringup/launch/startup_capture_050_030_inflation025.launch.py
++++ startup/src/forward_rejoin_bringup/launch/startup_capture_050_030_inflation025.launch.py
+@@ -0,0 +1,283 @@
++#!/usr/bin/env python3
++"""User-requested 0.25 m obstacle inflation trial; field verification pending."""
++
++from pathlib import Path
++import os
++
++import yaml
++from launch import LaunchDescription
++from launch.actions import DeclareLaunchArgument, LogInfo
++from launch.conditions import IfCondition
++from launch.substitutions import LaunchConfiguration
++from launch_ros.actions import Node
++
++
++WS = Path(os.environ.get("COMPETITION_FORWARD_WS", "/home/agilex/competition_startup_capture_20261104_ws"))
++
++
++def _load_yaml(path: Path) -> dict:
++    with path.open("r", encoding="utf-8") as stream:
++        data = yaml.safe_load(stream)
++    if not isinstance(data, dict):
++        raise ValueError(f"{path} must contain a YAML mapping")
++    return data
++
++
++def generate_launch_description() -> LaunchDescription:
++    control = _load_yaml(WS / "config/control/control_params_rebuild_050straight_030turn.yaml")
++    safety_config = _load_yaml(
++        WS / "config/safety/safety_params_rebuild_050straight_030turn.yaml"
++    )
++
++    tracker = control["trajectory_tracker"]
++    mppi = tracker["mppi"]
++    motion = control["motion"]
++    estimator = control["state_estimator"]
++    visualization = control["visualization"]
++    safety = safety_config["safety"]
++
++    trajectory_file = LaunchConfiguration("trajectory_file")
++    route_file = str(WS / "routes/indoor_manual_six_anchor_v3_radius120_050straight_030turn_loop.yaml")
++    semantic_map_file = str(
++        WS / "maps/indoor_manual_final/semantic_map_six_anchor_v3_radius120.yaml"
++    )
++    planning_params_file = str(
++        WS / "config/planning/semantic_lidar_guarded_six_anchor_radius120.yaml"
++    )
++    optimizer_params_file = str(
++        WS / "config/planning/continuous_trajectory_radius120_050straight_030turn.yaml"
++    )
++    map_file = str(WS / "maps/indoor_manual_final/map.yaml")
++    base_frame = str(estimator.get("tracking_base_frame", estimator["base_frame"]))
++
++    scan = dict(safety_config["pointcloud_to_laserscan"])
++    cloud_topic = str(scan.pop("input_topic"))
++    scan_topic = str(scan.pop("output_topic"))
++
++    proximity = dict(safety_config["proximity_stop"])
++    # Costmap sees obstacles out to 5.5 m; only this close range is a hard stop.
++    proximity["stop_distance_m"] = 0.40
++    proximity["grid_inflation_radius_m"] = 0.25
++
++    mppi_parameters = {
++        "trajectory_file": trajectory_file,
++        "max_curvature_rate_1pmps": 2.50,
++        "route_file": route_file,
++        "semantic_map_file": semantic_map_file,
++        "planning_params_file": planning_params_file,
++        "optimizer_params_file": optimizer_params_file,
++        "map_frame": str(estimator["map_frame"]),
++        "base_frame": base_frame,
++        "odom_topic": "/odom",
++        "shelf_scan_topic": "/localization/scan",
++        "frequency_hz": tracker["frequency_hz"],
++        "horizon_steps": mppi["horizon_steps"],
++        "rollout_count": mppi["rollout_count"],
++        "iterations": mppi["iterations"],
++        "temperature": mppi["temperature"],
++        "speed_noise_std_mps": mppi["speed_noise_std_mps"],
++        "curvature_noise_std_1pm": mppi["curvature_noise_std_1pm"],
++        "progress_search_window_points": mppi["progress_search_window_points"],
++        "max_progress_advance_points": mppi["max_progress_advance_points"],
++        "lateral_feedback_gain_1pm_per_m": mppi["lateral_feedback_gain_1pm_per_m"],
++        "heading_feedback_gain_1pm_per_rad": mppi["heading_feedback_gain_1pm_per_rad"],
++        "feedback_blend": mppi["feedback_blend"],
++        "max_speed_mps": motion["max_speed_mps"],
++        "command_speed_memory_limit_mps": motion["max_speed_mps"],
++        "max_acceleration_mps2": motion["max_acceleration_mps2"],
++        "max_deceleration_mps2": motion["max_deceleration_mps2"],
++        "max_jerk_mps3": motion["max_jerk_mps3"],
++        "min_turning_radius_m": motion["min_turning_radius_m"],
++        "pose_timeout_s": estimator["pose_timeout_s"],
++        "velocity_timeout_s": estimator["velocity_timeout_s"],
++        "max_pose_prediction_s": estimator["max_pose_prediction_s"],
++        "max_position_jump_m": estimator["max_position_jump_m"],
++        "max_heading_jump_deg": estimator["max_heading_jump_deg"],
++        "initial_pose_settle_s": estimator["initial_pose_settle_s"],
++        "body_command_topic": "/control/body_cmd",
++        "tracking_error_topic": "/control/tracking_error",
++        "state_valid_topic": "/control/state_valid",
++        "status_topic": "/control/status",
++        "reference_path_topic": "/planning/replan_reference_path",
++        "executed_path_topic": "/control/replan_executed_path",
++        "executed_path_min_separation_m": visualization[
++            "executed_path_min_separation_m"
++        ],
++        "executed_path_max_points": visualization["executed_path_max_points"],
++        "replanning_enabled": True,
++        "local_trajectory_topic": "/planning/local_trajectory",
++        "local_stop_request_topic": "/planning/local_stop_request",
++        "local_trajectory_timeout_s": 2.0,
++        "require_route_enable": True,
++        "require_local_plan_guard": True,
++    }
++
++    replanner_parameters = {
++        "trajectory_file": trajectory_file,
++        "max_curvature_rate_1pmps": 2.50,
++        "map_file": map_file,
++        "semantic_map_file": semantic_map_file,
++        "map_frame": str(estimator["map_frame"]),
++        "base_frame": base_frame,
++        "frequency_hz": LaunchConfiguration("local_replanner_frequency_hz"),
++        "obstacle_source": "costmap",
++        "costmap_topic": "/avoidance/local_costmap",
++        "expected_obstacle_frame": "body",
++        "costmap_occupancy_threshold": 50,
++        "odom_topic": "/odom",
++        "forward_rejoin_enabled": True,
++        "behavior_guard_enabled": True,
++        "guard_max_speed_mps": motion["max_speed_mps"],
++        "guard_acceleration_mps2": motion["max_acceleration_mps2"],
++        "guard_deceleration_mps2": min(motion["max_deceleration_mps2"],safety["max_deceleration_mps2"]),
++        "guard_command_delay_s": safety["command_timeout_s"],
++        "tracking_clearance_m": 0.10,
++        "max_obstacle_age_s": 0.90,
++        "max_odom_age_s": 0.50,
++        "obstacle_x_min_m": 0.05,
++        "obstacle_x_max_m": 4.0,
++        "obstacle_y_half_width_m": 2.5,
++        "lookahead_distance_m": 3.0,
++        "inflation_radius_m": 0.04,
++        "sample_spacing_m": 0.10,
++        "min_turning_radius_m": motion["min_turning_radius_m"],
++        "step_length_m": 0.20,
++        "curvature_bins": 9,
++        "heading_bins": 72,
++        "search_heuristic_weight": 1.6,
++        "goal_position_tolerance_m": 0.15,
++        "goal_heading_tolerance_deg": 20.0,
++        "reference_deviation_weight": 2.0,
++        "max_expansions": 250000,
++        "planning_timeout_s": 0.40,
++        "empty_history_planning_timeout_s": 0.40,
++        "relaxed_extension_timeout_s": 0.35,
++        "reference_search_window_points": 160,
++        "local_trajectory_topic": "/planning/local_trajectory",
++        "local_stop_request_topic": "/planning/local_stop_request",
++        "status_topic": "/planning/local_replan_status",
++    }
++
++    safety_parameters = {
++        "frequency_hz": tracker["frequency_hz"],
++        "command_output_topic": LaunchConfiguration("safety_output_topic"),
++        "command_timeout_s": safety["command_timeout_s"],
++        "state_timeout_s": safety["state_timeout_s"],
++        "system_state_timeout_s": safety["system_state_timeout_s"],
++        "max_speed_mps": safety["max_speed_mps"],
++        "max_acceleration_mps2": safety["max_acceleration_mps2"],
++        "max_deceleration_mps2": safety["max_deceleration_mps2"],
++        "min_turning_radius_m": safety["min_turning_radius_m"],
++        "recovery_lateral_error_m": safety["recovery_lateral_error_m"],
++        "recovery_heading_error_deg": safety["recovery_heading_error_deg"],
++        "recovery_clear_lateral_error_m": safety["recovery_clear_lateral_error_m"],
++        "recovery_clear_heading_error_deg": safety["recovery_clear_heading_error_deg"],
++        "recovery_speed_mps": safety["recovery_speed_mps"],
++        "max_lateral_error_m": safety["max_lateral_error_m"],
++        "max_heading_error_deg": safety["max_heading_error_deg"],
++        "tracking_error_timeout_s": safety["tracking_error_timeout_s"],
++        "avoidance_stop_topic": safety["avoidance_stop_topic"],
++        "require_avoidance_source": True,
++        "avoidance_timeout_s": safety["avoidance_timeout_s"],
++        "traffic_rules_stop_topic": safety["traffic_rules_stop_topic"],
++        "require_traffic_rules": False,
++        "traffic_rules_timeout_s": safety["traffic_rules_timeout_s"],
++    }
++
++    return LaunchDescription(
++        [
++            DeclareLaunchArgument(
++                "trajectory_file",
++                default_value=str(
++                    WS / "artifacts/indoor_manual_six_anchor_v3_radius120_050straight_030turn_trajectory.yaml"
++                ),
++                description="Unverified 0.50/0.30 full-loop candidate with frozen baseline geometry.",
++            ),
++            DeclareLaunchArgument(
++                "local_replanner_frequency_hz",
++                default_value="2.0",
++                description="Local replanner update frequency in Hz.",
++            ),
++            DeclareLaunchArgument(
++                "start_chassis_adapter",
++                default_value="false",
++                description="False keeps real /cmd_vel disconnected.",
++            ),
++            DeclareLaunchArgument(
++                "safety_output_topic",
++                default_value="/cmd_vel_safe",
++            ),
++            DeclareLaunchArgument(
++                "chassis_adapter_input_topic",
++                default_value="/cmd_vel_safe",
++            ),
++            DeclareLaunchArgument(
++                "chassis_adapter_output_topic",
++                default_value="/cmd_vel",
++            ),
++            LogInfo(
++                msg=(
++                    "FORWARD REJOIN INFLATION 0.25m: Safety is active; chassis adapter is OFF "
++                    "unless start_chassis_adapter:=true is explicitly supplied."
++                )
++            ),
++            Node(
++                package="pointcloud_to_laserscan",
++                executable="pointcloud_to_laserscan_node",
++                name="rebuild_replan_proximity_scan",
++                output="screen",
++                parameters=[scan],
++                remappings=[("cloud_in", cloud_topic), ("scan", scan_topic)],
++            ),
++            Node(
++                package="competition_safety",
++                executable="proximity_stop_node",
++                name="rebuild_replan_proximity_stop",
++                output="screen",
++                parameters=[proximity],
++            ),
++            Node(
++                package="competition_planning",
++                executable="local_replanner_node",
++                name="rebuild_local_replanner",
++                output="screen",
++                parameters=[replanner_parameters],
++            ),
++            Node(
++                package="competition_control",
++                executable="mppi_control_node",
++                name="rebuild_replan_mppi",
++                output="screen",
++                parameters=[mppi_parameters],
++            ),
++            Node(
++                package="competition_safety",
++                executable="safety_node",
++                name="rebuild_replan_safety",
++                output="screen",
++                parameters=[safety_parameters],
++            ),
++            Node(
++                package="competition_control",
++                executable="ranger_twist_adapter_node",
++                name="rebuild_replan_ranger_twist_adapter",
++                output="screen",
++                condition=IfCondition(LaunchConfiguration("start_chassis_adapter")),
++                parameters=[
++                    {
++                        "input_topic": LaunchConfiguration(
++                            "chassis_adapter_input_topic"
++                        ),
++                        "output_topic": LaunchConfiguration(
++                            "chassis_adapter_output_topic"
++                        ),
++                        "wheelbase_m": motion["wheelbase_m"],
++                        "track_width_m": motion["track_width_m"],
++                        "driver_min_turn_radius_m": motion[
++                            "ranger_driver_min_turn_radius_m"
++                        ],
++                    }
++                ],
++            ),
++        ]
++    )

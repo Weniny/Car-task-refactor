@@ -1,0 +1,77 @@
+bag duration: 548.8s
+route enabled: 14.7..507.3s (492.6s), progress 0..3108
+controller: [('TRACKING', 9712), ('LOCAL_PLANNER_STOP', 140)]
+replanner: [('REFERENCE_CLEAR', 9561), ('REPLANNED', 146), ('HYBRID_ASTAR_NO_FEASIBLE_PATH', 141), ('REPLANNED_SHORT_REJOIN', 4)]
+safety: [('SAFE_ACTIVE', 7027), ('SAFE_RECOVERY', 1970), ('SAFE_HOLD', 459), ('SAFE_LIMITED', 396)]
+safety reasons: [('tracking_recovery', 1970), ('acceleration_limited', 655), ('lateral_error_persistent', 311), ('curvature_limited', 154), ('controller_not_tracking', 139), ('motion_mode_transition', 86), ('motion_mode_transition_timeout', 9)]
+stop samples: local=141/9852, avoidance=0/9852
+planning time: median=13.7ms p95=20.8ms max=452.9ms
+replanner failure details: [(('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-16.058, 2.253, 3.091) to (-17.275, 2.449, 3.025)'), 1), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-16.118, 2.262, 3.085) to (-17.374, 2.461, 3.025)'), 1), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-16.131, 2.305, 3.084) to (-17.374, 2.461, 3.025)'), 1), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-34.411, 39.301, 0.218) to (-33.163, 39.592, -0.104)'), 1), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-34.412, 39.304, 0.218) to (-33.163, 39.592, -0.104)'), 1)]
+
+10s bins (time, progress, safe/odom speed, local/avoidance stop %, replan/safety):
+  14.7..  24.7    0..  22 safe=0.118 odom=0.111 raw=0.119 err=0.09m/6.5deg stop=10/0% REFERENCE_CLEAR/SAFE_ACTIVE
+  24.7..  34.7   22.. 111 safe=0.443 odom=0.438 raw=0.444 err=0.08m/7.0deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+  34.7..  44.7  111.. 205 safe=0.486 odom=0.482 raw=0.486 err=0.09m/6.7deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+  44.7..  54.7  206.. 299 safe=0.484 odom=0.480 raw=0.484 err=0.08m/6.6deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+  54.7..  64.7  300.. 396 safe=0.488 odom=0.484 raw=0.488 err=0.09m/7.1deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+  64.7..  74.7  396.. 470 safe=0.372 odom=0.363 raw=0.397 err=0.25m/14.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+  74.7..  84.7  470.. 503 safe=0.144 odom=0.134 raw=0.367 err=0.41m/21.9deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+  84.7..  94.7  503.. 532 safe=0.150 odom=0.146 raw=0.493 err=0.25m/17.3deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+  94.7.. 104.7  533.. 589 safe=0.286 odom=0.279 raw=0.487 err=0.13m/9.7deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 104.7.. 114.7  589.. 684 safe=0.485 odom=0.481 raw=0.485 err=0.09m/6.7deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 114.7.. 124.7  684.. 779 safe=0.486 odom=0.483 raw=0.486 err=0.09m/6.7deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 124.7.. 134.7  780.. 874 safe=0.484 odom=0.481 raw=0.484 err=0.09m/6.1deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 134.7.. 144.7  875.. 968 safe=0.486 odom=0.482 raw=0.486 err=0.10m/6.5deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 144.7.. 154.7  969..1066 safe=0.483 odom=0.479 raw=0.483 err=0.11m/6.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 154.7.. 164.7 1066..1153 safe=0.440 odom=0.438 raw=0.437 err=0.17m/10.9deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 164.7.. 174.7 1153..1180 safe=0.098 odom=0.084 raw=0.300 err=0.43m/22.9deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 174.7.. 184.7 1180..1180 safe=0.000 odom=0.000 raw=0.163 err=0.42m/19.0deg stop=46/0% REFERENCE_CLEAR/SAFE_HOLD
+ 184.7.. 194.7 1180..1198 safe=0.103 odom=0.099 raw=0.165 err=0.41m/22.4deg stop=14/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 194.7.. 204.7 1198..1227 safe=0.150 odom=0.147 raw=0.470 err=0.16m/16.1deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 204.7.. 214.7 1227..1308 safe=0.418 odom=0.412 raw=0.484 err=0.12m/8.0deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 214.7.. 224.7 1308..1406 safe=0.486 odom=0.482 raw=0.486 err=0.08m/5.8deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 224.7.. 234.7 1406..1503 safe=0.487 odom=0.484 raw=0.487 err=0.09m/6.7deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 234.7.. 244.7 1503..1599 safe=0.486 odom=0.483 raw=0.486 err=0.10m/7.1deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 244.7.. 254.7 1599..1694 safe=0.488 odom=0.484 raw=0.488 err=0.09m/7.2deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 254.7.. 264.7 1694..1787 safe=0.485 odom=0.481 raw=0.485 err=0.08m/6.5deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 264.7.. 274.7 1788..1883 safe=0.484 odom=0.481 raw=0.484 err=0.09m/7.0deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 274.7.. 284.7 1884..1978 safe=0.484 odom=0.480 raw=0.484 err=0.08m/7.2deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 284.7.. 294.7 1978..2046 safe=0.329 odom=0.317 raw=0.371 err=0.32m/16.5deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 294.7.. 304.7 2046..2062 safe=0.049 odom=0.049 raw=0.416 err=0.43m/20.3deg stop=0/0% REFERENCE_CLEAR/SAFE_HOLD
+ 304.7.. 314.7 2062..2092 safe=0.153 odom=0.149 raw=0.490 err=0.36m/20.1deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 314.7.. 324.7 2092..2122 safe=0.150 odom=0.147 raw=0.489 err=0.17m/12.3deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 324.7.. 334.7 2122..2206 safe=0.434 odom=0.427 raw=0.485 err=0.10m/7.2deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 334.7.. 344.7 2206..2303 safe=0.483 odom=0.479 raw=0.483 err=0.08m/6.1deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 344.7.. 354.7 2303..2399 safe=0.485 odom=0.482 raw=0.485 err=0.08m/6.1deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 354.7.. 364.7 2399..2497 safe=0.484 odom=0.480 raw=0.484 err=0.09m/6.9deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 364.7.. 374.7 2497..2593 safe=0.487 odom=0.483 raw=0.487 err=0.08m/6.4deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 374.7.. 384.7 2594..2687 safe=0.486 odom=0.483 raw=0.486 err=0.10m/7.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 384.7.. 394.7 2688..2751 safe=0.303 odom=0.283 raw=0.354 err=0.23m/23.8deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 394.7.. 404.7 2751..2777 safe=0.142 odom=0.107 raw=0.379 err=0.40m/20.4deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 404.7.. 414.7 2778..2822 safe=0.223 odom=0.221 raw=0.483 err=0.24m/16.5deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 414.7.. 424.7 2822..2873 safe=0.270 odom=0.264 raw=0.485 err=0.12m/9.0deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 424.7.. 434.7 2873..2971 safe=0.485 odom=0.482 raw=0.485 err=0.08m/6.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 434.7.. 444.7 2972..3071 safe=0.485 odom=0.481 raw=0.485 err=0.18m/10.2deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 444.7.. 454.7 3071..3108 safe=0.358 odom=0.358 raw=0.356 err=0.13m/10.1deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 454.7.. 464.7 3108..3108 safe=0.018 odom=0.019 raw=0.018 err=0.05m/5.6deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 464.7.. 474.7 3108..3108 safe=0.000 odom=0.000 raw=0.000 err=0.05m/5.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 474.7.. 484.7 3108..3108 safe=0.000 odom=0.000 raw=0.000 err=0.05m/5.4deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 484.7.. 494.7 3108..3108 safe=0.000 odom=0.000 raw=0.000 err=0.05m/5.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 494.7.. 504.7 3108..3108 safe=0.000 odom=0.000 raw=0.000 err=0.05m/5.4deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 504.7.. 514.7 3108..3108 safe=0.000 odom=0.000 raw=0.000 err=0.05m/5.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+
+stationary episodes (>5s while route enabled):
+171.5..186.9s (15.4s) progress=1180..1180 safe_v=0.001 raw_v=0.170 safe_abs_w=0.000 avoidance=0% max_error=0.42m/19.0deg replan=[('REFERENCE_CLEAR', 173), ('HYBRID_ASTAR_NO_FEASIBLE_PATH', 120)] safety=[('SAFE_HOLD', 294), ('SAFE_ACTIVE', 15)] reasons=[('lateral_error_persistent', 175), ('controller_not_tracking', 119)]
+298.4..304.5s (6.1s) progress=2062..2062 safe_v=0.001 raw_v=0.477 safe_abs_w=0.000 avoidance=0% max_error=0.42m/17.1deg replan=[('REFERENCE_CLEAR', 114), ('REPLANNED', 9)] safety=[('SAFE_HOLD', 116), ('SAFE_LIMITED', 7)] reasons=[('lateral_error_persistent', 116), ('acceleration_limited', 7), ('curvature_limited', 2)]
+457.0..507.3s (50.3s) progress=3108..3108 safe_v=0.000 raw_v=0.000 safe_abs_w=0.000 avoidance=0% max_error=0.05m/5.4deg replan=[('REFERENCE_CLEAR', 1007)] safety=[('SAFE_ACTIVE', 1007)] reasons=[]
+
+tracking recovery episodes (>2s):
+74.5..99.3s progress=470..546 raw_v=0.440 safe_v=0.146 max_error=0.41m/21.9deg
+166.9..170.9s progress=1164..1179 raw_v=0.300 safe_v=0.128 max_error=0.43m/22.9deg
+187.7..205.3s progress=1180..1229 raw_v=0.372 safe_v=0.145 max_error=0.41m/22.4deg
+293.8..297.8s progress=2046..2061 raw_v=0.300 safe_v=0.128 max_error=0.43m/20.3deg
+306.2..324.9s progress=2066..2122 raw_v=0.491 safe_v=0.151 max_error=0.36m/20.1deg
+394.8..396.9s progress=2751..2753 raw_v=0.300 safe_v=0.108 max_error=0.27m/20.1deg
+397.0..400.6s progress=2753..2764 raw_v=0.326 safe_v=0.126 max_error=0.34m/18.6deg
+401.2..403.5s progress=2767..2773 raw_v=0.472 safe_v=0.154 max_error=0.40m/20.4deg
+406.7..419.7s progress=2792..2836 raw_v=0.487 safe_v=0.169 max_error=0.24m/16.5deg

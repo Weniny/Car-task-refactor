@@ -1,0 +1,763 @@
+{
+  "run": "/home/agilex/competition_forward_rejoin_20261103_ws/log/retest_obstacle_forward_rejoin_inflation025_retest_full_loop_20261104_122749_172705551",
+  "source": "read-only rosbag sqlite deserialization; no playback or robot commands",
+  "route_enable_bag_s": 2.201263271,
+  "first_final_progress_bag_s": 406.412702119,
+  "elapsed_to_final_progress_s": 404.211438848,
+  "final_progress": 3108,
+  "grid_inflation_radius_m": 0.25,
+  "counts": {
+    "/safety/event": {
+      "SAFE_HOLD": 129,
+      "SAFE_ACTIVE": 6732,
+      "SAFE_LIMITED": 371,
+      "SAFE_RECOVERY": 1357
+    },
+    "/planning/local_replan_status": {
+      "FORWARD_REJOIN_HOLD": 109,
+      "REPLANNED": 9,
+      "REFERENCE_CLEAR": 738,
+      "HYBRID_ASTAR_TIMEOUT": 2,
+      "HYBRID_ASTAR_NO_FEASIBLE_PATH": 1
+    },
+    "/control/status": {
+      "ROUTE_DISABLED": 82,
+      "TRACKING": 8460,
+      "INVALID_STATE": 4,
+      "LOCAL_PLANNER_STOP": 24
+    },
+    "/avoidance/proximity_status": {
+      "clear": 4281,
+      "obstacle_in_stop_box": 1
+    }
+  },
+  "planner_stop_request_episodes": [
+    {
+      "start": 79.67744904,
+      "end": 80.28164129,
+      "duration": 0.604192249999997,
+      "progress": [
+        523,
+        524
+      ],
+      "reasons": {
+        "HYBRID_ASTAR_TIMEOUT": 2,
+        "REPLANNED": 1
+      },
+      "first_detail": "hybrid_astar search exceeded 0.359 s"
+    },
+    {
+      "start": 113.328626996,
+      "end": 113.827316917,
+      "duration": 0.49868992100000753,
+      "progress": [
+        780,
+        783
+      ],
+      "reasons": {
+        "REPLANNED": 2,
+        "HYBRID_ASTAR_NO_FEASIBLE_PATH": 1
+      },
+      "first_detail": "hybrid_astar found no forward pose-constrained path from (-37.724, 20.618, 1.554) to (-37.246, 25.325, 1.452)"
+    }
+  ],
+  "snapshots": [
+    {
+      "t": 0.3,
+      "grid_t": 1.288165259,
+      "status": "FORWARD_REJOIN_HOLD",
+      "reference_start_index": 0,
+      "rejoin_index": 100,
+      "pose": [
+        -16.09593049092858,
+        2.3975149264047255,
+        3.1369945421243295
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.4018850443209767,
+      "closest_raw_body": [
+        2.2250000406056643,
+        -1.574999986216426
+      ],
+      "raw_ahead_min_x_m": null,
+      "reference_start_body": [
+        -0.013337354300323873,
+        0.08845453505816264
+      ],
+      "path_t": 0.282953317,
+      "path_reference_max_deviation_m": 0.4868093240073132,
+      "previous_path_capture_m": 0.0043948265716381146,
+      "previous_path_heading_deg": 0.024933287211836262,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 2.2,
+      "grid_t": 2.195238793,
+      "status": "FORWARD_REJOIN_HOLD",
+      "reference_start_index": 0,
+      "rejoin_index": 100,
+      "pose": [
+        -16.095006772233987,
+        2.401453393466487,
+        3.136786216572418
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.418930411790963,
+      "closest_raw_body": [
+        1.225000025704503,
+        -1.4749999847263098
+      ],
+      "raw_ahead_min_x_m": null,
+      "reference_start_body": [
+        -0.012451003246784208,
+        0.0923946159746144
+      ],
+      "path_t": 1.786044645,
+      "path_reference_max_deviation_m": 0.4868093240073132,
+      "previous_path_capture_m": 0.0018718596129098284,
+      "previous_path_heading_deg": 0.01299711232257866,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 5,
+      "grid_t": 5.087456672,
+      "status": "FORWARD_REJOIN_HOLD",
+      "reference_start_index": 4,
+      "rejoin_index": 100,
+      "pose": [
+        -16.27583655794024,
+        2.408009671708332,
+        -3.1242922624804894
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.4031021938314763,
+      "closest_raw_body": [
+        1.3750000279396772,
+        -1.5249999854713678
+      ],
+      "raw_ahead_min_x_m": null,
+      "reference_start_body": [
+        0.007070591213158796,
+        0.07549865204170444
+      ],
+      "path_t": 4.769036464,
+      "path_reference_max_deviation_m": 0.4868093240073132,
+      "previous_path_capture_m": 0.005294826458591661,
+      "previous_path_heading_deg": 1.2796250624023848,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 10,
+      "grid_t": 10.073275946,
+      "status": "FORWARD_REJOIN_HOLD",
+      "reference_start_index": 27,
+      "rejoin_index": 100,
+      "pose": [
+        -17.396168802585677,
+        2.284864885113176,
+        -2.9562157580428114
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.418202136159902,
+      "closest_raw_body": [
+        1.7750000339001417,
+        -2.2249999959021807
+      ],
+      "raw_ahead_min_x_m": 2.875000050291419,
+      "reference_start_body": [
+        -0.00643736705956553,
+        -0.18369588759505218
+      ],
+      "path_t": 9.768191757,
+      "path_reference_max_deviation_m": 0.4868093240073132,
+      "previous_path_capture_m": 0.02724098668057254,
+      "previous_path_heading_deg": 1.3604028164794582,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 15,
+      "grid_t": 15.097658298,
+      "status": "FORWARD_REJOIN_HOLD",
+      "reference_start_index": 66,
+      "rejoin_index": 100,
+      "pose": [
+        -19.353968444740577,
+        2.559505949184709,
+        2.909712840709666
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.3961239060309754,
+      "closest_raw_body": [
+        2.725000048056245,
+        -1.2249999810010195
+      ],
+      "raw_ahead_min_x_m": null,
+      "reference_start_body": [
+        0.03713877270900533,
+        -0.12973140055078103
+      ],
+      "path_t": 14.781034417,
+      "path_reference_max_deviation_m": 0.24271398301208982,
+      "previous_path_capture_m": 0.08896020729378375,
+      "previous_path_heading_deg": -0.3949633097881451,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 20,
+      "grid_t": 20.096366373,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 98,
+      "rejoin_index": 159,
+      "pose": [
+        -20.929628339027964,
+        2.891899897250258,
+        3.035575077744147
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.2902387671636197,
+      "closest_raw_body": [
+        2.5750000458210707,
+        1.2750000562518835
+      ],
+      "raw_ahead_min_x_m": null,
+      "reference_start_body": [
+        0.018418377181731754,
+        0.012820897316738569
+      ],
+      "path_t": 19.772398696,
+      "path_reference_max_deviation_m": 0.0,
+      "previous_path_capture_m": 0.013047886850243716,
+      "previous_path_heading_deg": 0.6288256345675751,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 67.8,
+      "grid_t": 67.800979622,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 470,
+      "rejoin_index": 531,
+      "pose": [
+        -39.11257282173207,
+        5.546536876599045,
+        2.429993945340934
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.1451102272364062,
+      "closest_raw_body": [
+        2.825000049546361,
+        -1.2749999817460775
+      ],
+      "raw_ahead_min_x_m": 1.925000036135316,
+      "reference_start_body": [
+        0.01901310602722927,
+        0.22177356939128184
+      ],
+      "path_t": 67.775835792,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.2207156098349185,
+      "previous_path_heading_deg": 12.646129236239071,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 70,
+      "grid_t": 69.997201808,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 480,
+      "rejoin_index": 541,
+      "pose": [
+        -39.27411807710027,
+        5.927143698131946,
+        2.091852546814863
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.0757837904895393,
+      "closest_raw_body": [
+        3.2250000555068254,
+        -0.7249999735504389
+      ],
+      "raw_ahead_min_x_m": 1.925000036135316,
+      "reference_start_body": [
+        0.020752881290015932,
+        0.23331331665703367
+      ],
+      "path_t": 69.792215003,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.22932905145488347,
+      "previous_path_heading_deg": 18.268064635203213,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 76,
+      "grid_t": 76.094250825,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 501,
+      "rejoin_index": 562,
+      "pose": [
+        -39.31396930502865,
+        6.8530541926903705,
+        1.7413462010006249
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.5743098458619434,
+      "closest_raw_body": [
+        0.8750000204890966,
+        0.47500004433095455
+      ],
+      "raw_ahead_min_x_m": 0.8750000204890966,
+      "reference_start_body": [
+        0.03238059259513722,
+        0.12646979832064248
+      ],
+      "path_t": 75.783963028,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.1304535570308276,
+      "previous_path_heading_deg": 16.561127401625882,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 79.05,
+      "grid_t": 79.086358223,
+      "status": "FORWARD_REJOIN_HOLD",
+      "reference_start_index": 512,
+      "rejoin_index": 605,
+      "pose": [
+        -39.19892938595737,
+        7.626140012439164,
+        1.5148763152166989
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.46427581500463305,
+      "closest_raw_body": [
+        3.1250000540167093,
+        0.2750000413507223
+      ],
+      "raw_ahead_min_x_m": 3.1250000540167093,
+      "reference_start_body": [
+        -0.22647111529472178,
+        0.16777519808896765
+      ],
+      "path_t": 78.785039641,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.06200484679092958,
+      "previous_path_heading_deg": 3.5355111193446467,
+      "previous_tail_clear": false
+    },
+    {
+      "t": 79.2,
+      "grid_t": 79.295265318,
+      "status": "HYBRID_ASTAR_TIMEOUT",
+      "reference_start_index": 519,
+      "rejoin_index": null,
+      "pose": [
+        -39.17912188264887,
+        7.725617753801304,
+        1.5011357915599743
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.4052325138584781,
+      "closest_raw_body": [
+        3.2750000562518835,
+        0.3250000420957804
+      ],
+      "raw_ahead_min_x_m": 3.2750000562518835,
+      "reference_start_body": [
+        0.02006891489221669,
+        0.16036393121794165
+      ],
+      "path_t": 78.785039641,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.07000124363281779,
+      "previous_path_heading_deg": 2.7482371055146677,
+      "previous_tail_clear": false
+    },
+    {
+      "t": 79.3,
+      "grid_t": 79.295265318,
+      "status": "HYBRID_ASTAR_TIMEOUT",
+      "reference_start_index": 519,
+      "rejoin_index": null,
+      "pose": [
+        -39.17912188264887,
+        7.725617753801304,
+        1.5011357915599743
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.4052325138584781,
+      "closest_raw_body": [
+        3.2750000562518835,
+        0.3250000420957804
+      ],
+      "raw_ahead_min_x_m": 3.2750000562518835,
+      "reference_start_body": [
+        0.02006891489221669,
+        0.16036393121794165
+      ],
+      "path_t": 78.785039641,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.07000124363281779,
+      "previous_path_heading_deg": 2.7482371055146677,
+      "previous_tail_clear": false
+    },
+    {
+      "t": 79.8,
+      "grid_t": 79.877203021,
+      "status": "HYBRID_ASTAR_TIMEOUT",
+      "reference_start_index": 524,
+      "rejoin_index": null,
+      "pose": [
+        -39.14525259521012,
+        7.972725585369641,
+        1.5218950322205835
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.7599938005119257,
+      "closest_raw_body": [
+        3.775000063702464,
+        -0.0749999638646841
+      ],
+      "raw_ahead_min_x_m": 3.775000063702464,
+      "reference_start_body": [
+        0.024170788776831334,
+        0.16432535609110907
+      ],
+      "path_t": 79.671108572,
+      "path_reference_max_deviation_m": null
+    },
+    {
+      "t": 80.3,
+      "grid_t": 80.283025309,
+      "status": "REPLANNED",
+      "reference_start_index": 524,
+      "rejoin_index": 585,
+      "pose": [
+        -39.13745121069667,
+        7.986167867271332,
+        1.525586052901514
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.9760663063919137,
+      "closest_raw_body": [
+        3.9750000666826963,
+        0.025000037625432014
+      ],
+      "raw_ahead_min_x_m": 3.9750000666826963,
+      "reference_start_body": [
+        0.010996022011277022,
+        0.17142091279959243
+      ],
+      "path_t": 80.167325196,
+      "path_reference_max_deviation_m": null
+    },
+    {
+      "t": 112.9,
+      "grid_t": 112.871050407,
+      "status": "REPLANNED",
+      "reference_start_index": 774,
+      "rejoin_index": 873,
+      "pose": [
+        -37.748156089161874,
+        20.49712486727657,
+        1.554036678825959
+      ],
+      "static_blocked": [],
+      "live_blocked": [
+        778,
+        779,
+        780,
+        781,
+        782,
+        783,
+        784,
+        785
+      ],
+      "closest_raw_to_reference_m": 0.3342240631351341,
+      "closest_raw_body": [
+        0.325000012293458,
+        0.37500004284083843
+      ],
+      "raw_ahead_min_x_m": 0.325000012293458,
+      "reference_start_body": [
+        -0.08660629577256168,
+        0.08170396223147558
+      ],
+      "path_t": 112.834575102,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.01404751699344463,
+      "previous_path_heading_deg": 0.11162672227182949,
+      "previous_tail_clear": false
+    },
+    {
+      "t": 113.4,
+      "grid_t": 113.401851998,
+      "status": "HYBRID_ASTAR_NO_FEASIBLE_PATH",
+      "reference_start_index": 781,
+      "rejoin_index": null,
+      "pose": [
+        -37.71964931789572,
+        20.71826150095986,
+        1.5620241923424016
+      ],
+      "static_blocked": [],
+      "live_blocked": [
+        783,
+        784,
+        785,
+        786,
+        787,
+        788,
+        789,
+        790,
+        791,
+        792,
+        795,
+        800
+      ],
+      "closest_raw_to_reference_m": 0.3391577541088468,
+      "closest_raw_body": [
+        0.37500001303851604,
+        0.37500004284083843
+      ],
+      "raw_ahead_min_x_m": 0.37500001303851604,
+      "reference_start_body": [
+        0.04041980235937832,
+        0.07070796598144677
+      ],
+      "path_t": 113.310528283,
+      "path_reference_max_deviation_m": null
+    },
+    {
+      "t": 113.9,
+      "grid_t": 113.80209725,
+      "status": "REPLANNED",
+      "reference_start_index": 783,
+      "rejoin_index": 873,
+      "pose": [
+        -37.7211829797943,
+        20.843968777110717,
+        1.5748164291544526
+      ],
+      "static_blocked": [],
+      "live_blocked": [
+        798,
+        799,
+        800,
+        801,
+        802,
+        803,
+        804,
+        805,
+        806
+      ],
+      "closest_raw_to_reference_m": 0.340713615454576,
+      "closest_raw_body": [
+        1.0250000227242708,
+        0.2750000413507223
+      ],
+      "raw_ahead_min_x_m": 0.9250000212341547,
+      "reference_start_body": [
+        0.014759917099187525,
+        0.05685814343591806
+      ],
+      "path_t": 113.840502157,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.0015838285909005872,
+      "previous_path_heading_deg": 0.14098775838195154,
+      "previous_tail_clear": false
+    },
+    {
+      "t": 161,
+      "grid_t": 161.084561414,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 1164,
+      "rejoin_index": 1225,
+      "pose": [
+        -34.987297433446955,
+        39.354906467534036,
+        0.8546781367760287
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.93563045326834,
+      "closest_raw_body": [
+        0.025000007823109627,
+        -0.9249999765306711
+      ],
+      "raw_ahead_min_x_m": 1.7750000339001417,
+      "reference_start_body": [
+        0.07271650056035495,
+        0.21347660255240727
+      ],
+      "path_t": 160.769930013,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.22532621887245566,
+      "previous_path_heading_deg": 17.08508086262884,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 170,
+      "grid_t": 170.090212648,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 1196,
+      "rejoin_index": 1257,
+      "pose": [
+        -33.60297935430333,
+        39.509726708635455,
+        0.17434447941769585
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.0298025907424715,
+      "closest_raw_body": [
+        3.0750000532716513,
+        0.3250000420957804
+      ],
+      "raw_ahead_min_x_m": 2.675000047311187,
+      "reference_start_body": [
+        0.06308551482676082,
+        0.11385632409977307
+      ],
+      "path_t": 169.779602493,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.12681511724447142,
+      "previous_path_heading_deg": 15.930775187546056,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 265.2,
+      "grid_t": 265.286647266,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 2040,
+      "rejoin_index": 2101,
+      "pose": [
+        8.064594174580806,
+        34.76708816768275,
+        -0.663298293849494
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.1673551798871504,
+      "closest_raw_body": [
+        0.07500000856816769,
+        -1.3749999832361937
+      ],
+      "raw_ahead_min_x_m": 1.8750000353902578,
+      "reference_start_body": [
+        -0.005558512566779383,
+        0.2351490046889952
+      ],
+      "path_t": 264.787677931,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.22832629820731087,
+      "previous_path_heading_deg": 13.935687225372671,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 270,
+      "grid_t": 270.086432758,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 2063,
+      "rejoin_index": 2124,
+      "pose": [
+        8.26593295015177,
+        33.99424662597686,
+        -1.2719833287509834
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.044640211093799,
+      "closest_raw_body": [
+        2.2250000406056643,
+        -1.8749999906867743
+      ],
+      "raw_ahead_min_x_m": 2.925000051036477,
+      "reference_start_body": [
+        0.13291805126750109,
+        0.18880439981573946
+      ],
+      "path_t": 269.784885479,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.22637920653534305,
+      "previous_path_heading_deg": 23.790162846039628,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 351,
+      "grid_t": 351.07427081,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 2747,
+      "rejoin_index": 2808,
+      "pose": [
+        3.9246250194149024,
+        0.46211330917141963,
+        -2.303472791172287
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 0.9417234437193434,
+      "closest_raw_body": [
+        1.0250000227242708,
+        -2.474999999627471
+      ],
+      "raw_ahead_min_x_m": 2.4250000435858965,
+      "reference_start_body": [
+        0.09026840329812749,
+        0.14952114272451955
+      ],
+      "path_t": 350.794409201,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.1726615578408298,
+      "previous_path_heading_deg": 22.405109638380605,
+      "previous_tail_clear": true
+    },
+    {
+      "t": 365,
+      "grid_t": 365.084190103,
+      "status": "REFERENCE_CLEAR",
+      "reference_start_index": 2791,
+      "rejoin_index": 2852,
+      "pose": [
+        1.8300608807759726,
+        0.5395720032716451,
+        -2.9487880159612754
+      ],
+      "static_blocked": [],
+      "live_blocked": [],
+      "closest_raw_to_reference_m": 1.3499649407782346,
+      "closest_raw_body": [
+        2.5750000458210707,
+        -2.0249999929219484
+      ],
+      "raw_ahead_min_x_m": 4.175000069662929,
+      "reference_start_body": [
+        0.04657559702128292,
+        0.17040503251224645
+      ],
+      "path_t": 364.799426923,
+      "path_reference_max_deviation_m": null,
+      "previous_path_capture_m": 0.17655071832217686,
+      "previous_path_heading_deg": 17.22868569782548,
+      "previous_tail_clear": true
+    }
+  ],
+  "limitations": [
+    "Snapshots use nearest recorded grid and planner/control status; arrival timing approximates callback input, not exact in-process state.",
+    "Startup first recorded map arrives at bag 1.288s; earlier trigger that created retained detour is not in this bag.",
+    "Raw occupied cells are scan returns, not classified pedestrians or surveyed obstacle geometry.",
+    "Failure episode durations describe controller stop request, not measured stationary duration.",
+    "Nearest path before sample and TF at grid stamp reconstruct geometry; crop and transform timing can differ from runtime."
+  ]
+}

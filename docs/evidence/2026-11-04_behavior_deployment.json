@@ -1,0 +1,22 @@
+{
+  "status": "DEPLOYED_BUILT_ROS_CHECKS_PASS_FIELD_UNVERIFIED",
+  "workspace": "/home/agilex/competition_forward_rejoin_behavior_20261104_ws",
+  "entry": "forward_rejoin_behavior_050_030_inflation025.launch.py",
+  "archive_sha256": "63c56aeb04efbe9029aaf186cdb54e8e1d3f9bcb66d3b7314846bb5a2f79488c",
+  "remote_archive_hash_matches": true,
+  "manifest_files": 115,
+  "local_and_remote_manifest_integrity": "PASS",
+  "build_packages": 5,
+  "build_seconds": 16.2,
+  "robot_unit_checks": 37,
+  "recorded_cases": "PASS",
+  "real_ros_failure_injection": "PASS",
+  "isolated_ros_guard_expiry_and_recovery": "PASS",
+  "domain": 94,
+  "localhost_only": true,
+  "test_cmd_vel_publishers": 0,
+  "tests_cleaned_up": true,
+  "real_route_enabled_by_agent": false,
+  "parent_workspace_retained": true,
+  "parent_runtime_files_matched": 57
+}

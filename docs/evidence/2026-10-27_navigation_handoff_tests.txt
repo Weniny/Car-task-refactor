@@ -1,0 +1,32 @@
+test_controller_alone_does_not_require_recorder (__main__.RouteCommandTests) ... ok
+test_missing_ack_disarms_and_does_not_repeat_true (__main__.RouteCommandTests) ... Unconfirmed start: route_enable=false sent; confirm physical stop.
+ok
+test_status_observation_sends_no_command (__main__.RouteCommandTests) ... ok
+test_stop_waits_for_new_stationary_feedback (__main__.RouteCommandTests) ... ok
+test_unrelated_subscriber_cannot_satisfy_controller_gate (__main__.RouteCommandTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 10.280s
+
+OK
+Starting >>> rebuild_bringup
+Finished <<< rebuild_bringup [4.10s]
+
+Summary: 1 package finished [4.47s]
+Arguments (pass arguments as '<name>:=<value>'):
+
+    'map_yaml':
+        no description given
+        (default: '/home/agilex/competition_rebuild_ws/maps/indoor_manual_final/map.yaml')
+
+    'rviz':
+        no description given
+        (default: 'true')
+
+    'rviz_config':
+        Navigation view with reference, local and executed paths.
+        (default: PathJoinSubstitution('FindPackageShare(pkg='rebuild_bringup'), 'rviz', 'navigation_debug_view.rviz''))
+
+    'autostart':
+        Manage map_server lifecycle inside this launch.
+        (default: 'true')

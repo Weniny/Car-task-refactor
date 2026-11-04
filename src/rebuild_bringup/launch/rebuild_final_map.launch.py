@@ -1,4 +1,4 @@
-"""One-command viewer for the manually finalized indoor map."""
+"""Static map server with a configurable navigation viewer."""
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
@@ -12,9 +12,7 @@ def generate_launch_description():
     map_yaml = LaunchConfiguration("map_yaml")
     start_rviz = LaunchConfiguration("rviz")
     autostart = LaunchConfiguration("autostart")
-    rviz_config = PathJoinSubstitution(
-        [FindPackageShare("rebuild_bringup"), "rviz", "final_map_view.rviz"]
-    )
+    rviz_config = LaunchConfiguration("rviz_config")
 
     return LaunchDescription(
         [
@@ -26,6 +24,13 @@ def generate_launch_description():
                 ),
             ),
             DeclareLaunchArgument("rviz", default_value="true"),
+            DeclareLaunchArgument(
+                "rviz_config",
+                default_value=PathJoinSubstitution(
+                    [FindPackageShare("rebuild_bringup"), "rviz", "navigation_debug_view.rviz"]
+                ),
+                description="Navigation view with reference, local and executed paths.",
+            ),
             DeclareLaunchArgument(
                 "autostart",
                 default_value="true",

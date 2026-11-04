@@ -668,6 +668,14 @@ class HybridAStarPlanner:
             )
         )
 
+    def connect_forward(self, start: PathPoint, goal: PathPoint):
+        """Try a short forward-only bridge without a lattice search."""
+        dx, dy = goal.x-start.x, goal.y-start.y
+        if (dx*math.cos(start.yaw)+dy*math.sin(start.yaw) <= 0.0
+                or dx*math.cos(goal.yaw)+dy*math.sin(goal.yaw) <= 0.0):
+            return None
+        return self._connect_smooth_exact_goal(start, goal)
+
     def _connect_smooth_exact_goal(
         self,
         start: PathPoint,

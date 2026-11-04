@@ -1,0 +1,97 @@
+{
+  "before": {
+    "run": "retest_full_loop_050straight_030turn_20261027_212854",
+    "first_enabled_s": 14.774640025,
+    "first_end_index_s": 448.569951343,
+    "enabled_to_end_index_s": 433.795311318,
+    "max_lateral_error_m": 0.43207675776330307,
+    "max_heading_error_deg": 23.752600329116877,
+    "safety_duration_s": {
+      "SAFE_HOLD": 22.966680731999993,
+      "SAFE_ACTIVE": 351.267288915,
+      "SAFE_LIMITED": 19.848244544000025,
+      "SAFE_RECOVERY": 98.52220630800001
+    },
+    "reason_duration_s": {
+      "controller_not_tracking": 6.972070253000018,
+      "acceleration_limited": 32.786571705000014,
+      "tracking_recovery": 98.52220630800001,
+      "motion_mode_transition": 4.271565233999937,
+      "motion_mode_transition_timeout": 0.4620747150000142,
+      "curvature_limited": 7.695177464000025,
+      "lateral_error_persistent": 15.53253576399996
+    },
+    "mode_counts_at_status_samples": {
+      "0": 9755,
+      "2": 97
+    },
+    "stationary_episodes_ge_1s": [
+      {
+        "t": 16.959959909,
+        "duration": 1.4597901610000008,
+        "progress": 1
+      },
+      {
+        "t": 171.524210406,
+        "duration": 15.395177934000003,
+        "progress": 1180
+      },
+      {
+        "t": 298.421166739,
+        "duration": 6.097940927000025,
+        "progress": 2062
+      },
+      {
+        "t": 457.076257346,
+        "duration": 50.30280317800003,
+        "progress": 3108
+      }
+    ],
+    "route_events": [
+      {
+        "t": 14.735039391,
+        "enabled": true
+      }
+    ]
+  },
+  "after": {
+    "run": "retest_full_loop_050straight_030turn_20261102_194510_197278985",
+    "first_enabled_s": 4.41550078,
+    "first_end_index_s": 388.516026552,
+    "enabled_to_end_index_s": 384.100525772,
+    "max_lateral_error_m": 0.2910349349623023,
+    "max_heading_error_deg": 32.0379363134929,
+    "safety_duration_s": {
+      "SAFE_HOLD": 0.05242767799999992,
+      "SAFE_ACTIVE": 324.01521462499994,
+      "SAFE_LIMITED": 15.462751964999946,
+      "SAFE_RECOVERY": 70.17912831900007
+    },
+    "reason_duration_s": {
+      "controller_not_tracking": 0.05242767799999992,
+      "acceleration_limited": 19.30122510099997,
+      "tracking_recovery": 70.17912831900007
+    },
+    "mode_counts_at_status_samples": {
+      "0": 8195
+    },
+    "stationary_episodes_ge_1s": [
+      {
+        "t": 396.725045629,
+        "duration": 17.39997773799996,
+        "progress": 3108
+      }
+    ],
+    "route_events": [
+      {
+        "t": 4.349051298,
+        "enabled": true
+      },
+      {
+        "t": 414.110277187,
+        "enabled": false
+      }
+    ]
+  }
+}
+LIVE_STOP_FEEDBACK {"/cmd_vel": [0.0, 0.0, 0.0], "/odom": [0.0, 0.0, 0.0], "/cmd_vel_safe": [0.0, 0.0, 0.0]}

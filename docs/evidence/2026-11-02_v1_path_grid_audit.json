@@ -1,0 +1,131 @@
+{
+  "run": "/home/agilex/competition_rebuild_ws/log/retest_obstacle_v1_050_030_20261102_204219_552220490",
+  "note": "Path vs nearest preceding/current grid at grid timestamp; inputs may differ from planning callback. Overlap is geometric evidence, not proof of collision in the exact planner snapshot.",
+  "counts": {
+    "new_path_checked": 162,
+    "map_update_allowed_checked": 400,
+    "map_update_stop_checked": 385,
+    "map_update_allowed_overlap": 65,
+    "new_path_overlap": 10,
+    "map_update_stop_overlap": 245
+  },
+  "examples": {
+    "map_update_allowed": {
+      "t": 26.87250513,
+      "status": {
+        "status": "REPLANNED",
+        "costmap_frame": "body",
+        "docking_mode": false,
+        "final_obstacle_mode": false,
+        "stop_requested": false,
+        "obstacle_age_s": 0.03407621383666992,
+        "obstacle_header_age_s": 0.0807027816772461,
+        "odom_age_s": 0.037081241607666016,
+        "planning_time_ms": 181.4354510006524,
+        "obstacle_count": 1458,
+        "path_point_count": 49,
+        "reference_start_index": 30,
+        "rejoin_index": 121,
+        "planning_grid_cell_count": 12160,
+        "reference_priority_mode": false,
+        "docking_context_ref": null,
+        "docking_departure_context": false,
+        "docking_filtered_obstacle_count": 0
+      },
+      "path_stamp": 1793623380.1787877,
+      "grid_stamp": 1793623380.2174315,
+      "hit_count": 5,
+      "first_hit": {
+        "x": -21.48889060248375,
+        "y": 3.207682181809777,
+        "body_x": 3.824037200781235,
+        "body_y": -0.7894190034507838,
+        "occupancy": 50
+      }
+    },
+    "new_path": {
+      "t": 30.115780651,
+      "status": {
+        "status": "DETOUR_CONTINUE",
+        "costmap_frame": "body",
+        "docking_mode": false,
+        "final_obstacle_mode": false,
+        "stop_requested": false,
+        "obstacle_age_s": 0.10769319534301758,
+        "obstacle_header_age_s": 0.2535402774810791,
+        "odom_age_s": 0.010755300521850586,
+        "planning_time_ms": 13.912962999711453,
+        "obstacle_count": 1537,
+        "path_point_count": 42,
+        "reference_start_index": 39,
+        "rejoin_index": 119,
+        "planning_grid_cell_count": 12080,
+        "reference_priority_mode": false,
+        "docking_context_ref": null,
+        "docking_departure_context": false,
+        "docking_filtered_obstacle_count": 0
+      },
+      "path_stamp": 1793623383.492518,
+      "grid_stamp": 1793623383.4178672,
+      "hit_count": 34,
+      "first_hit": {
+        "x": -21.083152497523418,
+        "y": 3.0820096271817934,
+        "body_x": 2.9636034623951293,
+        "body_y": -0.6897756614837658,
+        "occupancy": 50
+      }
+    },
+    "map_update_stop": {
+      "t": 46.870848432,
+      "status": {
+        "status": "HYBRID_ASTAR_NO_FEASIBLE_PATH",
+        "costmap_frame": "body",
+        "docking_mode": false,
+        "final_obstacle_mode": false,
+        "stop_requested": true,
+        "detail": "hybrid_astar found no forward pose-constrained path from (-20.902, 2.892, 2.895) to (-24.922, 3.348, 3.025)",
+        "rejoin_attempts": [
+          {
+            "rejoin_index": 178,
+            "goal": [
+              -24.9218,
+              3.3481
+            ],
+            "timeout_s": null,
+            "error_type": "GridPlanningError",
+            "detail": "hybrid_astar found no forward pose-constrained path from (-20.902, 2.892, 2.895) to (-24.922, 3.348, 3.025)",
+            "elapsed_ms": 1.6892209996512975
+          },
+          {
+            "rejoin_index": 138,
+            "goal": [
+              -22.9356,
+              3.1146
+            ],
+            "timeout_s": 0.1,
+            "error_type": "GridPlanningError",
+            "detail": "hybrid_astar found no forward pose-constrained path from (-20.902, 2.892, 2.895) to (-22.936, 3.115, 3.025)",
+            "elapsed_ms": 1.6444220000266796
+          }
+        ],
+        "obstacle_age_s": 0.10134768486022949,
+        "odom_age_s": 0.009971141815185547,
+        "docking_departure_context": false,
+        "docking_filtered_obstacle_count": 0
+      },
+      "path_stamp": 1793623399.5087159,
+      "grid_stamp": 1793623400.2176533,
+      "hit_count": 1,
+      "first_hit": {
+        "x": -21.393292041037984,
+        "y": 3.0651040876885665,
+        "body_x": 0.4598591944485171,
+        "body_y": -0.04310087220322499,
+        "occupancy": 50
+      }
+    }
+  },
+  "tf_lookup_failures": 0,
+  "max_grid_occupied_cells": 4453
+}

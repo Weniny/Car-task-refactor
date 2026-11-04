@@ -239,8 +239,9 @@ class SafetySupervisor:
         if avoidance_limit is not None and bounded_speed > avoidance_limit:
             bounded_speed = avoidance_limit
             reasons.append("avoidance_speed_limited")
-        if avoidance_limit is not None and speed > 1e-12 and bounded_speed < speed:
-            # Preserve curvature under obstacle limiting and acceleration ramp-up.
+        if speed > 1e-12 and bounded_speed < speed:
+            # Every speed reduction must preserve the requested turn radius,
+            # including tracking recovery and acceleration from a stop.
             yaw_rate *= bounded_speed / speed
 
         max_yaw_rate = abs(bounded_speed) / self._limits.min_turning_radius_m

@@ -1,0 +1,401 @@
+{
+  "id": "verified_050_030_20261102_reconstructed",
+  "status": "FOR_OFFLINE_ANALYSIS_ONLY",
+  "limits": [
+    "Source reconstructed from git and pre-V1 backups, not a complete binary image of the running robot.",
+    "No automatic deployment or launch; original launch contains absolute live workspace paths.",
+    "V1/V2/V3 implementations excluded from reconstruction."
+  ],
+  "files": {
+    "src/competition_control/README.md": {
+      "sha256": "046fa960a4684f15b1393f44a8f44cf6763eb8e0646aab2dba92c0202ca33115",
+      "bytes": 558,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/__init__.py": {
+      "sha256": "9aff1d4ec4abac11540b34d75ce6cfd069f35cc8c5dd9e97ebbb6d201f8d7041",
+      "bytes": 58,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/local_plan_continuity.py": {
+      "sha256": "74287c17fe2c2f852febc05a561a436eecbf8aa262cf63cdeb974a4fb6e21367",
+      "bytes": 7454,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/mission_checkpoints.py": {
+      "sha256": "1e012d0faae3d803aaccf83a34b0bd2b914b21420b03a107c265513643fa6774",
+      "bytes": 3885,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/mission_markers.py": {
+      "sha256": "57afb4b4b0ac637205d65bfb3ea4c73e8426aecfc42044aa08b686898cdd29ff",
+      "bytes": 4043,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/mission_speed_zones.py": {
+      "sha256": "958bcbcc4806f88e361eb4093570dced2c5da8b192679a04503ccfd717dcec9b",
+      "bytes": 14193,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/mppi_control_node.py": {
+      "sha256": "49a14b1c81c465eaef6922953f32f7bf55f711628026291175938e5de8e7ed36",
+      "bytes": 74079,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/mppi_controller.py": {
+      "sha256": "9b5fe4d90b0f5db27ae33aa7c805915cc31efb6fa76d867f93825d3e5578d3b6",
+      "bytes": 26917,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/precision_docking.py": {
+      "sha256": "a9c4b8f17aee8b161de16ed3a20dfa060ef107a7d762366f2fecdea86bb3cf4f",
+      "bytes": 36373,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/ranger_twist_adapter.py": {
+      "sha256": "e72d78a39c400b81894183ad3688ae1a51d98f7f7bae88aa43bda22135e826e9",
+      "bytes": 2200,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/ranger_twist_adapter_node.py": {
+      "sha256": "2c06f706af2df45e2defaaca885c717d22092eed53d7eae6559950d2834bd3ab",
+      "bytes": 2518,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/segmented_route_state_machine.py": {
+      "sha256": "890f1704d1bdad20f5b6629c6c76c8a4a8b4ff26a4234706c7583f0575ce6d9a",
+      "bytes": 11694,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/competition_control/shelf_alignment.py": {
+      "sha256": "81316c967ead6c03ed4d882597019d60ed981a6610240876ef49b50c01648d7c",
+      "bytes": 9232,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/package.xml": {
+      "sha256": "69f4ee1c0e78ef4539ba5f4d33e834e6aa1908f44ff77242df9d25cd5771a4c5",
+      "bytes": 827,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/resource/competition_control": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/setup.cfg": {
+      "sha256": "8084fdf89059eeda34f886a81587f50137fc0e7c59a967d2227bf659ef0db1b3",
+      "bytes": 107,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_control/setup.py": {
+      "sha256": "1a9f53012a2f14f5badea4169f8673deff49860fd838f3bc3daf577e91c40000",
+      "bytes": 767,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/README.md": {
+      "sha256": "1ff98b88e8964d73199ab45cffd25d2a66565bc5804a8a2886f94927936d51e2",
+      "bytes": 248,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/competition_localization/__init__.py": {
+      "sha256": "3cb3c5fd42e588d5dc6a4066ba7d43842df64226dc88f7d9433df96818ed19e6",
+      "bytes": 53,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/competition_localization/fastlio_anchor_node.py": {
+      "sha256": "1c4ab6c329a379148aab701b8fa7499484b7582767271de40e28545fd9ab415c",
+      "bytes": 5921,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/competition_localization/planar_transform.py": {
+      "sha256": "4b1a66bf2bdd949cc720c7edf0276db1edb74db79456ce1bf6c6bcfbb32e8381",
+      "bytes": 1208,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/competition_localization/state_estimator.py": {
+      "sha256": "e3bc26f87ffdb176276e0f2961dab877e88e1af32306600928cdab2ea38b4e1f",
+      "bytes": 7457,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/package.xml": {
+      "sha256": "cebe2d9ce46b53cce11d86920bc9a9a3235de7b7546a6509195e04718b23f737",
+      "bytes": 523,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/resource/competition_localization": {
+      "sha256": "e372a84265d9686d617d21f2b8cbe08ade897838c25da47c2a2ffe90d5804b5d",
+      "bytes": 25,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/setup.cfg": {
+      "sha256": "a49fe5ee25cb8294c94d9a4e08f1b6d83423aff6891d10bbf40d32dc0deba183",
+      "bytes": 117,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_localization/setup.py": {
+      "sha256": "2327b362669d4b89b3d3443d2a934ac4374510bc95f4d3b4c9ca5ca9228c0ccc",
+      "bytes": 683,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/README.md": {
+      "sha256": "0b42eb68bd5c95b8c9c22ab7347ef490dab48f4a9a03ea263497890d466ab066",
+      "bytes": 905,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/__init__.py": {
+      "sha256": "b3ecd24e086b6c0982afc660e8e2567e4fae5783b7978d4b91b898ace68d900a",
+      "bytes": 55,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/artifact_provenance.py": {
+      "sha256": "8c14b56c103f288f014a1e8460ca4d5b90554088ddbe80aee1100bfffe43db1b",
+      "bytes": 3745,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/footprint_checker.py": {
+      "sha256": "668aab694fc2a9d82fa0bc2d243a08e5556a6a3b0dc1462439b6657358741287",
+      "bytes": 10341,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/global_path_node.py": {
+      "sha256": "a9036acef1d02c729164588e71970e423b2cd1257fc404350aaa435fbabd70ca",
+      "bytes": 4221,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/hybrid_astar_planner.py": {
+      "sha256": "0e09df3445b2af4bf6f1d8a595d917524a88af1f98dd2ed57b25fb8ea304777e",
+      "bytes": 38685,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/local_replanner_node.py": {
+      "sha256": "f576905511e852cef4d3459333f278bcad23f8d99686934d3867c6242492de26",
+      "bytes": 44971,
+      "source": "robot pre-V1 backup 20261102_203130"
+    },
+    "src/competition_planning/competition_planning/local_trajectory_planner.py": {
+      "sha256": "b57884c76b2a4bad73041daf9443572299fc8ee1e144ccb7f33b74d1b1468c49",
+      "bytes": 66415,
+      "source": "robot pre-V1 backup 20261102_203130"
+    },
+    "src/competition_planning/competition_planning/occupancy_grid_planner.py": {
+      "sha256": "08599f0076bcbf73f124cdd42b4a79c1ec097601f94c520e485c721cf5872e4d",
+      "bytes": 14748,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/offline_continuous_trajectory.py": {
+      "sha256": "038091c6ba48520e91d22daef2d725b87d4ca8df1cc3fcd681b20a47f5d95375",
+      "bytes": 4439,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/offline_global_plan.py": {
+      "sha256": "3f6856fee1c30403ea364aa0911c0a34eea740e94177ac348c82a7bc8a08aaa9",
+      "bytes": 2328,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/offline_optimized_trajectory.py": {
+      "sha256": "3f91ba01b575e6dbc21f55cc01959d7f8cbaa91f3300495072e34143fb4b3a04",
+      "bytes": 8953,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/offline_retime_continuous_trajectory.py": {
+      "sha256": "d158fc11053aa316a8fbeb07bc47a1e19c5f27d1cf5379ae59de543fda816a4f",
+      "bytes": 2268,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/semantic_planner.py": {
+      "sha256": "282480f36660abc24e2ec86efd935788aa3a0a56be19163e4cbea02abac83ca5",
+      "bytes": 40724,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/trajectory_parameterizer.py": {
+      "sha256": "2fb0619c54d55a2d3ef659e44799f126fdd3a4a7708e8e7dd96bab5c3e2f67b1",
+      "bytes": 47742,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/competition_planning/trajectory_smoother.py": {
+      "sha256": "e2bbd08c3374cc0e302c332162d2afc6653e634d55f0bb6126efda033af03982",
+      "bytes": 9865,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/package.xml": {
+      "sha256": "51ca150114a39c0c74ffc665ad991d956690d428407c83ab717b08030d48dc33",
+      "bytes": 734,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/resource/competition_planning": {
+      "sha256": "3ec0a3290349201b4685ef18cd28ff6a5e9f1c258d4b6d5e80d2d84c35eb25dc",
+      "bytes": 21,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/setup.cfg": {
+      "sha256": "74c36acede4d86232facc7bdfa0e44a8ee05510ef285ceaa1d16881def9b4e56",
+      "bytes": 109,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/setup.py": {
+      "sha256": "8a40ef629132f908f1d0e7f374bd5fc425db557df6e60bc79aecb48944b4d9a1",
+      "bytes": 1264,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_planning/test/test_rejoin_candidate.py": {
+      "sha256": "17c0f09f2d95afb788561a528b0acd3b280cae198a1cde4ac561f96c4f037f78",
+      "bytes": 6045,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/README.md": {
+      "sha256": "8f408d8e72ff9d2720cbe9be221ab6e676b27437240e2bf3ad040c8c6c6cfbc9",
+      "bytes": 509,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/competition_safety/__init__.py": {
+      "sha256": "3031068894b8c28876fa90813377a4142c1d5133c454003c71ed96c78ef106d5",
+      "bytes": 57,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/competition_safety/path_aware_proximity.py": {
+      "sha256": "fc08c4db06d94c0ad283f6adf6b972cc382a4c95edbd820d013f1116b0a2f2ff",
+      "bytes": 9607,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/competition_safety/proximity_stop.py": {
+      "sha256": "0d4af1a82585c8db0737f6a7804594613b5b2c1c145421ff2ea4953b22e54d53",
+      "bytes": 9718,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/competition_safety/proximity_stop_node.py": {
+      "sha256": "65f2e3348098614edf5e89ac1ad2911f6026b5f423bfdd5fe5722e4e6e3060a5",
+      "bytes": 26050,
+      "source": "robot pre-V1 backup 20261102_203130"
+    },
+    "src/competition_safety/competition_safety/safety_node.py": {
+      "sha256": "becc0dfdae94d560f689c9186f3861648b6909cb633c81a1aa308fc4d83bfa08",
+      "bytes": 17059,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/competition_safety/shutdown_guard.py": {
+      "sha256": "e5e1af7e91d10ee20f344fb7d0331346dec94c3acb7701b627a803fe14093383",
+      "bytes": 439,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/competition_safety/supervisor.py": {
+      "sha256": "4c18d2c4dd704539b9120f04715aca3c400d6722564c9480ca2e7698c9be88da",
+      "bytes": 17620,
+      "source": "verified curvature-fix deployment payload before successful full-loop"
+    },
+    "src/competition_safety/package.xml": {
+      "sha256": "30c32af136222a2dfa4bd6ac7ddce0ccc7986a33448b065f28b4c257f87c1367",
+      "bytes": 774,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/resource/competition_safety": {
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "bytes": 1,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/setup.cfg": {
+      "sha256": "d0264da68586e55ca8ee8664f194ee223658ca6b39e0d31e6f2b5ede54219ebc",
+      "bytes": 105,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/setup.py": {
+      "sha256": "ad2f86541d7e06361b6284ebd169917a13383248c98f6cd5f91aa44b85d61447",
+      "bytes": 739,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/test/test_avoidance_speed_limit.py": {
+      "sha256": "a1c3ced2a29953ff8740ae0b151410c940500d8b83b365cc2c9b3c8a1e4adbda",
+      "bytes": 3457,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "src/competition_safety/test/test_path_aware_proximity.py": {
+      "sha256": "6af59952efa10399b765896b76a35e91e70f3446473f9014f9ec5fcefb9cedea",
+      "bytes": 4746,
+      "source": "git HEAD a6c3c04; reconstruction, not a complete field snapshot"
+    },
+    "collection_manifest.json": {
+      "sha256": "2a01190bbe6798aaa7bca7077498423e8a28d800ca18992c77310c62dc311f09",
+      "bytes": 4286,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "artifacts/indoor_manual_six_anchor_v3_radius120_050straight_030turn_trajectory.yaml": {
+      "sha256": "ca1f38ed8adf87015d99e42a7669534e3ca8aedb9037e374ed6f7a1fe5585704",
+      "bytes": 448536,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "routes/indoor_manual_six_anchor_v3_radius120_050straight_030turn_loop.yaml": {
+      "sha256": "282ab4bbc9409a882c08ed971360bebcc5c2ab5554cf64e46ed55d9a2c6365f7",
+      "bytes": 1639,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "src/rebuild_bringup/launch/rebuild_navigation_replan_radius120_050straight_030turn_guarded.launch.py": {
+      "sha256": "16cdd63cb9a2f8a6c2202441accdf7016d1c6bbf008e472cb044b1f8225ac558",
+      "bytes": 11797,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "maps/indoor_manual_final/map.pgm": {
+      "sha256": "918a741c2d1e91bf247b6565b9914f7bdb9cc2de226fd161b0c020858409da85",
+      "bytes": 3211971,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "maps/indoor_manual_final/map.yaml": {
+      "sha256": "f46d9dd2eba6ab29f114dd2e8f33a61748a02d94b59b9bba56365df973aecb23",
+      "bytes": 144,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "maps/indoor_manual_final/semantic_map_six_anchor_v3_radius120.yaml": {
+      "sha256": "d1cab2d2cb73389d1797a34309d67b847ef20f1100f4a6141e4bd6348c5172b8",
+      "bytes": 1774,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "log/retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218/mppi.yaml": {
+      "sha256": "d877a5a51a95ee32139c7674490239bf8a05f56bdc151618da9e98db27251047",
+      "bytes": 3289,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "log/retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218/proximity.yaml": {
+      "sha256": "13c7b0a1ea87a215769cd377abf7e3ca6ddf876c889847c857f899bb9c9f8e6c",
+      "bytes": 983,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "log/retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218/recording_qos.yaml": {
+      "sha256": "dcbcde32d0164294ce89644ce75b13c9335be3a51c25f1d9a970d6ecded1446c",
+      "bytes": 268,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "log/retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218/replanner.yaml": {
+      "sha256": "1adf9e32a986a9df6f77277239eea1ef008e9c7c91e53e1b7bd7f2752e4c91d0",
+      "bytes": 3441,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "log/retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218/safety.yaml": {
+      "sha256": "d92271a18218c69ff78b82232a15a5d53775fec7e483253aa40eeb0d8f7b2595",
+      "bytes": 1148,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "config/control/control_params_rebuild_050straight_030turn.yaml": {
+      "sha256": "7739f211ab75916d683520cbc22a0efd28f4792732503b2216138c22ece5df10",
+      "bytes": 2102,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "config/planning/continuous_trajectory_radius120_050straight_030turn.yaml": {
+      "sha256": "241ad6ccb125eeee62459344c37965522732384aca4457aae36889bba99daa48",
+      "bytes": 598,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "config/planning/semantic_lidar_guarded_six_anchor_radius120.yaml": {
+      "sha256": "08d4beee6d3b105c44289aca3714163f018fcda62d30902306b4701f3ee59d7b",
+      "bytes": 343,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    },
+    "config/safety/safety_params_rebuild_050straight_030turn.yaml": {
+      "sha256": "2ada3de80e4bded24fd332cb43f6c1f3adfdff437e349fdd8fdd775e69a99bc0",
+      "bytes": 2195,
+      "source": "robot recorded parameters or artifact hash-verified inputs, collected 20261103"
+    }
+  },
+  "archive": {
+    "path": "output/baselines/verified_050_030_20261102_reconstructed.zip",
+    "sha256": "273832e252ae8d5b47f3e3834d209b5121c6d0d4c63208ced811ca3bbdb46f25",
+    "bytes": 243073
+  }
+}

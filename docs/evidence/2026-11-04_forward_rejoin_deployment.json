@@ -1,0 +1,10 @@
+{
+  "workspace": "/home/agilex/competition_forward_rejoin_20261103_ws",
+  "package_builds": 5,
+  "unit_tests": 16,
+  "software_interface_smoke": "PASS",
+  "hardware_preflight": "PENDING_REAL_INPUTS_AND_LOCALIZATION",
+  "route_enabled": false,
+  "archive_sha256": "534ef232c6e028e5321897371961765557ebe98a71a986a261686d755df78824",
+  "build_log_directory": "/home/agilex/competition_forward_rejoin_20261103_ws/log/build_2026-11-04_11-17-33"
+}

@@ -1,0 +1,308 @@
+{
+  "note": "Approximate snapshots from recorded latest TF, costmap and fresh planner; not full historical ROS callback replay. No collision thresholds reduced.",
+  "snapshots": [
+    {
+      "t": 76.410208515,
+      "recorded_detail": "hybrid_astar found no forward pose-constrained path from (-28.830, 3.912, 2.943) to (-30.086, 3.955, 3.025)",
+      "pose": {
+        "x": -28.826446980835485,
+        "y": 3.9142704307714213,
+        "yaw": 2.943850307220438,
+        "ref_id": null
+      },
+      "nearest_index": 257,
+      "start_navigable": true,
+      "initial_successors": [
+        {
+          "curvature": -0.41666666666666674,
+          "clear": true
+        },
+        {
+          "curvature": 0.0,
+          "clear": true
+        },
+        {
+          "curvature": 0.41666666666666674,
+          "clear": true
+        }
+      ],
+      "replays": {
+        "static_only": {
+          "status": "REFERENCE_CLEAR",
+          "points": 62,
+          "rejoin": 318,
+          "elapsed_ms": 5.815476999487146
+        },
+        "recorded_live": {
+          "error": "hybrid_astar found no forward pose-constrained path from (-28.826, 3.914, 2.944) to (-30.086, 3.955, 3.025)",
+          "attempts": [
+            {
+              "rejoin_index": 318,
+              "goal": [
+                -31.8737,
+                4.1654
+              ],
+              "timeout_s": null,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-28.826, 3.914, 2.944) to (-31.874, 4.165, 3.025)",
+              "elapsed_ms": 0.5527889998120372
+            },
+            {
+              "rejoin_index": 298,
+              "goal": [
+                -30.8806,
+                4.0486
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-28.826, 3.914, 2.944) to (-30.881, 4.049, 3.025)",
+              "elapsed_ms": 0.44082400017941836
+            },
+            {
+              "rejoin_index": 282,
+              "goal": [
+                -30.0861,
+                3.9552
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-28.826, 3.914, 2.944) to (-30.086, 3.955, 3.025)",
+              "elapsed_ms": 0.4146170003878069
+            }
+          ],
+          "elapsed_ms": 28.51131199986412
+        },
+        "obstacle_v1": {
+          "error": "hybrid_astar found no forward pose-constrained path from (-28.826, 3.914, 2.944) to (-32.867, 4.282, 3.025)",
+          "attempts": [
+            {
+              "rejoin_index": 338,
+              "goal": [
+                -32.8668,
+                4.2821
+              ],
+              "timeout_s": null,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-28.826, 3.914, 2.944) to (-32.867, 4.282, 3.025)",
+              "elapsed_ms": 0.467576000119152
+            },
+            {
+              "rejoin_index": 298,
+              "goal": [
+                -30.8806,
+                4.0486
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-28.826, 3.914, 2.944) to (-30.881, 4.049, 3.025)",
+              "elapsed_ms": 0.42111199945793487
+            }
+          ],
+          "elapsed_ms": 21.841036999830976
+        }
+      }
+    },
+    {
+      "t": 185.412339792,
+      "recorded_detail": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.876, 1.375) to (-38.582, 14.109, 1.452)",
+      "pose": {
+        "x": -38.621579825455576,
+        "y": 12.875026019057428,
+        "yaw": 1.375464293660665,
+        "ref_id": null
+      },
+      "nearest_index": 622,
+      "start_navigable": true,
+      "initial_successors": [
+        {
+          "curvature": -0.41666666666666674,
+          "clear": false
+        },
+        {
+          "curvature": 0.0,
+          "clear": false
+        },
+        {
+          "curvature": 0.41666666666666674,
+          "clear": false
+        }
+      ],
+      "replays": {
+        "static_only": {
+          "status": "REFERENCE_CLEAR",
+          "points": 62,
+          "rejoin": 683,
+          "elapsed_ms": 6.3179629996739095
+        },
+        "recorded_live": {
+          "error": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.875, 1.375) to (-38.582, 14.109, 1.452)",
+          "attempts": [
+            {
+              "rejoin_index": 683,
+              "goal": [
+                -38.3689,
+                15.8957
+              ],
+              "timeout_s": null,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.875, 1.375) to (-38.369, 15.896, 1.452)",
+              "elapsed_ms": 0.24783500066405395
+            },
+            {
+              "rejoin_index": 663,
+              "goal": [
+                -38.4871,
+                14.9032
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.875, 1.375) to (-38.487, 14.903, 1.452)",
+              "elapsed_ms": 0.201372999981686
+            },
+            {
+              "rejoin_index": 647,
+              "goal": [
+                -38.5816,
+                14.1091
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.875, 1.375) to (-38.582, 14.109, 1.452)",
+              "elapsed_ms": 0.17513300008431543
+            }
+          ],
+          "elapsed_ms": 28.226006999830133
+        },
+        "obstacle_v1": {
+          "error": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.875, 1.375) to (-38.251, 16.888, 1.452)",
+          "attempts": [
+            {
+              "rejoin_index": 703,
+              "goal": [
+                -38.2507,
+                16.8883
+              ],
+              "timeout_s": null,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.875, 1.375) to (-38.251, 16.888, 1.452)",
+              "elapsed_ms": 0.21193200063862605
+            },
+            {
+              "rejoin_index": 663,
+              "goal": [
+                -38.4871,
+                14.9032
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.622, 12.875, 1.375) to (-38.487, 14.903, 1.452)",
+              "elapsed_ms": 0.18489300055080093
+            }
+          ],
+          "elapsed_ms": 22.652669999843056
+        }
+      }
+    },
+    {
+      "t": 213.414953036,
+      "recorded_detail": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.956, 1.391) to (-38.570, 14.208, 1.452)",
+      "pose": {
+        "x": -38.60941161614949,
+        "y": 12.964743596744768,
+        "yaw": 1.3900252731631644,
+        "ref_id": null
+      },
+      "nearest_index": 624,
+      "start_navigable": true,
+      "initial_successors": [
+        {
+          "curvature": -0.41666666666666674,
+          "clear": false
+        },
+        {
+          "curvature": 0.0,
+          "clear": false
+        },
+        {
+          "curvature": 0.41666666666666674,
+          "clear": false
+        }
+      ],
+      "replays": {
+        "static_only": {
+          "status": "REFERENCE_CLEAR",
+          "points": 62,
+          "rejoin": 685,
+          "elapsed_ms": 6.503687999611429
+        },
+        "recorded_live": {
+          "error": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.965, 1.390) to (-38.570, 14.208, 1.452)",
+          "attempts": [
+            {
+              "rejoin_index": 685,
+              "goal": [
+                -38.3571,
+                15.995
+              ],
+              "timeout_s": null,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.965, 1.390) to (-38.357, 15.995, 1.452)",
+              "elapsed_ms": 0.2362200002608006
+            },
+            {
+              "rejoin_index": 665,
+              "goal": [
+                -38.4752,
+                15.0024
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.965, 1.390) to (-38.475, 15.002, 1.452)",
+              "elapsed_ms": 0.16172600044228602
+            },
+            {
+              "rejoin_index": 649,
+              "goal": [
+                -38.5698,
+                14.2084
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.965, 1.390) to (-38.570, 14.208, 1.452)",
+              "elapsed_ms": 0.1481890003560693
+            }
+          ],
+          "elapsed_ms": 27.97913199992763
+        },
+        "obstacle_v1": {
+          "error": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.965, 1.390) to (-38.239, 16.988, 1.452)",
+          "attempts": [
+            {
+              "rejoin_index": 705,
+              "goal": [
+                -38.2389,
+                16.9875
+              ],
+              "timeout_s": null,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.965, 1.390) to (-38.239, 16.988, 1.452)",
+              "elapsed_ms": 0.1605729994480498
+            },
+            {
+              "rejoin_index": 665,
+              "goal": [
+                -38.4752,
+                15.0024
+              ],
+              "timeout_s": 0.1,
+              "error_type": "GridPlanningError",
+              "detail": "hybrid_astar found no forward pose-constrained path from (-38.609, 12.965, 1.390) to (-38.475, 15.002, 1.452)",
+              "elapsed_ms": 0.14515000020765
+            }
+          ],
+          "elapsed_ms": 21.3858449997133
+        }
+      }
+    }
+  ]
+}

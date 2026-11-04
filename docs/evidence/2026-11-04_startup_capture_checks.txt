@@ -1,0 +1,80 @@
+test_capture_distance_uses_segment_not_nearest_vertex (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_capture_distance_uses_segment_not_nearest_vertex) ... ok
+test_clear_reference_keeps_nominal_goal (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_clear_reference_keeps_nominal_goal) ... ok
+test_far_obstacle_does_not_trigger_early_detour (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_far_obstacle_does_not_trigger_early_detour) ... ok
+test_goal_is_after_blockage_and_clear_run (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_goal_is_after_blockage_and_clear_run) ... ok
+test_no_pre_obstacle_short_goal_when_exit_is_blocked (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_no_pre_obstacle_short_goal_when_exit_is_blocked) ... ok
+test_reject_invalid_intervals (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_reject_invalid_intervals) ... ok
+test_rotated_observation_window_reserves_body_and_tracking_space (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_rotated_observation_window_reserves_body_and_tracking_space) ... ok
+test_second_blockage_does_not_erase_an_earlier_usable_exit (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_second_blockage_does_not_erase_an_earlier_usable_exit) ... ok
+test_segment_leaving_blockage_is_not_counted_as_clear (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_segment_leaving_blockage_is_not_counted_as_clear) ... ok
+test_unobserved_space_is_not_a_free_rejoin (test_forward_rejoin_policy.ForwardRejoinPolicyTests.test_unobserved_space_is_not_a_free_rejoin) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.002s
+
+OK
+
+test_braking_limit_satisfies_budget (test_behavior_guard.BehaviorGuardTests.test_braking_limit_satisfies_budget) ... ok
+test_clear_reference_discards_prestart_detour_after_two_observations (test_behavior_guard.BehaviorGuardTests.test_clear_reference_discards_prestart_detour_after_two_observations) ... ok
+test_controller_rechecks_remaining_distance_as_vehicle_advances (test_behavior_guard.BehaviorGuardTests.test_controller_rechecks_remaining_distance_as_vehicle_advances) ... ok
+test_current_blockage_prevents_prestart_clear (test_behavior_guard.BehaviorGuardTests.test_current_blockage_prevents_prestart_clear) ... ok
+test_far_blockage_yields_checked_prefix_and_retains_original_goal (test_behavior_guard.BehaviorGuardTests.test_far_blockage_yields_checked_prefix_and_retains_original_goal) ... ok
+test_large_capture_offset_does_not_bridge_to_old_path (test_behavior_guard.BehaviorGuardTests.test_large_capture_offset_does_not_bridge_to_old_path) ... ok
+test_moving_route_does_not_discard_detour (test_behavior_guard.BehaviorGuardTests.test_moving_route_does_not_discard_detour) ... ok
+test_near_blockage_cannot_fit_stopping_distance (test_behavior_guard.BehaviorGuardTests.test_near_blockage_cannot_fit_stopping_distance) ... ok
+test_no_history_never_creates_a_fake_prefix (test_behavior_guard.BehaviorGuardTests.test_no_history_never_creates_a_fake_prefix) ... ok
+test_nonfinite_guard_and_braking_inputs_rejected (test_behavior_guard.BehaviorGuardTests.test_nonfinite_guard_and_braking_inputs_rejected) ... ok
+test_observation_boundary_caps_prefix (test_behavior_guard.BehaviorGuardTests.test_observation_boundary_caps_prefix) ... ok
+test_prefix_ends_at_first_bad_segment_even_if_route_is_clear_beyond (test_behavior_guard.BehaviorGuardTests.test_prefix_ends_at_first_bad_segment_even_if_route_is_clear_beyond) ... ok
+test_projection_does_not_count_path_behind_vehicle (test_behavior_guard.BehaviorGuardTests.test_projection_does_not_count_path_behind_vehicle) ... ok
+test_stale_or_mismatched_ticket_holds (test_behavior_guard.BehaviorGuardTests.test_stale_or_mismatched_ticket_holds) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.417s
+
+OK
+
+test_actual_rear_pose_builds_small_capture_with_correct_tangents (test_startup_capture.StartupCaptureTests.test_actual_rear_pose_builds_small_capture_with_correct_tangents) ... ok
+test_initial_capture_collision_is_checked_even_if_reference_is_clear (test_startup_capture.StartupCaptureTests.test_initial_capture_collision_is_checked_even_if_reference_is_clear) ... ok
+test_large_lateral_error_does_not_replace_a_detour (test_startup_capture.StartupCaptureTests.test_large_lateral_error_does_not_replace_a_detour) ... ok
+test_moving_cycle_keeps_capture_and_does_not_return_to_old_curve (test_startup_capture.StartupCaptureTests.test_moving_cycle_keeps_capture_and_does_not_return_to_old_curve) ... ok
+test_obstacle_on_nominal_reference_does_not_trigger_clear_reset (test_startup_capture.StartupCaptureTests.test_obstacle_on_nominal_reference_does_not_trigger_clear_reset) ... ok
+test_old_curve_replaced_after_two_checked_cycles (test_startup_capture.StartupCaptureTests.test_old_curve_replaced_after_two_checked_cycles) ... ok
+test_outside_existing_start_gate_is_not_relaxed (test_startup_capture.StartupCaptureTests.test_outside_existing_start_gate_is_not_relaxed) ... ok
+test_rear_position_is_not_reported_as_large_lateral_error (test_startup_capture.StartupCaptureTests.test_rear_position_is_not_reported_as_large_lateral_error) ... ok
+test_rotated_map_frame_has_equivalent_capture (test_startup_capture.StartupCaptureTests.test_rotated_map_frame_has_equivalent_capture) ... ok
+test_short_goal_that_cannot_fit_capture_is_rejected (test_startup_capture.StartupCaptureTests.test_short_goal_that_cannot_fit_capture_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.117s
+
+OK
+
+test_controller_drops_cleared_geometry_and_resets (__main__.CandidateIntegration.test_controller_drops_cleared_geometry_and_resets) ... ok
+test_current_curvature_reaches_first_search_node (__main__.CandidateIntegration.test_current_curvature_reaches_first_search_node) ... ok
+test_dense_collision_check_rejects_obstacle_between_waypoints (__main__.CandidateIntegration.test_dense_collision_check_rejects_obstacle_between_waypoints) ... ok
+test_no_reference_handoff_while_car_is_laterally_offset (__main__.CandidateIntegration.test_no_reference_handoff_while_car_is_laterally_offset) ... ok
+test_odom_retains_curvature_at_stop_and_bounds_noise (__main__.CandidateIntegration.test_odom_retains_curvature_at_stop_and_bounds_noise) ... ok
+test_stop_clears_displayed_path_before_publishing_stop (__main__.CandidateIntegration.test_stop_clears_displayed_path_before_publishing_stop) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.147s
+
+OK
+
+test_clear_path_removes_tickets_pending_path_and_geometry (__main__.Callbacks.test_clear_path_removes_tickets_pending_path_and_geometry) ... ok
+test_guard_before_path_keeps_previous_pair_then_accepts (__main__.Callbacks.test_guard_before_path_keeps_previous_pair_then_accepts) ... ok
+test_guard_expiry_holds_even_with_fresh_geometry (__main__.Callbacks.test_guard_expiry_holds_even_with_fresh_geometry) ... ok
+test_path_before_guard_keeps_previous_pair_then_accepts (__main__.Callbacks.test_path_before_guard_keeps_previous_pair_then_accepts) ... ok
+test_prefix_cannot_release_a_car_that_has_already_held (__main__.Callbacks.test_prefix_cannot_release_a_car_that_has_already_held) ... ok
+test_stale_controller_state_or_moving_odom_cannot_reset_detour (__main__.Callbacks.test_stale_controller_state_or_moving_odom_cannot_reset_detour) ... ok
+test_wrong_guard_cannot_release_pending_path (__main__.Callbacks.test_wrong_guard_cannot_release_pending_path) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.626s
+
+OK
+
+{"status": "PASS", "startup": {"old_status": "FORWARD_REJOIN_HOLD", "new_status": "REFERENCE_CLEAR", "old_path_max_deviation_m": 0.4868093240073132, "new_matches_reference": true}, "far_failure": {"status": "VALIDATED_PREFIX", "clear_distance_m": 3.594174031887513, "guard_speed_limit_mps": 0.5, "original_goal_retained": 605}, "near_failure": {"stop_retained": true}, "limitations": ["Frozen adjacent recorded snapshots, not exact callback replay or a field motion test.", "Uses the existing inflated point collision model; no new rectangular footprint proof."]}
+
+{"status": "PASS", "outcome": "PASSED_START_SECTION", "recorded_pose": [-15.79161187620295, 2.309142673908845, 3.1344084062529074], "old_path_deviation_m": 0.38112330988609455, "new_initial_path_lateral_max_m": 0.04000095919618718, "new_initial_path_curvature_max_1pm": 0.11076452659161168, "model_s": 14.9, "max_model_lateral_m": 0.038831229209198945, "hold_s": 0.0}

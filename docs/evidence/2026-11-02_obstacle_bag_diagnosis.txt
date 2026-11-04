@@ -1,0 +1,47 @@
+45904 /home/agilex/agilex_ws/install/ranger_base/lib/ranger_base/ranger_base_node --ros-args --params-file /tmp/launch_params_hkf7rdfg
+bag duration: 275.3s
+route enabled: 24.0..266.4s (242.4s), progress 30..869
+controller: [('TRACKING', 3065), ('LOCAL_PLANNER_STOP', 1785)]
+replanner: [('REFERENCE_CLEAR', 2361), ('HYBRID_ASTAR_NO_FEASIBLE_PATH', 1787), ('REPLANNED', 526), ('REPLANNED_SHORT_REJOIN', 108), ('SAFE_PATH_HOLD', 68)]
+safety: [('SAFE_ACTIVE', 2434), ('SAFE_HOLD', 1792), ('SAFE_RECOVERY', 499), ('SAFE_LIMITED', 125)]
+safety reasons: [('controller_not_tracking', 1792), ('tracking_recovery', 499), ('acceleration_limited', 141)]
+stop samples: local=1787/4850, avoidance=0/4850
+planning time: median=18.4ms p95=424.9ms max=487.2ms
+replanner failure details: [(('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'goal pose (-37.187, 25.821) is blocked'), 3), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-38.621, 12.886, 1.375) to (-38.576, 14.159, 1.452)'), 2), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'goal pose (-38.582, 14.109) is blocked'), 2), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-38.613, 12.953, 1.389) to (-38.570, 14.208, 1.452)'), 2), (('HYBRID_ASTAR_NO_FEASIBLE_PATH', 'hybrid_astar found no forward pose-constrained path from (-21.308, 2.745, -2.981) to (-22.489, 3.062, 3.025)'), 1)]
+
+10s bins (time, progress, safe/odom speed, local/avoidance stop %, replan/safety):
+  24.0..  34.0   30..  43 safe=0.220 odom=0.213 raw=0.222 err=0.14m/8.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+  34.0..  44.0   43.. 108 safe=0.328 odom=0.336 raw=0.326 err=0.07m/5.7deg stop=11/0% REPLANNED/SAFE_ACTIVE
+  44.0..  54.0  109.. 126 safe=0.090 odom=0.086 raw=0.130 err=0.31m/20.2deg stop=14/0% REFERENCE_CLEAR/SAFE_RECOVERY
+  54.0..  64.0  126.. 181 safe=0.289 odom=0.284 raw=0.450 err=0.22m/5.4deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+  64.0..  74.0  181.. 257 safe=0.375 odom=0.381 raw=0.373 err=0.07m/5.4deg stop=16/0% REPLANNED/SAFE_ACTIVE
+  74.0..  84.0  257.. 258 safe=0.002 odom=0.002 raw=0.002 err=0.02m/0.2deg stop=86/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+  84.0..  94.0  258.. 258 safe=0.001 odom=0.001 raw=0.001 err=0.02m/0.2deg stop=86/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+  94.0.. 104.0  258.. 259 safe=0.003 odom=0.003 raw=0.003 err=0.02m/0.3deg stop=80/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 104.0.. 114.0  259.. 261 safe=0.009 odom=0.008 raw=0.009 err=0.11m/5.0deg stop=59/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 114.0.. 124.0  261.. 279 safe=0.090 odom=0.085 raw=0.091 err=0.17m/6.3deg stop=10/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 124.0.. 134.0  279.. 360 safe=0.425 odom=0.420 raw=0.426 err=0.15m/10.5deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 134.0.. 144.0  360.. 452 safe=0.465 odom=0.463 raw=0.463 err=0.11m/8.6deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 144.0.. 154.0  452.. 487 safe=0.146 odom=0.146 raw=0.181 err=0.24m/25.3deg stop=11/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 154.0.. 164.0  487.. 515 safe=0.150 odom=0.147 raw=0.368 err=0.23m/26.2deg stop=0/0% REFERENCE_CLEAR/SAFE_RECOVERY
+ 164.0.. 174.0  515.. 596 safe=0.412 odom=0.406 raw=0.480 err=0.07m/8.8deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 174.0.. 184.0  597.. 623 safe=0.129 odom=0.137 raw=0.126 err=0.05m/4.7deg stop=71/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 184.0.. 194.0  623.. 623 safe=0.000 odom=0.000 raw=0.000 err=0.00m/0.0deg stop=100/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 194.0.. 204.0  623.. 625 safe=0.009 odom=0.009 raw=0.009 err=0.11m/4.5deg stop=80/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 204.0.. 214.0  625.. 625 safe=0.000 odom=0.000 raw=0.000 err=0.00m/0.0deg stop=100/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 214.0.. 224.0  625.. 625 safe=0.000 odom=0.000 raw=0.000 err=0.00m/0.0deg stop=100/0% HYBRID_ASTAR_NO_FEASIBLE_PATH/SAFE_HOLD
+ 224.0.. 234.0  625.. 638 safe=0.067 odom=0.063 raw=0.068 err=0.14m/3.9deg stop=44/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 234.0.. 244.0  638.. 721 safe=0.409 odom=0.403 raw=0.410 err=0.12m/7.5deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 244.0.. 254.0  721.. 814 safe=0.486 odom=0.482 raw=0.486 err=0.10m/6.7deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 254.0.. 264.0  815.. 862 safe=0.235 odom=0.242 raw=0.233 err=0.08m/6.0deg stop=26/0% REFERENCE_CLEAR/SAFE_ACTIVE
+ 264.0.. 274.0  862.. 869 safe=0.183 odom=0.176 raw=0.185 err=0.08m/6.3deg stop=0/0% REFERENCE_CLEAR/SAFE_ACTIVE
+
+stationary episodes (>5s while route enabled):
+76.6..100.1s (23.5s) progress=257..258 safe_v=0.001 raw_v=0.001 safe_abs_w=0.000 avoidance=0% max_error=0.02m/0.2deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 408), ('REPLANNED', 53)] safety=[('SAFE_HOLD', 410), ('SAFE_ACTIVE', 60)] reasons=[('controller_not_tracking', 410)]
+177.8..198.1s (20.4s) progress=623..623 safe_v=0.000 raw_v=0.001 safe_abs_w=0.000 avoidance=0% max_error=0.11m/4.5deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 393), ('REFERENCE_CLEAR', 15)] safety=[('SAFE_HOLD', 394), ('SAFE_ACTIVE', 14)] reasons=[('controller_not_tracking', 394)]
+199.8..229.1s (29.4s) progress=625..625 safe_v=0.000 raw_v=0.000 safe_abs_w=0.000 avoidance=0% max_error=0.12m/3.7deg replan=[('HYBRID_ASTAR_NO_FEASIBLE_PATH', 573), ('REFERENCE_CLEAR', 15)] safety=[('SAFE_HOLD', 575), ('SAFE_ACTIVE', 13)] reasons=[('controller_not_tracking', 575)]
+
+tracking recovery episodes (>2s):
+49.5..58.4s progress=113..138 raw_v=0.327 safe_v=0.150 max_error=0.31m/20.2deg
+146.3..148.9s progress=466..478 raw_v=0.294 safe_v=0.172 max_error=0.24m/17.5deg
+151.5..164.7s progress=479..518 raw_v=0.326 safe_v=0.143 max_error=0.23m/26.2deg

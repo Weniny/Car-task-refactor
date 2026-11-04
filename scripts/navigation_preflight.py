@@ -79,7 +79,12 @@ class Preflight(Node):
         self.amcl_pose = msg
 
     def ready(self) -> bool:
-        return not self.missing_topics()
+        return not self.missing_topics() and self.tf_ready()
+
+    def tf_ready(self) -> bool:
+        # DDS discovery can deliver status topics before the TF listener sees
+        # both links. Wait within the same input deadline instead of racing it.
+        return self.tf_buffer.can_transform("map", "body", rclpy.time.Time())
 
     def missing_topics(self) -> list[str]:
         values = {
@@ -197,9 +202,11 @@ def main() -> int:
         while rclpy.ok() and time.monotonic() < deadline and not node.ready():
             rclpy.spin_once(node, timeout_sec=0.2)
         if not node.ready():
+            missing = node.missing_topics()
+            if not node.tf_ready():
+                missing.append("TF map->body")
             print(
-                "PRECHECK FAILED: no messages from "
-                + ", ".join(node.missing_topics()),
+                "PRECHECK FAILED: no data from " + ", ".join(missing),
                 file=sys.stderr,
             )
             return 1

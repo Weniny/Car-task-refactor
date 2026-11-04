@@ -1,0 +1,453 @@
+{
+  "date": "2026-11-03",
+  "robot": "192.168.0.193",
+  "scope": "read-only source/config/log comparison and pure planner snapshot replay; no ROS nodes or velocity publishing",
+  "original_entry": "competition_bringup/competition_field.launch.py -> day5_motion_control.launch.py",
+  "baseline_runtime_dir": "retest_full_loop_050straight_030turn_20261102_194510_197278985",
+  "baseline_obstacle_dir": "retest_obstacle_full_loop_050straight_030turn_20261102_200354_970032218",
+  "source_reconstruction": [
+    {
+      "path": "src/competition_control/competition_control/mppi_control_node.py",
+      "baseline_source": "git_HEAD_pre_candidate",
+      "identical": false,
+      "changed_functions": [
+        "MPPIControlNode.__init__",
+        "MPPIControlNode._avoidance_speed_limit_callback",
+        "MPPIControlNode._control_cycle",
+        "MPPIControlNode._route_enable_callback"
+      ]
+    },
+    {
+      "path": "src/competition_planning/competition_planning/hybrid_astar_planner.py",
+      "baseline_source": "git_HEAD_pre_candidate",
+      "identical": false,
+      "changed_functions": [
+        "HybridAStarPlanner.__init__",
+        "HybridAStarPlanner._build_goal_distance_field",
+        "HybridAStarPlanner._heuristic",
+        "HybridAStarPlanner._search"
+      ]
+    },
+    {
+      "path": "src/competition_planning/competition_planning/local_replanner_node.py",
+      "baseline_source": "robot_pre_v1_backup",
+      "identical": false,
+      "changed_functions": [
+        "LocalReplannerNode.__init__",
+        "LocalReplannerNode._planning_cycle"
+      ]
+    },
+    {
+      "path": "src/competition_planning/competition_planning/local_trajectory_planner.py",
+      "baseline_source": "robot_pre_v1_backup",
+      "identical": false,
+      "changed_functions": [
+        "LocalReplanConfig",
+        "LocalReplanConfig.__post_init__",
+        "LocalTrajectoryPlanner._plan_with_short_rejoin",
+        "LocalTrajectoryPlanner._plan_with_short_rejoin.attempt",
+        "LocalTrajectoryPlanner._planner",
+        "LocalTrajectoryPlanner.plan"
+      ]
+    },
+    {
+      "path": "src/competition_safety/competition_safety/proximity_stop_node.py",
+      "baseline_source": "robot_pre_v1_backup",
+      "identical": false,
+      "changed_functions": [
+        "ProximityStopNode.__init__",
+        "ProximityStopNode._odom_callback",
+        "ProximityStopNode._path_callback",
+        "ProximityStopNode._path_in_body",
+        "ProximityStopNode._publish",
+        "ProximityStopNode._scan_callback"
+      ]
+    },
+    {
+      "path": "src/competition_safety/competition_safety/safety_node.py",
+      "baseline_source": "git_HEAD_pre_candidate",
+      "identical": false,
+      "changed_functions": [
+        "SafetyNode.__init__",
+        "SafetyNode._avoidance_speed_limit_callback",
+        "SafetyNode._cycle"
+      ]
+    },
+    {
+      "path": "src/competition_safety/competition_safety/supervisor.py",
+      "baseline_source": "current_verified_curvature_fix",
+      "identical": false,
+      "changed_functions": [
+        "SafetyContext",
+        "SafetySupervisor._fault_reasons",
+        "SafetySupervisor.filter_command"
+      ]
+    },
+    {
+      "path": "src/competition_planning/competition_planning/semantic_planner.py",
+      "baseline_source": "git_HEAD_pre_candidate",
+      "identical": false,
+      "changed_functions": [
+        "_load_smoother",
+        "_plan_step",
+        "_validate_path",
+        "plan_continuous_route"
+      ]
+    },
+    {
+      "path": "src/competition_planning/competition_planning/trajectory_parameterizer.py",
+      "baseline_source": "git_HEAD_pre_candidate",
+      "identical": true,
+      "changed_functions": []
+    },
+    {
+      "path": "src/competition_planning/competition_planning/trajectory_smoother.py",
+      "baseline_source": "git_HEAD_pre_candidate",
+      "identical": false,
+      "changed_functions": [
+        "CircularArcSmoother",
+        "CircularArcSmoother.__init__",
+        "CircularArcSmoother._append_arc",
+        "CircularArcSmoother._append_arc_segment",
+        "CircularArcSmoother._append_line",
+        "CircularArcSmoother._circumcenter",
+        "CircularArcSmoother._is_arc",
+        "CircularArcSmoother.smooth",
+        "_anchor_tangents"
+      ]
+    }
+  ],
+  "current_worktree_vs_original": [
+    {
+      "path": "src/competition_control/competition_control/__init__.py",
+      "state": "IDENTICAL",
+      "original_sha256": "9aff1d4ec4abac11540b34d75ce6cfd069f35cc8c5dd9e97ebbb6d201f8d7041",
+      "current_sha256": "9aff1d4ec4abac11540b34d75ce6cfd069f35cc8c5dd9e97ebbb6d201f8d7041"
+    },
+    {
+      "path": "src/competition_control/competition_control/local_plan_continuity.py",
+      "state": "IDENTICAL",
+      "original_sha256": "74287c17fe2c2f852febc05a561a436eecbf8aa262cf63cdeb974a4fb6e21367",
+      "current_sha256": "74287c17fe2c2f852febc05a561a436eecbf8aa262cf63cdeb974a4fb6e21367"
+    },
+    {
+      "path": "src/competition_control/competition_control/mission_checkpoints.py",
+      "state": "IDENTICAL",
+      "original_sha256": "1e012d0faae3d803aaccf83a34b0bd2b914b21420b03a107c265513643fa6774",
+      "current_sha256": "1e012d0faae3d803aaccf83a34b0bd2b914b21420b03a107c265513643fa6774"
+    },
+    {
+      "path": "src/competition_control/competition_control/mission_markers.py",
+      "state": "IDENTICAL",
+      "original_sha256": "57afb4b4b0ac637205d65bfb3ea4c73e8426aecfc42044aa08b686898cdd29ff",
+      "current_sha256": "57afb4b4b0ac637205d65bfb3ea4c73e8426aecfc42044aa08b686898cdd29ff"
+    },
+    {
+      "path": "src/competition_control/competition_control/mission_speed_zones.py",
+      "state": "IDENTICAL",
+      "original_sha256": "958bcbcc4806f88e361eb4093570dced2c5da8b192679a04503ccfd717dcec9b",
+      "current_sha256": "958bcbcc4806f88e361eb4093570dced2c5da8b192679a04503ccfd717dcec9b"
+    },
+    {
+      "path": "src/competition_control/competition_control/mppi_control_node.py",
+      "state": "DIFFERENT",
+      "original_sha256": "7625c4b62246c0ae3ff0854bd0604572d5803124c636d20f9a6cd57985274592",
+      "current_sha256": "628fb484f0609febfe194e2931799139599440f1fb3d4659912c94777a8738b9"
+    },
+    {
+      "path": "src/competition_control/competition_control/mppi_controller.py",
+      "state": "IDENTICAL",
+      "original_sha256": "9b5fe4d90b0f5db27ae33aa7c805915cc31efb6fa76d867f93825d3e5578d3b6",
+      "current_sha256": "9b5fe4d90b0f5db27ae33aa7c805915cc31efb6fa76d867f93825d3e5578d3b6"
+    },
+    {
+      "path": "src/competition_control/competition_control/precision_docking.py",
+      "state": "IDENTICAL",
+      "original_sha256": "a9c4b8f17aee8b161de16ed3a20dfa060ef107a7d762366f2fecdea86bb3cf4f",
+      "current_sha256": "a9c4b8f17aee8b161de16ed3a20dfa060ef107a7d762366f2fecdea86bb3cf4f"
+    },
+    {
+      "path": "src/competition_control/competition_control/ranger_twist_adapter.py",
+      "state": "IDENTICAL",
+      "original_sha256": "e72d78a39c400b81894183ad3688ae1a51d98f7f7bae88aa43bda22135e826e9",
+      "current_sha256": "e72d78a39c400b81894183ad3688ae1a51d98f7f7bae88aa43bda22135e826e9"
+    },
+    {
+      "path": "src/competition_control/competition_control/ranger_twist_adapter_node.py",
+      "state": "IDENTICAL",
+      "original_sha256": "2c06f706af2df45e2defaaca885c717d22092eed53d7eae6559950d2834bd3ab",
+      "current_sha256": "2c06f706af2df45e2defaaca885c717d22092eed53d7eae6559950d2834bd3ab"
+    },
+    {
+      "path": "src/competition_control/competition_control/segmented_route_state_machine.py",
+      "state": "IDENTICAL",
+      "original_sha256": "890f1704d1bdad20f5b6629c6c76c8a4a8b4ff26a4234706c7583f0575ce6d9a",
+      "current_sha256": "890f1704d1bdad20f5b6629c6c76c8a4a8b4ff26a4234706c7583f0575ce6d9a"
+    },
+    {
+      "path": "src/competition_control/competition_control/shelf_alignment.py",
+      "state": "IDENTICAL",
+      "original_sha256": "81316c967ead6c03ed4d882597019d60ed981a6610240876ef49b50c01648d7c",
+      "current_sha256": "81316c967ead6c03ed4d882597019d60ed981a6610240876ef49b50c01648d7c"
+    },
+    {
+      "path": "src/competition_control/setup.py",
+      "state": "IDENTICAL",
+      "original_sha256": "1a9f53012a2f14f5badea4169f8673deff49860fd838f3bc3daf577e91c40000",
+      "current_sha256": "1a9f53012a2f14f5badea4169f8673deff49860fd838f3bc3daf577e91c40000"
+    },
+    {
+      "path": "src/competition_localization/competition_localization/__init__.py",
+      "state": "IDENTICAL",
+      "original_sha256": "3cb3c5fd42e588d5dc6a4066ba7d43842df64226dc88f7d9433df96818ed19e6",
+      "current_sha256": "3cb3c5fd42e588d5dc6a4066ba7d43842df64226dc88f7d9433df96818ed19e6"
+    },
+    {
+      "path": "src/competition_localization/competition_localization/fastlio_anchor_node.py",
+      "state": "IDENTICAL",
+      "original_sha256": "1c4ab6c329a379148aab701b8fa7499484b7582767271de40e28545fd9ab415c",
+      "current_sha256": "1c4ab6c329a379148aab701b8fa7499484b7582767271de40e28545fd9ab415c"
+    },
+    {
+      "path": "src/competition_localization/competition_localization/planar_transform.py",
+      "state": "IDENTICAL",
+      "original_sha256": "4b1a66bf2bdd949cc720c7edf0276db1edb74db79456ce1bf6c6bcfbb32e8381",
+      "current_sha256": "4b1a66bf2bdd949cc720c7edf0276db1edb74db79456ce1bf6c6bcfbb32e8381"
+    },
+    {
+      "path": "src/competition_localization/competition_localization/state_estimator.py",
+      "state": "IDENTICAL",
+      "original_sha256": "e3bc26f87ffdb176276e0f2961dab877e88e1af32306600928cdab2ea38b4e1f",
+      "current_sha256": "e3bc26f87ffdb176276e0f2961dab877e88e1af32306600928cdab2ea38b4e1f"
+    },
+    {
+      "path": "src/competition_localization/setup.py",
+      "state": "IDENTICAL",
+      "original_sha256": "2327b362669d4b89b3d3443d2a934ac4374510bc95f4d3b4c9ca5ca9228c0ccc",
+      "current_sha256": "2327b362669d4b89b3d3443d2a934ac4374510bc95f4d3b4c9ca5ca9228c0ccc"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/._light_spot_detector.py",
+      "state": "IDENTICAL",
+      "original_sha256": "166d31ff544fecffecb1ef6389a6d020615e3e5a3fb4ddbbe6a78d3f4c1d3840",
+      "current_sha256": "166d31ff544fecffecb1ef6389a6d020615e3e5a3fb4ddbbe6a78d3f4c1d3840"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/._traffic_light_node.py",
+      "state": "IDENTICAL",
+      "original_sha256": "166d31ff544fecffecb1ef6389a6d020615e3e5a3fb4ddbbe6a78d3f4c1d3840",
+      "current_sha256": "166d31ff544fecffecb1ef6389a6d020615e3e5a3fb4ddbbe6a78d3f4c1d3840"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/._traffic_rules.py",
+      "state": "IDENTICAL",
+      "original_sha256": "166d31ff544fecffecb1ef6389a6d020615e3e5a3fb4ddbbe6a78d3f4c1d3840",
+      "current_sha256": "166d31ff544fecffecb1ef6389a6d020615e3e5a3fb4ddbbe6a78d3f4c1d3840"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/__init__.py",
+      "state": "IDENTICAL",
+      "original_sha256": "d70536a035b07a3bb183d1710f1198cceeb5a6dd1474fd2d10fe1926797fad19",
+      "current_sha256": "d70536a035b07a3bb183d1710f1198cceeb5a6dd1474fd2d10fe1926797fad19"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/flag_wave_detect.py",
+      "state": "IDENTICAL",
+      "original_sha256": "028f795af91371ea75014c64f6a30dfc04f12651d4c8caaed2447e85dd64f681",
+      "current_sha256": "028f795af91371ea75014c64f6a30dfc04f12651d4c8caaed2447e85dd64f681"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/light_spot_detector.py",
+      "state": "IDENTICAL",
+      "original_sha256": "9f57aa3ce30980a6d65a57978e717de6606235c511b26496a55609365b45f5ff",
+      "current_sha256": "9f57aa3ce30980a6d65a57978e717de6606235c511b26496a55609365b45f5ff"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/red_flag.py",
+      "state": "IDENTICAL",
+      "original_sha256": "ede54477bae2220f1aca1794bb3cd84f9fd7f1ead812a77937801146fec9d81f",
+      "current_sha256": "ede54477bae2220f1aca1794bb3cd84f9fd7f1ead812a77937801146fec9d81f"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/traffic_light_node.py",
+      "state": "IDENTICAL",
+      "original_sha256": "711d16a0de5ad31da7fcd1db984e5126c7bf102e8bd4e6ee88efb3e0734909be",
+      "current_sha256": "711d16a0de5ad31da7fcd1db984e5126c7bf102e8bd4e6ee88efb3e0734909be"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/traffic_rules.py",
+      "state": "IDENTICAL",
+      "original_sha256": "499bf491467b338953bc5dbe13012151e1bb2fe3649279de594f77e5134d4b7b",
+      "current_sha256": "499bf491467b338953bc5dbe13012151e1bb2fe3649279de594f77e5134d4b7b"
+    },
+    {
+      "path": "src/competition_perception/competition_perception/wrist_traffic_node.py",
+      "state": "IDENTICAL",
+      "original_sha256": "a45cc394d59304a43310801472ef468aa7deb1f865b3acb03d92d0de23edfb02",
+      "current_sha256": "a45cc394d59304a43310801472ef468aa7deb1f865b3acb03d92d0de23edfb02"
+    },
+    {
+      "path": "src/competition_perception/launch/wrist_traffic.launch.py",
+      "state": "IDENTICAL",
+      "original_sha256": "d3117e4ac6d6212e2a4400aae994605c2b8036f331c492b47a2dcd9791436925",
+      "current_sha256": "d3117e4ac6d6212e2a4400aae994605c2b8036f331c492b47a2dcd9791436925"
+    },
+    {
+      "path": "src/competition_perception/setup.py",
+      "state": "IDENTICAL",
+      "original_sha256": "6e728e23a44ef44d435424b7db6823134057c03be77f1b153813ce3650d5f96f",
+      "current_sha256": "6e728e23a44ef44d435424b7db6823134057c03be77f1b153813ce3650d5f96f"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/__init__.py",
+      "state": "IDENTICAL",
+      "original_sha256": "b3ecd24e086b6c0982afc660e8e2567e4fae5783b7978d4b91b898ace68d900a",
+      "current_sha256": "b3ecd24e086b6c0982afc660e8e2567e4fae5783b7978d4b91b898ace68d900a"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/artifact_provenance.py",
+      "state": "IDENTICAL",
+      "original_sha256": "8c14b56c103f288f014a1e8460ca4d5b90554088ddbe80aee1100bfffe43db1b",
+      "current_sha256": "8c14b56c103f288f014a1e8460ca4d5b90554088ddbe80aee1100bfffe43db1b"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/footprint_checker.py",
+      "state": "IDENTICAL",
+      "original_sha256": "668aab694fc2a9d82fa0bc2d243a08e5556a6a3b0dc1462439b6657358741287",
+      "current_sha256": "668aab694fc2a9d82fa0bc2d243a08e5556a6a3b0dc1462439b6657358741287"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/global_path_node.py",
+      "state": "IDENTICAL",
+      "original_sha256": "a9036acef1d02c729164588e71970e423b2cd1257fc404350aaa435fbabd70ca",
+      "current_sha256": "a9036acef1d02c729164588e71970e423b2cd1257fc404350aaa435fbabd70ca"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/hybrid_astar_planner.py",
+      "state": "DIFFERENT",
+      "original_sha256": "038323ae493949ac82aca88ead75b648d8fd245b2babc479bdfe5b82d9ad2ee3",
+      "current_sha256": "9841a3ef9ea2f335ea7a65729448b0db1db72da2df0ec3af0d341e4faf0c035c"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/local_replanner_node.py",
+      "state": "DIFFERENT",
+      "original_sha256": "53163fc7c11722dba4bdf2edc2986fa88f2c8d8d31f1ad19f3a6b163b5ad220e",
+      "current_sha256": "458531c54fffc6df8c1201659d58a5422511ffb7bacbe8508df0c72530bf3475"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/local_trajectory_planner.py",
+      "state": "DIFFERENT",
+      "original_sha256": "b3f44a338266448919c584a1d3d1aa98ae6f097069f6bd52de2d2ac3d005d268",
+      "current_sha256": "723e30468b9787cb700dba57e9ae38bc5de8ab4e6f61598acce48be9cd892c85"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/occupancy_grid_planner.py",
+      "state": "IDENTICAL",
+      "original_sha256": "08599f0076bcbf73f124cdd42b4a79c1ec097601f94c520e485c721cf5872e4d",
+      "current_sha256": "08599f0076bcbf73f124cdd42b4a79c1ec097601f94c520e485c721cf5872e4d"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/offline_continuous_trajectory.py",
+      "state": "IDENTICAL",
+      "original_sha256": "038091c6ba48520e91d22daef2d725b87d4ca8df1cc3fcd681b20a47f5d95375",
+      "current_sha256": "038091c6ba48520e91d22daef2d725b87d4ca8df1cc3fcd681b20a47f5d95375"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/offline_global_plan.py",
+      "state": "IDENTICAL",
+      "original_sha256": "3f6856fee1c30403ea364aa0911c0a34eea740e94177ac348c82a7bc8a08aaa9",
+      "current_sha256": "3f6856fee1c30403ea364aa0911c0a34eea740e94177ac348c82a7bc8a08aaa9"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/offline_optimized_trajectory.py",
+      "state": "IDENTICAL",
+      "original_sha256": "3f91ba01b575e6dbc21f55cc01959d7f8cbaa91f3300495072e34143fb4b3a04",
+      "current_sha256": "3f91ba01b575e6dbc21f55cc01959d7f8cbaa91f3300495072e34143fb4b3a04"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/offline_retime_continuous_trajectory.py",
+      "state": "DIFFERENT",
+      "original_sha256": "d158fc11053aa316a8fbeb07bc47a1e19c5f27d1cf5379ae59de543fda816a4f",
+      "current_sha256": "af713d25b515bec624526860fe7943d329af5c9e9cebcd6518e68897c6f2b296"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/semantic_planner.py",
+      "state": "DIFFERENT",
+      "original_sha256": "8af688388581a2059c44ae39be6be301baa9772069134e0f23be0c36f449f893",
+      "current_sha256": "282480f36660abc24e2ec86efd935788aa3a0a56be19163e4cbea02abac83ca5"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/trajectory_parameterizer.py",
+      "state": "DIFFERENT",
+      "original_sha256": "2fb0619c54d55a2d3ef659e44799f126fdd3a4a7708e8e7dd96bab5c3e2f67b1",
+      "current_sha256": "616d7a201570d8530aae72a6b5c5956090b5406b0b38fe5329e6e3571f43efa5"
+    },
+    {
+      "path": "src/competition_planning/competition_planning/trajectory_smoother.py",
+      "state": "DIFFERENT",
+      "original_sha256": "84b3b5028d8fb9031259e9d612a417356c7ce2ea97aec38550e92ca50bdb495d",
+      "current_sha256": "e2bbd08c3374cc0e302c332162d2afc6653e634d55f0bb6126efda033af03982"
+    },
+    {
+      "path": "src/competition_planning/setup.py",
+      "state": "IDENTICAL",
+      "original_sha256": "8a40ef629132f908f1d0e7f374bd5fc425db557df6e60bc79aecb48944b4d9a1",
+      "current_sha256": "8a40ef629132f908f1d0e7f374bd5fc425db557df6e60bc79aecb48944b4d9a1"
+    },
+    {
+      "path": "src/competition_safety/competition_safety/__init__.py",
+      "state": "IDENTICAL",
+      "original_sha256": "3031068894b8c28876fa90813377a4142c1d5133c454003c71ed96c78ef106d5",
+      "current_sha256": "3031068894b8c28876fa90813377a4142c1d5133c454003c71ed96c78ef106d5"
+    },
+    {
+      "path": "src/competition_safety/competition_safety/proximity_stop.py",
+      "state": "IDENTICAL",
+      "original_sha256": "0d4af1a82585c8db0737f6a7804594613b5b2c1c145421ff2ea4953b22e54d53",
+      "current_sha256": "0d4af1a82585c8db0737f6a7804594613b5b2c1c145421ff2ea4953b22e54d53"
+    },
+    {
+      "path": "src/competition_safety/competition_safety/proximity_stop_node.py",
+      "state": "DIFFERENT",
+      "original_sha256": "a638ed74cf5a9d6bfc7a2f90308b17722d0c60111a06072bf29cb3b0531be5e9",
+      "current_sha256": "5c995bb048340d28c6ebab387579e8f6803f1d4a017db2c5478b468014136b40"
+    },
+    {
+      "path": "src/competition_safety/competition_safety/safety_node.py",
+      "state": "DIFFERENT",
+      "original_sha256": "50c7ab9883455c05c469cfc450fabf2cc2fd64f805bb96f4361707d9ca0f65a1",
+      "current_sha256": "becc0dfdae94d560f689c9186f3861648b6909cb633c81a1aa308fc4d83bfa08"
+    },
+    {
+      "path": "src/competition_safety/competition_safety/shutdown_guard.py",
+      "state": "IDENTICAL",
+      "original_sha256": "e5e1af7e91d10ee20f344fb7d0331346dec94c3acb7701b627a803fe14093383",
+      "current_sha256": "e5e1af7e91d10ee20f344fb7d0331346dec94c3acb7701b627a803fe14093383"
+    },
+    {
+      "path": "src/competition_safety/competition_safety/supervisor.py",
+      "state": "DIFFERENT",
+      "original_sha256": "0d895534bd550dc166f8677b2965510f8bfb2de1bdf770153a2a24e41abe3348",
+      "current_sha256": "4c18d2c4dd704539b9120f04715aca3c400d6722564c9480ca2e7698c9be88da"
+    },
+    {
+      "path": "src/competition_safety/setup.py",
+      "state": "IDENTICAL",
+      "original_sha256": "ad2f86541d7e06361b6284ebd169917a13383248c98f6cd5f91aa44b85d61447",
+      "current_sha256": "ad2f86541d7e06361b6284ebd169917a13383248c98f6cd5f91aa44b85d61447"
+    }
+  ],
+  "evidence_sha256": {
+    "2026-11-03_competition_baseline_snapshot_replay.json": "66f40596db4fbe618a40d9009db395610a7f56bb9ea04a813619d6502c90a4b6",
+    "2026-11-03_competition_baseline_source_diff.txt": "222e11c8b52cfed35f9dc56f64467ad72ee34164639e4d370b2d8f77104f98a7",
+    "2026-11-03_competition_config_comparison_preliminary.json": "217694e962ce208e1296c79370ab435f9dd0b920bf8f05d71e634a719bb47ef4",
+    "2026-11-03_competition_desktop_readme.md": "2645f5b7abd1bce59b1b4560f1ac87c88e20e9510a6786c506111d1a6c061bc3",
+    "2026-11-03_competition_original_snapshot_replay.json": "3e7df113551072e31f34e07897b648445597fb62c93a3dfdf1bf45523dbab50d"
+  },
+  "limitations": [
+    "Desktop README is an entry-point clue, not a versioned golden-run snapshot.",
+    "Baseline source reconstruction uses pre-V1 robot backups, git HEAD a6c3c04 and the verified turn-fix payload.",
+    "Replay uses latest recorded TF/costmap and a fresh planner, not historical callbacks or closed-loop execution.",
+    "Competition semantic relaxed span does not activate on the indoor reference without matching semantic labels."
+  ]
+}

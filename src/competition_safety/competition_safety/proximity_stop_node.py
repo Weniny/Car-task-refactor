@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from collections import deque
+from dataclasses import replace
 import json
 import math
 
@@ -30,6 +31,7 @@ from competition_safety.proximity_stop import (
     evaluate_local_clearance,
     evaluate_fused_local_clearance,
     laser_scan_points,
+    count_points_in_stop_box,
 )
 from competition_safety.path_aware_proximity import (
     PathAwareConfig,
@@ -142,6 +144,27 @@ class ProximityStopNode(Node):
         self._measured_speed_mps: float | None = None
         self._odom_received_s = 0.0
         self._speed_limit_publisher = None
+        self._slowdown_enabled = bool(
+            self.declare_parameter("obstacle_slowdown_enabled", False).value
+        )
+        if self._slowdown_enabled:
+            if self._path_aware_enabled:
+                raise ValueError("select either obstacle slowdown or path-aware policy")
+            distance = float(self.declare_parameter("obstacle_slowdown_distance_m", 3.0).value)
+            self._slowdown_speed = float(
+                self.declare_parameter("obstacle_slowdown_speed_mps", 0.20).value
+            )
+            half_width = float(self.declare_parameter("obstacle_slowdown_half_width_m", 0.8).value)
+            if not (math.isfinite(distance) and distance > self._config.stop_distance_m
+                    and math.isfinite(self._slowdown_speed) and 0 < self._slowdown_speed < 0.5
+                    and math.isfinite(half_width) and half_width >= self._config.lateral_half_width_m):
+                raise ValueError("invalid obstacle slowdown limits")
+            self._slowdown_config = replace(self._config, stop_distance_m=distance,
+                                            lateral_half_width_m=half_width)
+            self._slowdown_latch = StopReleaseLatch(0.6, 3)
+            self._speed_limit_publisher = self.create_publisher(
+                Float32, "/avoidance/speed_limit", 10
+            )
         if self._path_aware_enabled:
             self._path_aware_scan_age_s = float(
                 self.declare_parameter("path_aware_max_scan_age_s", 0.20).value
@@ -416,9 +439,10 @@ class ProximityStopNode(Node):
 
         scan_stamp_s = _stamp_to_seconds(message.header.stamp)
         age_s = now_s - scan_stamp_s if scan_stamp_s > 0.0 else None
-        if self._path_aware_enabled and (age_s is None or age_s < 0.0):
+        if (self._path_aware_enabled or self._slowdown_enabled) and (age_s is None or age_s < 0.0):
             self._visualization_point_frames.clear()
-            self._stop_latch.update(True, now_s)
+            if self._path_aware_enabled:
+                self._stop_latch.update(True, now_s)
             self._publish(True, "invalid_scan_stamp", 0, frame_id, age_s, None)
             return
         allowed_scan_age_s = (
@@ -465,6 +489,11 @@ class ProximityStopNode(Node):
         reason = "obstacle_in_stop_box" if stop else "clear"
         speed_limit_mps = None
         details = None
+        if self._slowdown_enabled:
+            slow_count = count_points_in_stop_box(points, self._slowdown_config)
+            slowing = self._slowdown_latch.update(slow_count >= self._config.min_points or stop, now_s)
+            speed_limit_mps = self._slowdown_speed if slowing else None
+            details = {"slow_point_count": slow_count, "speed_limit_mps": speed_limit_mps}
         if self._path_aware_enabled:
             decision = evaluate_path_aware_stop(
                 points,
@@ -535,7 +564,8 @@ class ProximityStopNode(Node):
                     data=(
                         speed_limit_mps
                         if speed_limit_mps is not None
-                        else self._path_config.slow_speed_mps
+                        else (self._slowdown_speed if self._slowdown_enabled
+                              else self._path_config.slow_speed_mps)
                         if reason in {"frame_mismatch", "stale_scan", "invalid_scan_stamp"}
                         else 0.0
                     )

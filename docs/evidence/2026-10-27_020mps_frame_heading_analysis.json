@@ -1,0 +1,65 @@
+{
+  "method": "planar composition of latest map->camera_init and camera_init->body transforms; straight velocity direction fitted by least squares over each station range",
+  "results": [
+    {
+      "straight": 1,
+      "samples": 1147,
+      "fitted_motion_heading_deg": 173.096,
+      "median_body_minus_motion_heading_deg": 5.999,
+      "median_body_minus_global_reference_heading_deg": 5.798,
+      "median_global_cross_track_m": -0.0576,
+      "global_cross_track_range_m": [
+        -0.0996,
+        0.0962
+      ]
+    },
+    {
+      "straight": 2,
+      "samples": 1569,
+      "fitted_motion_heading_deg": 83.195,
+      "median_body_minus_motion_heading_deg": 5.807,
+      "median_body_minus_global_reference_heading_deg": 5.792,
+      "median_global_cross_track_m": -0.0703,
+      "global_cross_track_range_m": [
+        -0.095,
+        -0.0435
+      ]
+    },
+    {
+      "straight": 3,
+      "samples": 2104,
+      "fitted_motion_heading_deg": -5.925,
+      "median_body_minus_motion_heading_deg": 5.629,
+      "median_body_minus_global_reference_heading_deg": 5.645,
+      "median_global_cross_track_m": -0.0604,
+      "global_cross_track_range_m": [
+        -0.0914,
+        -0.0145
+      ]
+    },
+    {
+      "straight": 4,
+      "samples": 1548,
+      "fitted_motion_heading_deg": -96.673,
+      "median_body_minus_motion_heading_deg": 5.615,
+      "median_body_minus_global_reference_heading_deg": 5.612,
+      "median_global_cross_track_m": -0.0656,
+      "global_cross_track_range_m": [
+        -0.0857,
+        -0.0455
+      ]
+    },
+    {
+      "straight": 5,
+      "samples": 596,
+      "fitted_motion_heading_deg": 173.876,
+      "median_body_minus_motion_heading_deg": 5.519,
+      "median_body_minus_global_reference_heading_deg": 5.577,
+      "median_global_cross_track_m": -0.0656,
+      "global_cross_track_range_m": [
+        -0.098,
+        -0.0389
+      ]
+    }
+  ]
+}

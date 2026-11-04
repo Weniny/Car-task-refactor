@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "point_count": 3109,
+  "geometry": "identical to verified 0.20 baseline",
+  "path_length_m": 155.047,
+  "reference_duration_s": 359.773,
+  "max_reference_speed_mps": 0.5,
+  "turn_zones": [
+    {
+      "id": "corner_1_030",
+      "start": 451,
+      "end": 489,
+      "max_reference_v": 0.2595
+    },
+    {
+      "id": "corner_2_030",
+      "start": 1142,
+      "end": 1180,
+      "max_reference_v": 0.2588
+    },
+    {
+      "id": "corner_3_030",
+      "start": 2021,
+      "end": 2061,
+      "max_reference_v": 0.2658
+    },
+    {
+      "id": "corner_4_030",
+      "start": 2722,
+      "end": 2760,
+      "max_reference_v": 0.2592
+    }
+  ],
+  "online_curved_path_max_speed_mps": 0.3,
+  "protections": "unchanged except normal speed limit 0.20 -> 0.50",
+  "hardware": "not started by this verifier"
+}

@@ -1,0 +1,221 @@
+BACKUP /home/agilex/competition_rebuild_ws/log/obstacle_v1_backup_20261102_203130
+test_clear_reference_does_not_interrupt_valid_detour (test_detour_continuity.DetourContinuityTests) ... ok
+test_dense_connector_rejects_obstacle_between_sparse_points (test_detour_continuity.DetourContinuityTests) ... ok
+test_disabled_policy_keeps_legacy_behavior (test_detour_continuity.DetourContinuityTests) ... ok
+test_near_end_releases_detour_for_replanning (test_detour_continuity.DetourContinuityTests) ... ok
+test_new_obstacle_invalidates_stored_detour (test_detour_continuity.DetourContinuityTests) ... ok
+test_default_disabled_and_enabled_path_collision_check (test_rejoin_candidate.ObstacleHeuristicTests) ... ok
+test_distance_field_does_not_cut_diagonal_corners (test_rejoin_candidate.ObstacleHeuristicTests) ... ok
+test_distance_field_includes_wall_detour (test_rejoin_candidate.ObstacleHeuristicTests) ... ok
+test_distance_field_respects_search_deadline (test_rejoin_candidate.ObstacleHeuristicTests) ... ok
+test_guard_accepts_sufficient_short_path (test_rejoin_candidate.ShortRejoinTests) ... ok
+test_guard_checks_actual_path_length (test_rejoin_candidate.ShortRejoinTests) ... ok
+test_guard_skips_inadequate_goal_and_preserves_primary_error (test_rejoin_candidate.ShortRejoinTests) ... ok
+test_legacy_short_fallback_is_unchanged (test_rejoin_candidate.ShortRejoinTests) ... ok
+test_minimum_length_config_validation (test_rejoin_candidate.ShortRejoinTests) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.103s
+
+OK
+test_acceleration_ramp_with_cap_preserves_curvature (test_avoidance_speed_limit.AvoidanceSpeedLimitTests) ... ok
+test_disabled_feature_leaves_existing_behavior (test_avoidance_speed_limit.AvoidanceSpeedLimitTests) ... ok
+test_external_cap_preserves_curvature_and_bounds_output (test_avoidance_speed_limit.AvoidanceSpeedLimitTests) ... ok
+test_fixed_stop_overrides_external_cap (test_avoidance_speed_limit.AvoidanceSpeedLimitTests) ... ok
+test_goal_deceleration_cannot_exceed_cap (test_avoidance_speed_limit.AvoidanceSpeedLimitTests) ... ok
+test_invalid_caps_hold (test_avoidance_speed_limit.AvoidanceSpeedLimitTests) ... ok
+test_missing_speed_limit_heartbeat_holds (test_avoidance_speed_limit.AvoidanceSpeedLimitTests) ... ok
+test_clear_scene_has_no_limit (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_emergency_distance_cannot_undercut_braking_bound (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_high_measured_speed_keeps_larger_emergency_distance (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_missing_and_invalid_path_fall_back_to_fixed_box (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_near_body_corridor_stops_even_with_bypass (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_obstacle_on_path_stops (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_path_that_passes_too_close_stops (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_slow_region_caps_speed_before_fixed_stop (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_stop_release_needs_time_and_consecutive_clear_scans (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_unknown_or_excess_speed_and_short_path_fall_back (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_valid_bypass_does_not_inherit_fixed_box_stop (test_path_aware_proximity.PathAwareProximityTests) ... ok
+test_minimum_radius_still_bounds_infeasible_turn (test_recovery_curvature.RecoveryCurvatureTests) ... ok
+test_normal_speed_cap_preserves_curvature (test_recovery_curvature.RecoveryCurvatureTests) ... ok
+test_persistent_error_still_stops (test_recovery_curvature.RecoveryCurvatureTests) ... ok
+test_recovery_ramp_does_not_tighten_either_turn_direction (test_recovery_curvature.RecoveryCurvatureTests) ... ok
+test_startup_ramp_preserves_curvature_without_avoidance_cap (test_recovery_curvature.RecoveryCurvatureTests) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.006s
+
+OK
+[0.530s] WARNING:colcon.colcon_core.package_selection:Some selected packages are already built in one or more underlay workspaces:
+	'competition_safety' is in: /home/agilex/competition_rebuild_ws/install/competition_safety, /home/agilex/competition_ws/install/competition_safety
+	'competition_planning' is in: /home/agilex/competition_rebuild_ws/install/competition_planning, /home/agilex/competition_ws/install/competition_planning
+If a package in a merged underlay workspace is overridden and it installs headers, then all packages in the overlay must sort their include directories by workspace order. Failure to do so may result in build failures or undefined behavior at run time.
+If the overridden package is used by another package in any underlay, then the overriding package in the overlay must be API and ABI compatible or undefined behavior at run time may occur.
+
+If you understand the risks and want to override a package anyways, add the following to the command line:
+	--allow-overriding competition_planning competition_safety
+
+This may be promoted to an error in a future release of colcon-override-check.
+Starting >>> competition_planning
+Starting >>> rebuild_bringup
+running develop
+running develop
+Removing /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition-planning.egg-link (link to .)
+Removing /home/agilex/competition_rebuild_ws/install/rebuild_bringup/lib/python3.10/site-packages/rebuild-bringup.egg-link (link to .)
+running egg_info
+writing ../../build/competition_planning/competition_planning.egg-info/PKG-INFO
+writing dependency_links to ../../build/competition_planning/competition_planning.egg-info/dependency_links.txt
+writing entry points to ../../build/competition_planning/competition_planning.egg-info/entry_points.txt
+writing requirements to ../../build/competition_planning/competition_planning.egg-info/requires.txt
+writing top-level names to ../../build/competition_planning/competition_planning.egg-info/top_level.txt
+running egg_info
+writing ../../build/rebuild_bringup/rebuild_bringup.egg-info/PKG-INFO
+writing dependency_links to ../../build/rebuild_bringup/rebuild_bringup.egg-info/dependency_links.txt
+writing requirements to ../../build/rebuild_bringup/rebuild_bringup.egg-info/requires.txt
+writing top-level names to ../../build/rebuild_bringup/rebuild_bringup.egg-info/top_level.txt
+reading manifest file '../../build/competition_planning/competition_planning.egg-info/SOURCES.txt'
+writing manifest file '../../build/competition_planning/competition_planning.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/local_replanner_node.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/artifact_provenance.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/trajectory_parameterizer.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/hybrid_astar_planner.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/offline_retime_continuous_trajectory.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/footprint_checker.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/offline_continuous_trajectory.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/offline_optimized_trajectory.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/__init__.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/global_path_node.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/trajectory_smoother.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/local_trajectory_planner.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/offline_global_plan.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/semantic_planner.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+copying competition_planning/occupancy_grid_planner.py -> /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning
+running install
+running install_lib
+creating /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/local_replanner_node.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/artifact_provenance.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/trajectory_parameterizer.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/hybrid_astar_planner.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/offline_retime_continuous_trajectory.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/footprint_checker.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/offline_continuous_trajectory.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/offline_optimized_trajectory.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/__init__.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/global_path_node.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/trajectory_smoother.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/local_trajectory_planner.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/offline_global_plan.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/semantic_planner.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+copying /home/agilex/competition_rebuild_ws/build/competition_planning/build/lib/competition_planning/occupancy_grid_planner.py -> /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/local_replanner_node.py to local_replanner_node.cpython-310.pyc
+reading manifest file '../../build/rebuild_bringup/rebuild_bringup.egg-info/SOURCES.txt'
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/artifact_provenance.py to artifact_provenance.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/trajectory_parameterizer.py to trajectory_parameterizer.cpython-310.pyc
+writing manifest file '../../build/rebuild_bringup/rebuild_bringup.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/agilex/competition_rebuild_ws/build/rebuild_bringup/build/lib/rebuild_bringup
+copying rebuild_bringup/__init__.py -> /home/agilex/competition_rebuild_ws/build/rebuild_bringup/build/lib/rebuild_bringup
+running install
+running install_lib
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/hybrid_astar_planner.py to hybrid_astar_planner.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/offline_retime_continuous_trajectory.py to offline_retime_continuous_trajectory.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/footprint_checker.py to footprint_checker.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/offline_continuous_trajectory.py to offline_continuous_trajectory.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/offline_optimized_trajectory.py to offline_optimized_trajectory.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/global_path_node.py to global_path_node.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/trajectory_smoother.py to trajectory_smoother.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/local_trajectory_planner.py to local_trajectory_planner.cpython-310.pyc
+creating /home/agilex/competition_rebuild_ws/install/rebuild_bringup/lib/python3.10/site-packages/rebuild_bringup
+copying /home/agilex/competition_rebuild_ws/build/rebuild_bringup/build/lib/rebuild_bringup/__init__.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/lib/python3.10/site-packages/rebuild_bringup
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/offline_global_plan.py to offline_global_plan.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/semantic_planner.py to semantic_planner.cpython-310.pyc
+byte-compiling /home/agilex/competition_rebuild_ws/install/rebuild_bringup/lib/python3.10/site-packages/rebuild_bringup/__init__.py to __init__.cpython-310.pyc
+running install_data
+copying resource/rebuild_bringup -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/ament_index/resource_index/packages
+copying package.xml -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup
+copying launch/rebuild_mapping.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_dry_run.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_radius120_localrecovery_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_radius090_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_full_navigation_050_competition_stop_candidate.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_radius120_turnrate250_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_dry_run.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_full_navigation_050_rejoin4m_candidate.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_radius120_competition_safety_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_full_navigation.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_full_navigation_050_trial.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning/occupancy_grid_planner.py to occupancy_grid_planner.cpython-310.pyc
+copying launch/rebuild_navigation_replan_radius120_050_030_obstacle_v1.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_radius120_050mps_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_proximity_dry_test.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_radius090_turnrate250_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_final_map.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying launch/rebuild_navigation_replan_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+running install_data
+copying launch/rebuild_navigation_replan_radius120_synced_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying resource/competition_planning -> /home/agilex/competition_rebuild_ws/install/competition_planning/share/ament_index/resource_index/packages
+copying launch/rebuild_navigation_replan_radius120_050straight_030turn_guarded.launch.py -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/launch
+copying package.xml -> /home/agilex/competition_rebuild_ws/install/competition_planning/share/competition_planning
+copying rviz/final_map_view.rviz -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/rviz
+running install_egg_info
+copying rviz/navigation_debug_view.rviz -> /home/agilex/competition_rebuild_ws/install/rebuild_bringup/share/rebuild_bringup/rviz
+running install_egg_info
+Copying ../../build/competition_planning/competition_planning.egg-info to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/python3.10/site-packages/competition_planning-0.1.0-py3.10.egg-info
+Copying ../../build/rebuild_bringup/rebuild_bringup.egg-info to /home/agilex/competition_rebuild_ws/install/rebuild_bringup/lib/python3.10/site-packages/rebuild_bringup-0.0.0-py3.10.egg-info
+running install_scripts
+running install_scripts
+Installing local_replanner_node script to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/competition_planning
+Installing offline_continuous_trajectory script to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/competition_planning
+Installing offline_footprint_check script to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/competition_planning
+Installing offline_global_plan script to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/competition_planning
+Installing offline_optimized_trajectory script to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/competition_planning
+Installing offline_retime_continuous_trajectory script to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/competition_planning
+Installing semantic_global_path_node script to /home/agilex/competition_rebuild_ws/install/competition_planning/lib/competition_planning
+writing list of installed files to '/home/agilex/competition_rebuild_ws/build/competition_planning/install.log'
+writing list of installed files to '/home/agilex/competition_rebuild_ws/build/rebuild_bringup/install.log'
+Finished <<< competition_planning [4.62s]
+Starting >>> competition_safety
+Finished <<< rebuild_bringup [4.65s]
+running egg_info
+writing ../../build/competition_safety/competition_safety.egg-info/PKG-INFO
+writing dependency_links to ../../build/competition_safety/competition_safety.egg-info/dependency_links.txt
+writing entry points to ../../build/competition_safety/competition_safety.egg-info/entry_points.txt
+writing requirements to ../../build/competition_safety/competition_safety.egg-info/requires.txt
+writing top-level names to ../../build/competition_safety/competition_safety.egg-info/top_level.txt
+reading manifest file '../../build/competition_safety/competition_safety.egg-info/SOURCES.txt'
+writing manifest file '../../build/competition_safety/competition_safety.egg-info/SOURCES.txt'
+running build
+running build_py
+copying competition_safety/safety_node.py -> /home/agilex/competition_rebuild_ws/build/competition_safety/build/lib/competition_safety
+copying competition_safety/supervisor.py -> /home/agilex/competition_rebuild_ws/build/competition_safety/build/lib/competition_safety
+copying competition_safety/proximity_stop.py -> /home/agilex/competition_rebuild_ws/build/competition_safety/build/lib/competition_safety
+copying competition_safety/proximity_stop_node.py -> /home/agilex/competition_rebuild_ws/build/competition_safety/build/lib/competition_safety
+copying competition_safety/path_aware_proximity.py -> /home/agilex/competition_rebuild_ws/build/competition_safety/build/lib/competition_safety
+running install
+running install_lib
+copying /home/agilex/competition_rebuild_ws/build/competition_safety/build/lib/competition_safety/proximity_stop_node.py -> /home/agilex/competition_rebuild_ws/install/competition_safety/lib/python3.10/site-packages/competition_safety
+byte-compiling /home/agilex/competition_rebuild_ws/install/competition_safety/lib/python3.10/site-packages/competition_safety/proximity_stop_node.py to proximity_stop_node.cpython-310.pyc
+running install_data
+copying package.xml -> /home/agilex/competition_rebuild_ws/install/competition_safety/share/competition_safety
+running install_egg_info
+removing '/home/agilex/competition_rebuild_ws/install/competition_safety/lib/python3.10/site-packages/competition_safety-0.1.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/competition_safety/competition_safety.egg-info to /home/agilex/competition_rebuild_ws/install/competition_safety/lib/python3.10/site-packages/competition_safety-0.1.0-py3.10.egg-info
+running install_scripts
+Installing proximity_stop_node script to /home/agilex/competition_rebuild_ws/install/competition_safety/lib/competition_safety
+Installing safety_node script to /home/agilex/competition_rebuild_ws/install/competition_safety/lib/competition_safety
+writing list of installed files to '/home/agilex/competition_rebuild_ws/build/competition_safety/install.log'
+Finished <<< competition_safety [2.78s]
+
+Summary: 3 packages finished [7.75s]
+[INFO] [1793622701.602068227] [proximity_stop]: Proximity stop ready: scan_topic=/scan, distance_stop=[0.25, 0.40], half_angle=0.436rad, lateral_half_width=0.45, z=[-0.25, 0.80], min_points=3, obstacle_layer=5.0Hz/10_frame_fusion, qos=best_effort/keep_last_1, path_aware=False
+PASS obstacle at 2m slows without fixed-stop override
+PASS original close obstacle stop preserved
+PASS slowdown release hysteresis and clear heartbeat
+PASS stale/future/wrong-frame scans stop

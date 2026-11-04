@@ -1,0 +1,23 @@
+{
+  "id": "startup_capture_20261104_pinned_inflation025",
+  "workspace": "/home/agilex/competition_startup_capture_20261104_ws",
+  "launch": "startup_capture_050_030_inflation025.launch.py",
+  "grid_inflation_radius_m": 0.25,
+  "launch_sha256": "d8c06a3d6303a20a6de485276d389712d5e1f95f3164de223bf90c766cdab420",
+  "user_selected_default": true,
+  "field_acceptance": "collision reported; not passed",
+  "status": "PINNED_LOCALLY_AND_CAR_SYNCED",
+  "ssh": "connected to car-ipc at 172.20.10.12",
+  "manifest_files": 127,
+  "only_instruction_and_default_metadata_changed": true,
+  "archive_sha256": "e8f5b5423e8859008fc5bd29dace0d04d25df0d24c5def3c1c02d8037b2816cb",
+  "patch_sha256": "6e55cdf5c32da08ad6abab88cbb06e032f65b8de76662a18b67c68e6d6ea4d81",
+  "real_navigation_started": false,
+  "previous_sync_status": "PINNED_LOCALLY_CAR_SYNC_PENDING",
+  "previous_connection_note": "172.20.10.12 connection timed out; user resting robot; no retry",
+  "remote_manifest_id": "startup_capture_20261104_pinned_inflation025",
+  "remote_integrity_check": "PASS",
+  "verification_scope": "default metadata, source launch assignment and installed launch; no live navigation started",
+  "configured_inflation_m": 0.25,
+  "active_workspace_navigation_nodes_before_sync": 0
+}

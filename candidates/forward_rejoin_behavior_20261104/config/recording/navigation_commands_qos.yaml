@@ -1,0 +1,11 @@
+# Command events are live, reliable messages, matching the controller.
+/mission/route_enable:
+  reliability: reliable
+  durability: volatile
+  history: keep_last
+  depth: 10
+/initialpose:
+  reliability: reliable
+  durability: volatile
+  history: keep_last
+  depth: 10
