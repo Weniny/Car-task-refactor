@@ -1,0 +1,766 @@
+{
+  "date": "2026-11-05",
+  "scope": "Regenerable download caches and installers confirmed installed at identical versions; no navigation files, logs or environments removed",
+  "removed": [
+    {
+      "path": "/home/agilex/.npm/_cacache/index-v5",
+      "logical_bytes": 54851,
+      "files": 66
+    },
+    {
+      "path": "/home/agilex/.npm/_cacache/tmp",
+      "logical_bytes": 0,
+      "files": 0
+    },
+    {
+      "path": "/home/agilex/.npm/_cacache/content-v2",
+      "logical_bytes": 97837685,
+      "files": 67
+    },
+    {
+      "path": "/home/agilex/.cache/thumbnails/large",
+      "logical_bytes": 4351430,
+      "files": 94
+    },
+    {
+      "path": "/home/agilex/.cache/thumbnails/fail",
+      "logical_bytes": 1368,
+      "files": 6
+    },
+    {
+      "path": "/home/agilex/.cache/thumbnails/normal",
+      "logical_bytes": 45907,
+      "files": 10
+    },
+    {
+      "path": "/home/agilex/.cache/matplotlib/fontlist-v330.json",
+      "logical_bytes": 132849,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/CachedExtensionVSIXs/ms-ceintl.vscode-language-pack-zh-hans-1.131.2026090407",
+      "logical_bytes": 686413,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/CachedExtensionVSIXs/.trash",
+      "logical_bytes": 507748,
+      "files": 4
+    },
+    {
+      "path": "/home/agilex/.config/Code/CachedExtensionVSIXs/ms-azuretools.vscode-containers-2.5.0",
+      "logical_bytes": 1031092,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/CachedExtensionVSIXs/openai.chatgpt-26.903.61454-linux-arm64",
+      "logical_bytes": 238041701,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/CachedExtensionVSIXs/anthropic.claude-code-2.1.266-linux-arm64",
+      "logical_bytes": 101264017,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/Cache/No_Vary_Search",
+      "logical_bytes": 24,
+      "files": 2
+    },
+    {
+      "path": "/home/agilex/.config/Code/Cache/Cache_Data",
+      "logical_bytes": 15178425,
+      "files": 135
+    },
+    {
+      "path": "/home/agilex/.config/Code/CachedData/fc3def6774c76082adf699d366f31a557ce5573f",
+      "logical_bytes": 13183696,
+      "files": 30
+    },
+    {
+      "path": "/home/agilex/.config/Code/GPUCache/data_0",
+      "logical_bytes": 45056,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/GPUCache/index",
+      "logical_bytes": 262512,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/GPUCache/data_2",
+      "logical_bytes": 1056768,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/GPUCache/data_1",
+      "logical_bytes": 270336,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/GPUCache/data_3",
+      "logical_bytes": 4202496,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/Code Cache/electron-preload",
+      "logical_bytes": 5676,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/.config/Code/Code Cache/js",
+      "logical_bytes": 72,
+      "files": 2
+    },
+    {
+      "path": "/home/agilex/.config/Code/Code Cache/wasm",
+      "logical_bytes": 72,
+      "files": 2
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-tensorflow-frontend-2025.4.1-h2cb6e3c_2.conda",
+      "logical_bytes": 1231632,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/liblzma-5.8.2-he30d5cf_0.conda",
+      "logical_bytes": 125916,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-arm-cpu-plugin-2025.4.1-h1915271_2.conda",
+      "logical_bytes": 10058464,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libdeflate-1.25-hfa851ae_1.conda",
+      "logical_bytes": 71628,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/fonts-conda-ecosystem-1-0.tar.bz2",
+      "logical_bytes": 3667,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libwebp-base-1.6.0-ha2e29f5_1.conda",
+      "logical_bytes": 357551,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/pixman-0.46.4-h7ac5ae9_3.conda",
+      "logical_bytes": 304657,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/fontconfig-2.17.1-h2f23a4a_0.conda",
+      "logical_bytes": 286642,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-auto-batch-plugin-2025.4.1-h3d5001d_2.conda",
+      "logical_bytes": 111986,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libxkbcommon-1.13.2-h3c6a4c8_0.conda",
+      "logical_bytes": 875994,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libavif16-1.4.2-ha599f14_0.conda",
+      "logical_bytes": 149006,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/jasper-4.2.9-h850eeee_1.conda",
+      "logical_bytes": 718811,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libsndfile-1.2.2-h30591a0_2.conda",
+      "logical_bytes": 406978,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxext-1.3.7-he30d5cf_0.conda",
+      "logical_bytes": 52409,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libfreetype6-2.14.3-h9cc7050_2.conda",
+      "logical_bytes": 445035,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/lame-3.100-h4e544f5_1003.tar.bz2",
+      "logical_bytes": 604863,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/snappy-1.2.2-he774c54_1.conda",
+      "logical_bytes": 47096,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libudev1-261.2-hb290c7d_0.conda",
+      "logical_bytes": 591112,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxfixes-6.0.2-he30d5cf_0.conda",
+      "logical_bytes": 20704,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libpng-1.6.58-hf9b7768_1.conda",
+      "logical_bytes": 333238,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/tbb-2023.0.0-h57272ed_2.conda",
+      "logical_bytes": 145425,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/freetype-2.14.3-h8af1aa0_2.conda",
+      "logical_bytes": 174712,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopus-1.6.1-h80f16a2_0.conda",
+      "logical_bytes": 383586,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libglvnd-1.7.0-hd24410f_2.conda",
+      "logical_bytes": 152135,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libglu-9.0.3-h5ad3122_1.conda",
+      "logical_bytes": 310655,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/font-ttf-dejavu-sans-mono-2.37-hab24e00_0.tar.bz2",
+      "logical_bytes": 397370,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxrandr-1.5.5-he30d5cf_0.conda",
+      "logical_bytes": 31122,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libglx-1.7.0-hd24410f_2.conda",
+      "logical_bytes": 77736,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/liblapack-3.11.0-9_h88aeb00_openblas.conda",
+      "logical_bytes": 18007,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/alsa-lib-1.2.16.1-he30d5cf_0.conda",
+      "logical_bytes": 621865,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/openh264-2.6.0-h663e864_1.conda",
+      "logical_bytes": 795565,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-tensorflow-lite-frontend-2025.4.1-hfae3067_2.conda",
+      "logical_bytes": 456898,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/pango-1.56.4-h8547ced_1.conda",
+      "logical_bytes": 470441,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/openjph-0.30.1-h55827e0_0.conda",
+      "logical_bytes": 238874,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/openssl-3.6.3-h546c87b_1.conda",
+      "logical_bytes": 3719270,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/pulseaudio-client-17.0-hcf98165_3.conda",
+      "logical_bytes": 760306,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libharfbuzz-devel-14.3.0-h3a99ef3_0.conda",
+      "logical_bytes": 2145960,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libcblas-3.11.0-9_hd72aa62_openblas.conda",
+      "logical_bytes": 17977,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxtst-1.2.5-h57736b2_3.conda",
+      "logical_bytes": 33786,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/liburing-2.13-hfefdfc9_0.conda",
+      "logical_bytes": 134026,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libice-1.1.2-h80f16a2_0.conda",
+      "logical_bytes": 63847,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libprotobuf-6.33.5-h084db60_2.conda",
+      "logical_bytes": 3466918,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/gmp-6.3.0-h4d6b352_3.conda",
+      "logical_bytes": 457444,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/x265-3.5-hdd96247_3.tar.bz2",
+      "logical_bytes": 1018181,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libxml2-16-2.14.6-h79dcc73_3.conda",
+      "logical_bytes": 605742,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/ca-certificates-2026.7.22-hbd8a1cb_0.conda",
+      "logical_bytes": 131780,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/font-ttf-inconsolata-3.000-h77eed37_0.tar.bz2",
+      "logical_bytes": 96530,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libgfortran-15.2.0-he9431aa_20.conda",
+      "logical_bytes": 28269,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libjpeg-turbo-3.2.0-he30d5cf_1.conda",
+      "logical_bytes": 716519,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/liblapacke-3.11.0-9_hb558247_openblas.conda",
+      "logical_bytes": 18012,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/gdk-pixbuf-2.44.6-h90308e0_0.conda",
+      "logical_bytes": 583708,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenblas-0.3.34-pthreads_h9d3fd7e_0.conda",
+      "logical_bytes": 5332045,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libaec-1.1.5-hff7e48a_0.conda",
+      "logical_bytes": 37745,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/font-ttf-ubuntu-0.83-h77eed37_3.conda",
+      "logical_bytes": 1620504,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/numpy-2.5.2-py314he1698a1_0.conda",
+      "logical_bytes": 8192594,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/fribidi-1.0.16-he30d5cf_1.conda",
+      "logical_bytes": 63507,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/rav1e-0.8.1-h9d4cc37_0.conda",
+      "logical_bytes": 5253980,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/sdl2-2.32.56-h7ac5ae9_0.conda",
+      "logical_bytes": 597756,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxscrnsaver-1.2.4-h86ecc28_0.conda",
+      "logical_bytes": 15720,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/openexr-3.4.13-h95ec230_1.conda",
+      "logical_bytes": 1185348,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libabseil-20260107.1-cxx17_h6983b43_0.conda",
+      "logical_bytes": 1401836,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/imath-3.2.2-h92288e7_0.conda",
+      "logical_bytes": 155215,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-hetero-plugin-2025.4.1-he07c6df_2.conda",
+      "logical_bytes": 204419,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/aom-3.9.1-hcccb83c_0.conda",
+      "logical_bytes": 3250813,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libusb-1.0.29-h06eaf92_0.conda",
+      "logical_bytes": 93129,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/dav1d-1.2.1-h31becfc_0.conda",
+      "logical_bytes": 347363,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-ir-frontend-2025.4.1-he07c6df_2.conda",
+      "logical_bytes": 190899,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/ffmpeg-8.0.1-gpl_hd7b0fed_712.conda",
+      "logical_bytes": 12042739,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-auto-plugin-2025.4.1-h3d5001d_2.conda",
+      "logical_bytes": 235721,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/spirv-tools-2026.3-hfefdfc9_0.conda",
+      "logical_bytes": 2361152,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libsm-1.2.6-hf66535e_0.conda",
+      "logical_bytes": 26965,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopengl-1.7.0-hd24410f_2.conda",
+      "logical_bytes": 56355,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libass-0.17.4-hcfe818d_0.conda",
+      "logical_bytes": 171287,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libhwloc-2.13.0-default_ha95e27d_1000.conda",
+      "logical_bytes": 2453519,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libharfbuzz-14.3.0-h3a99ef3_0.conda",
+      "logical_bytes": 1400261,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-paddle-frontend-2025.4.1-h558496d_2.conda",
+      "logical_bytes": 676062,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libjxl-0.11.2-hbae46ee_1.conda",
+      "logical_bytes": 1489188,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/py-opencv-4.13.0-headless_py314hb714c21_2.conda",
+      "logical_bytes": 1154280,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libgfortran5-15.2.0-h1b7bec0_20.conda",
+      "logical_bytes": 1487067,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-pytorch-frontend-2025.4.1-hfae3067_2.conda",
+      "logical_bytes": 1142046,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-2025.4.1-h1915271_2.conda",
+      "logical_bytes": 5665408,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/sdl3-3.4.0-h3d544e7_0.conda",
+      "logical_bytes": 2130522,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libsystemd0-261.2-hb290c7d_0.conda",
+      "logical_bytes": 788332,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libvpx-1.15.2-hfae3067_0.conda",
+      "logical_bytes": 1296382,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libpciaccess-0.19-he30d5cf_1.conda",
+      "logical_bytes": 31035,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/cairo-1.18.4-h0b6afd8_1.conda",
+      "logical_bytes": 927045,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libhwy-1.4.0-h9b45113_0.conda",
+      "logical_bytes": 947179,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopenvino-onnx-frontend-2025.4.1-h558496d_2.conda",
+      "logical_bytes": 1706648,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libogg-1.3.5-h86ecc28_1.conda",
+      "logical_bytes": 220653,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libunwind-1.8.3-h6470e1d_0.conda",
+      "logical_bytes": 94555,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libfreetype-2.14.3-h8af1aa0_2.conda",
+      "logical_bytes": 8409,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/x264-1!164.3095-h4e544f5_2.tar.bz2",
+      "logical_bytes": 1000661,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/glslang-16.5.0-hfeb5c2c_1.conda",
+      "logical_bytes": 1398415,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxcursor-1.2.3-h86ecc28_0.conda",
+      "logical_bytes": 34596,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxrender-0.9.12-h86ecc28_0.conda",
+      "logical_bytes": 33649,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libopencv-4.13.0-headless_py314h2b2c523_2.conda",
+      "logical_bytes": 22663902,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libvorbis-1.3.7-h7ac5ae9_2.conda",
+      "logical_bytes": 289391,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/svt-av1-4.0.1-hfae3067_0.conda",
+      "logical_bytes": 2042800,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libdrm-2.4.129-h5bc82ec_0.conda",
+      "logical_bytes": 346564,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/fonts-conda-forge-1-hc364b38_1.conda",
+      "logical_bytes": 4059,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/freeglut-3.2.2-h5eeb66e_3.conda",
+      "logical_bytes": 144992,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libglib-2.88.3-h1903cbb_0.conda",
+      "logical_bytes": 4106505,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libegl-1.7.0-hd24410f_2.conda",
+      "logical_bytes": 53551,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/lerc-4.2.0-h52b7260_0.conda",
+      "logical_bytes": 244850,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/librsvg-2.62.2-hf685517_0.conda",
+      "logical_bytes": 4101153,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xorg-libxi-1.8.2-h57736b2_0.conda",
+      "logical_bytes": 48197,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/xkeyboard-config-2.46-he30d5cf_0.conda",
+      "logical_bytes": 396706,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/hdf5-1.14.6-nompi_hf95b8e7_110.conda",
+      "logical_bytes": 3915784,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/conda-26.7.0-py314h9dd9068_0.conda",
+      "logical_bytes": 1468351,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libvulkan-loader-1.4.341.0-h8b8848b_0.conda",
+      "logical_bytes": 217655,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/opencv-4.13.0-headless_py314hefbd711_2.conda",
+      "logical_bytes": 28011,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libblas-3.11.0-9_haddc8a3_openblas.conda",
+      "logical_bytes": 18024,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/certifi-2026.7.22-pyhd8ed1ab_0.conda",
+      "logical_bytes": 137015,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libtiff-4.7.1-hdb009f0_1.conda",
+      "logical_bytes": 488407,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/font-ttf-source-code-pro-2.038-h77eed37_0.tar.bz2",
+      "logical_bytes": 700814,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/shaderc-2025.5-hfeb5c2c_1.conda",
+      "logical_bytes": 115498,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/wayland-1.24.0-h698ed42_0.conda",
+      "logical_bytes": 332236,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/graphite2-1.3.15-h7ac5ae9_1.conda",
+      "logical_bytes": 119414,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/harfbuzz-14.3.0-h8af1aa0_0.conda",
+      "logical_bytes": 11095,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libgl-1.7.0-hd24410f_2.conda",
+      "logical_bytes": 145442,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libcap-2.78-hfcc8634_1.conda",
+      "logical_bytes": 108530,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/libflac-1.5.0-he9c94f4_1.conda",
+      "logical_bytes": 397272,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/pugixml-1.15-h6ef32b0_0.conda",
+      "logical_bytes": 113424,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/miniconda3/pkgs/mpg123-1.32.9-h2b27223_0.conda",
+      "logical_bytes": 572337,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/Downloads/nomachine-personal-edition_10.0.57_2_arm64.deb",
+      "logical_bytes": 83919502,
+      "files": 1
+    },
+    {
+      "path": "/home/agilex/Downloads/clash-verge_arm64.deb",
+      "logical_bytes": 79864876,
+      "files": 1
+    }
+  ],
+  "freed_disk_bytes": 786440192,
+  "disk_free_before": 5986390016,
+  "disk_free_after": 6772830208,
+  "memory_after": "               total        used        free      shared  buff/cache   available\n内存：65880027136  2989277184 60312358912    32993280  2578391040 62170025984\n交换：32939999232           0 32939999232\n",
+  "post_cleanup_import_check": {
+    "status": "PASS",
+    "imports": {
+      "competition_planning.startup_capture": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/startup_capture.py",
+      "competition_planning.path_guard": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/path_guard.py",
+      "competition_planning.local_trajectory_planner": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/local_trajectory_planner.py",
+      "competition_control.mppi_controller": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_control/competition_control/mppi_controller.py",
+      "competition_safety.supervisor": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_safety/competition_safety/supervisor.py",
+      "competition_localization.state_estimator": "/home/agilex/competition_startup_capture_20261104_ws/src/competition_localization/competition_localization/state_estimator.py"
+    }
+  }
+}
