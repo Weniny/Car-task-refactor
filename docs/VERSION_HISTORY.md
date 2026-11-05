@@ -6,6 +6,8 @@
 
 2026-11-05 冻结标签：`baseline-20261104-050-030-i025`。已归档实际车端导航及 A–D 依赖，说明与恢复范围见[冻结目录](../baselines/baseline-20261104-050-030-i025/README.md)；仅 RViz 显示状态与原固定清单不同，已单独记录。后续升级从该标签建立独立分支，不以历史编号判断新旧。
 
+同日清理：两个旧 forward_rejoin 工作区已从车端删除，含日志的完整备份转存到本地 `output/car_archives/20261105/retired_workspaces.tar.gz`。下表旧工作区名用于历史识别，不再表示车端仍存在；详见[清理证据](evidence/2026-11-05_retired_workspaces_cleanup.json)。当前 startup_capture、rebuild、agilex_ws 与比赛原工程保留。
+
 ## 当前版与历史方案
 
 | 方案 | 工作区 / 入口识别 | 状态与用途 |

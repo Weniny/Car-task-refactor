@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-05",
+  "host": "192.168.0.193",
+  "retired_workspaces": [
+    "competition_forward_rejoin_20261103_ws",
+    "competition_forward_rejoin_behavior_20261104_ws"
+  ],
+  "local_archive": "D:\\CodexProjects\\小车任务重构\\output\\car_archives\\20261105\\retired_workspaces.tar.gz",
+  "archive_bytes": 375593647,
+  "archive_sha256": "c475473876bd13774b8548d5e8881ddc95bff66e9647ba58837a340e3a7a0950",
+  "manifest_sha256": "d18c1600c5bcc94e522f4af724798e75f33e260f9da41b1ac3bc1154a3555f22",
+  "entries": 1159,
+  "files": 739,
+  "verified_bytes": 1027885199,
+  "backup_verified": true,
+  "deleted_on_car": true,
+  "remote_result": {
+    "removed": [
+      "/home/agilex/competition_forward_rejoin_20261103_ws",
+      "/home/agilex/competition_forward_rejoin_behavior_20261104_ws"
+    ],
+    "disk_before": "文件系统            1B的块        已用       可用 已用% 挂载点\n/dev/mmcblk0p1 60725841920 52671791104 4955021312   92% /\n",
+    "disk_after": "文件系统            1B的块        已用       可用 已用% 挂载点\n/dev/mmcblk0p1 60725841920 51640299520 5986512896   90% /\n"
+  },
+  "post_cleanup_check": {
+    "exit_code": 0,
+    "output": "{\n  \"status\": \"PASS\",\n  \"imports\": {\n    \"competition_planning.startup_capture\": \"/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/startup_capture.py\",\n    \"competition_planning.path_guard\": \"/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/path_guard.py\",\n    \"competition_planning.local_trajectory_planner\": \"/home/agilex/competition_startup_capture_20261104_ws/src/competition_planning/competition_planning/local_trajectory_planner.py\",\n    \"competition_control.mppi_controller\": \"/home/agilex/competition_startup_capture_20261104_ws/src/competition_control/competition_control/mppi_controller.py\",\n    \"competition_safety.supervisor\": \"/home/agilex/competition_startup_capture_20261104_ws/src/competition_safety/competition_safety/supervisor.py\",\n    \"competition_localization.state_estimator\": \"/home/agilex/competition_startup_capture_20261104_ws/src/competition_localization/competition_localization/state_estimator.py\"\n  }\n}\n/home/agilex/competition_rebuild_ws/install/rebuild_bringup\n/home/agilex/agilex_ws/install/ranger_bringup\n/home/agilex/agilex_ws/install/fast_lio\n/home/agilex/agilex_ws/install/livox_ros_driver2\n文件系统        大小  已用  可用 已用% 挂载点\n/dev/mmcblk0p1   57G   49G  5.6G   90% /\n/home/agilex/agilex_ws\n/home/agilex/competition_rebuild_ws\n/home/agilex/competition_startup_capture_20261104_ws\n/home/agilex/competition_ws\n",
+    "scope": "Import origins and A-D package prefixes only; no ROS nodes or motion started"
+  }
+}

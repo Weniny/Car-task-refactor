@@ -16,6 +16,9 @@ __pycache__/
 *.bak
 *.bak_*
 
+# Full car workspace/log backups stay on local disk; checksum evidence is tracked.
+/output/car_archives/
+
 .DS_Store
 ._*
 Thumbs.db
