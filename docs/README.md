@@ -4,8 +4,11 @@
 
 | 文件 | 用途 |
 |---|---|
+| [PROJECT_STATE.md](PROJECT_STATE.md) | 当前冻结标签、依赖、状态与待办；新对话先读 |
+| [handoffs/UPGRADE_1MPS.md](handoffs/UPGRADE_1MPS.md) | 第一阶段升级交接单与新对话开场 |
 | [CURRENT_RUNBOOK.md](CURRENT_RUNBOOK.md) | 唯一维护的当前操作单，包含版本、待办和 A–G 步骤 |
 | [VERSION_HISTORY.md](VERSION_HISTORY.md) | 区分算法候选、膨胀参数试验和选择记录 |
+| [UPGRADE_PLAN.md](UPGRADE_PLAN.md) | 1.0 m/s、连续转弯和静态/动态避障的两周升级计划与审计 |
 | [history/](history/README.md) | 01–31 完整历史记录，保留技术过程与证据 |
 | [evidence/](evidence/) | 原始检查输出、配置指纹和诊断结果，位置未改变 |
 
