@@ -1,6 +1,8 @@
 # 新对话交接：导航升级第一阶段｜1 m/s 与连续转弯
 
-日期：2026-11-05。推荐新对话名即本标题。本文可直接作为新对话启动指令的依据。
+当前接续入口更新至 2026-11-19，以下旧交接保留作冻结背景。
+
+先读 [README_CURRENT_NAVIGATION_20261119.md](../README_CURRENT_NAVIGATION_20261119.md)，然后读独立目录中的 [README_NEXT_TEST_20261120.md](../../.codex-build/localization-20261119/docs/handoffs/README_NEXT_TEST_20261120.md)。保留版为 `baseline-20261119-100-055-smooth-r035`，后续概率模型对照未通过实车验收。下一轮先处理接触、跳变与规划超时，不从下文重复建立已完成的提速分支。
 
 ## 先读与版本来源
 

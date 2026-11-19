@@ -1,4 +1,6 @@
-# 文档导航
+# 原冻结 025 文档索引（2026-11-05）
+
+2026-11-19 最新提速、定位试验和收车交接入口见 [README_CURRENT_NAVIGATION_20261119.md](README_CURRENT_NAVIGATION_20261119.md)。本文件保留原冻结 025 的文档背景。
 
 日常使用 [当前运行指令](CURRENT_RUNBOOK.md)。当前固定为原 29 号算法的 **inflation025 / 0.25 m** 入口。
 

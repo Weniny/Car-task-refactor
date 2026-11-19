@@ -1,6 +1,10 @@
 # 项目状态
 
-更新：2026-11-05。进入新对话先读本文，再读当前运行单和对应交接单。
+入口更新：2026-11-19。下文保留 11 月 5 日的冻结背景。
+
+最新提速、定位与障碍物试验已在独立目录 `.codex-build/localization-20261119`、分支 `codex/localization-continuity-20261119` 整理。先读 [README_CURRENT_NAVIGATION_20261119.md](README_CURRENT_NAVIGATION_20261119.md) 和 [11 月 20 日交接](../.codex-build/localization-20261119/docs/handoffs/README_NEXT_TEST_20261120.md)。
+
+用户指定保留 17:45 平顺弯道版本 `baseline-20261119-100-055-smooth-r035`。之后的概率模型定位与障碍物对照发生右侧接触、短暂定位跳变及动态弯道规划超时，本轮实车未通过。今天已收车，剩余实测明日按现场安排进行。
 
 ## 当前冻结版本
 
