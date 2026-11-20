@@ -1,7 +1,0 @@
-{
-  "archive_sha256": "63c56aeb04efbe9029aaf186cdb54e8e1d3f9bcb66d3b7314846bb5a2f79488c",
-  "bytes": 1995992,
-  "files": 115,
-  "parent_archive_sha256": "a174ee20a8b98a0e130d9adb437c9290ab44723e565cdd415d34dbd2f511ec5f",
-  "status": "OFFLINE_PASS_ROS_BUILD_PENDING_FIELD_UNVERIFIED"
-}

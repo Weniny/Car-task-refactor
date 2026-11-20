@@ -1,7 +1,0 @@
-Fresh install PASS
-Repeated identical install PASS
-Manifest integrity PASS
-Changed existing workspace rejected without overwrite PASS
-Shell bash -n PASS
-Runbook links PASS
-ROS build, show-args, import origins and live graph remain pending on robot.

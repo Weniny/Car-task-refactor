@@ -1,7 +1,0 @@
-{"battery_voltage": 49.70000076293945, "control_status": "ROUTE_DISABLED", "replan_status": "REFERENCE_CLEAR", "start_position_error_m": 0.0618, "start_heading_error_deg": 4.173, "cmd_vel_publisher": "/rebuild_replan_ranger_twist_adapter"}
-PRECHECK PASSED
-LIVE_PREFLIGHT_PASS
-{"battery_voltage": 49.70000076293945, "control_status": "ROUTE_DISABLED", "replan_status": "REFERENCE_CLEAR", "start_position_error_m": 0.0622, "start_heading_error_deg": 4.173, "cmd_vel_publisher": "/rebuild_replan_ranger_twist_adapter"}
-PRECHECK PASSED
-DELAYED_TF_WAIT_PASS
-MISSING_TF_STILL_REJECTED_PASS

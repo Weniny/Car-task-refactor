@@ -1,0 +1,23 @@
+{
+  "id": "baseline-20261119-100-055-smooth-r035",
+  "branch": "第一阶段提速升级",
+  "prepared_date": "2026-11-20",
+  "navigation_source_archive_sha256": "102a0ddd18f2538fba84d44abcaa2b59b1aba3d267a1f6517fe8504470aabafd",
+  "navigation_source_commit_recorded": "bebbbd6",
+  "field_record_commit_recorded": "219dba1",
+  "source_commit_note": "Historical developer worktree commit IDs are recorded provenance; this release is verified against the preserved archive.",
+  "runtime_directory": "runtime",
+  "runtime_checked_file_count": 128,
+  "runtime_modifications": [],
+  "scope": "Empty-course straight-speed and smooth-corner baseline; minimum corner speed 0.50 m/s and obstacle-safety acceptance are not passed.",
+  "additional_files": {
+    "platform_config/amcl_rebuild_indoor.yaml": "ef2a040ee0921cde4927a54d8f37a19aff6a656faea85091be63210fdc4536e3",
+    "platform_config/fast_lio_mid360_navigation.yaml": "01e37758fcb0d6f941b4482259b6b13595b415bfae819bedb010d874e0bcab4a",
+    "platform_config/pointcloud_to_laserscan_rebuild_localization.yaml": "f797cd9eac81c6f0052fdaaa57f3c1ebe8ed6c2bf8f1c11909da95a69a3c6185",
+    "provenance/LOCALIZATION_SOURCE_SNAPSHOT.json": "f69438f248977bc1f6dffdfde142b2b95c2b034e7b9038281be46f98c82789ab",
+    "provenance/PLATFORM_SOURCE_SNAPSHOT_025.json": "1a6096d62db6ebddaa744fcac81656fefa2ea5d3fe5751a215ed118a535c693f",
+    "provenance/car_dependencies_025.tar.gz": "fb84c910f62003f5f2279c93cb5b6cf90884d325630d0726d2d69855b6efb92b",
+    "provenance/navigation_runtime_100_055_smooth_r035.tar.gz": "102a0ddd18f2538fba84d44abcaa2b59b1aba3d267a1f6517fe8504470aabafd",
+    "runtime/CANDIDATE_MANIFEST.json": "056b2b3024d9953870eea7b0e809d7d9e2df67a2313d312b5a241f969273ba96"
+  }
+}

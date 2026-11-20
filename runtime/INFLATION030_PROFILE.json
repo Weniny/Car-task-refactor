@@ -1,0 +1,13 @@
+{
+  "status": "BUILT_AND_ROS_GRID_CHECK_PASSED_FIELD_PENDING",
+  "workspace": "/home/agilex/competition_startup_capture_20261104_ws",
+  "launch": "startup_capture_050_030_inflation030.launch.py",
+  "grid_inflation_radius_m": 0.3,
+  "previous_grid_inflation_radius_m": 0.25,
+  "launch_sha256": "f4c76ce25ec810f37ecec39fe5b4e803eace23a48f9959ca50907adf43bb8605",
+  "only_runtime_parameter_changed": "proximity.grid_inflation_radius_m",
+  "field_verified": false,
+  "parent_manifest_sha256": "6c7b3afe5eb46977b0f31a49e3b0ff52704ddb77df89181f5c561110b7455c5c",
+  "actual_grid_radius_m": 0.30000000447034836,
+  "collision_run": "/home/agilex/competition_startup_capture_20261104_ws/log/retest_obstacle_startup_capture_full_loop_20261104_142703_666820751"
+}

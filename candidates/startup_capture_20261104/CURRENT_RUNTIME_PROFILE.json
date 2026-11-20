@@ -1,9 +1,0 @@
-{
-  "id": "startup_capture_20261104_pinned_inflation025",
-  "workspace": "/home/agilex/competition_startup_capture_20261104_ws",
-  "launch": "startup_capture_050_030_inflation025.launch.py",
-  "grid_inflation_radius_m": 0.25,
-  "launch_sha256": "d8c06a3d6303a20a6de485276d389712d5e1f95f3164de223bf90c766cdab420",
-  "user_selected_default": true,
-  "field_acceptance": "collision reported; not passed"
-}

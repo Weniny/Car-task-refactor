@@ -1,21 +1,47 @@
-# 小车导航
+# 第一阶段提速升级
 
-**现场操作先看两张单：** [A–D 共用平台](docs/navigation/common/README_A_D_PLATFORM.md) → [第一阶段 E–G 启动](docs/navigation/stage1/README_E_G_STAGE1.md)。
+本分支供组员复现已保留的直线提速与弯道平顺化版本。固定成果标识为 `baseline-20261119-100-055-smooth-r035`，对应 2026-11-19 17:45 那轮效果明显改善的实车测试。
 
-| 阶段 | 当前状态 | 入口 |
-| --- | --- | --- |
-| 第一阶段：直线提速与弯道平顺化 | **成果已归档，作为后续基线** | [第一阶段成果](docs/navigation/stage1/README_STAGE1_RESULT.md) |
-| 第二阶段：定位跳变诊断与优化 | **当前工作主线** | [第二阶段目标与待办](docs/navigation/stage2/README_STAGE2_LOCALIZATION.md) |
+| 项目 | 本版数值 |
+| --- | --- |
+| 直线速度上限 | 1.00 m/s |
+| 弯道参考速度上限 | 0.55 m/s |
+| Safety 跟踪恢复速度 | 0.35 m/s |
+| 加速度／减速度 | 0.12／0.80 m/s² |
+| 实测四弯最低速度 | 0.294／0.292／0.296／0.296 m/s |
+| 定位配置 | 原 AMCL `likelihood_field` |
 
-第一阶段固定为 `baseline-20261119-100-055-smooth-r035`，直线目标 1.00、弯道参考 0.55、恢复速度 0.35 m/s，使用原 AMCL `likelihood_field`。实测最低弯速约 0.29–0.30 m/s，后续定位与障碍问题单独保留。
+第一阶段已取得空场整圈提速和衔接改善。最低弯速 0.50 m/s 尚未达到；后续测试报告的定位跳变、障碍物接触和动态障碍弯道停车仍待修正。本分支没有合入后续的 `likelihood_field_prob` 试验配置。
 
-## 文件从哪里找
+## 组员从这里开始
 
-- **所有保留版本的参数对照：** [保留版本参数总表](docs/navigation/README_RETAINED_VERSION_PARAMETERS.md)。
-- **日常启动、阶段结果和待办：** [docs/navigation/README_NAVIGATION_OVERVIEW.md](docs/navigation/README_NAVIGATION_OVERVIEW.md)。
-- **固定归档与恢复材料：** `baselines/`。
-- **开发工作树与历史分析：** `.codex-build/`，通过成果页或待办页的追溯链接查看即可。
+以下命令在车端 Ubuntu 执行。每人使用独立的新目录；示例统一为 `~/car_stage1`，该目录须尚未存在。私有仓库需要组员自己的 GitHub 访问权限。
 
-电脑上的项目目录与 SSH 中的 `/home/agilex/...` 是两处位置，启动单会明确每个终端使用哪个车端目录。完整目录图、A–G 职责及历史资料统一见 [导航总览](docs/navigation/README_NAVIGATION_OVERVIEW.md)。
+```bash
+cd "$HOME" &&
+git clone --single-branch --branch '第一阶段提速升级' \
+  https://github.com/Weniny/Car-task-refactor.git car_stage1 &&
+cd "$HOME/car_stage1" &&
+git rev-parse HEAD &&
+python3 scripts/verify_stage1_release.py
+```
 
-新对话先读 [项目状态](docs/PROJECT_STATE.md)，再读 [第二阶段说明](docs/navigation/stage2/README_STAGE2_LOCALIZATION.md)。
+本仓库顶层负责文档和追溯，**`runtime/` 才是本版导航 ROS 工作区**。它逐字节保留冻结归档中的源码、地图、轨迹、配置和脚本，不使用开发主目录里的旧 `src/`。工作区路径由现有环境脚本自动计算，可与车上原成功目录并存。
+
+1. [先准备依赖和构建](docs/README_SETUP.md)：构建命令不启动导航或发车。
+2. [A–D：共用平台](docs/README_A_D_PLATFORM.md)：底盘、传感器、地图、定位。
+3. [E–G：本分支测试](docs/README_E_G_TEST.md)：导航、录包、版本检查、门检、人工发车和停车。
+4. [参数、实测结果与已知问题](docs/README_PARAMETERS_AND_LIMITS.md)。
+5. [组内协作与问题反馈](docs/README_COLLABORATION.md)。
+
+| 目录 | 用途 |
+| --- | --- |
+| `runtime/src/` | 五个本版导航 ROS 包及原始 launch 参考文件 |
+| `runtime/config/`、`routes/`、`artifacts/`、`maps/` | 本版参数、路线、平顺轨迹和地图 |
+| `platform_config/` | 成功测试对应的 AMCL、定位扫描和 FAST-LIO 配置 |
+| `docs/` | 本分支唯一操作说明 |
+| `provenance/` | 原导航归档、原平台源码依赖快照、指纹和发布清单 |
+
+`runtime/README.md`、`runtime/RUNBOOK*.md` 和 `runtime/log/` 内五个旧参数快照属于清单校验覆盖的历史来源，仅用于追溯；日常操作使用上面 `docs/` 的说明。`050_030` 等历史文件名不能代表当前速度。
+
+下载和构建完成后，仍须按现场安排执行启动、初始化和门检；同一台车同一时刻只运行一套导航 E。仓库没有包含 ROS、已编译驱动、完整车端系统镜像或实车录包。

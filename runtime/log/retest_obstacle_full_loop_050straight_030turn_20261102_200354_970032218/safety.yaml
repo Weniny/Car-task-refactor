@@ -1,0 +1,34 @@
+/rebuild_replan_safety:
+  ros__parameters:
+    avoidance_stop_topic: /avoidance/stop_request
+    avoidance_timeout_s: 2.0
+    command_output_topic: /cmd_vel_safe
+    command_timeout_s: 0.15
+    dry_run_allow_standby_mode: false
+    frequency_hz: 20.0
+    max_acceleration_mps2: 0.12
+    max_deceleration_mps2: 0.18
+    max_heading_error_deg: 45.0
+    max_lateral_error_m: 0.4
+    max_parallel_speed_mps: 0.06
+    max_speed_mps: 0.5
+    max_spin_yaw_rate_radps: 0.15
+    min_turning_radius_m: 0.6
+    mission_task_stop_topic: /mission/visual_task_stop_request
+    motion_mode_transition_speed_mps: 0.03
+    motion_mode_transition_timeout_s: 0.5
+    recovery_clear_heading_error_deg: 8.0
+    recovery_clear_lateral_error_m: 0.1
+    recovery_heading_error_deg: 20.0
+    recovery_lateral_error_m: 0.2
+    recovery_speed_mps: 0.15
+    require_avoidance_source: true
+    require_avoidance_speed_limit: false
+    require_traffic_rules: false
+    state_timeout_s: 0.15
+    system_state_timeout_s: 0.2
+    tracking_error_timeout_s: 1.0
+    traffic_rules_stop_topic: /perception/traffic_stop_request
+    traffic_rules_timeout_s: 1.0
+    use_sim_time: false
+

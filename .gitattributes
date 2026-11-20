@@ -1,9 +1,7 @@
-*.sh text eol=lf
-*.py text eol=lf
-*.launch.py text eol=lf
-*.yaml text eol=lf
-*.yml text eol=lf
-*.rviz text eol=lf
-*.md text eol=lf
-baselines/baseline-20261119-100-055-smooth-r035/*.json text eol=lf
-docs/navigation/reference/*.json text eol=lf
+# Preserve every hash-checked runtime/configuration file on Windows and Linux.
+* text=auto eol=lf
+*.pgm binary
+*.tar.gz binary
+/runtime/** -text
+/platform_config/** -text
+/provenance/** -text
