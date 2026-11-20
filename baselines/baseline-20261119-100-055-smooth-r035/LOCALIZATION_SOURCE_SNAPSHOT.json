@@ -1,0 +1,33 @@
+{
+  "files": {
+    "/home/agilex/competition_rebuild_ws/config/localization/amcl_rebuild_indoor.yaml": {
+      "sha256": "ef2a040ee0921cde4927a54d8f37a19aff6a656faea85091be63210fdc4536e3",
+      "text": "amcl:\n  ros__parameters:\n    use_sim_time: false\n    base_frame_id: body\n    odom_frame_id: camera_init\n    global_frame_id: map\n    scan_topic: /localization/scan\n    tf_broadcast: true\n    set_initial_pose: false\n    transform_tolerance: 0.20\n\n    robot_model_type: nav2_amcl::DifferentialMotionModel\n    alpha1: 0.05\n    alpha2: 0.05\n    alpha3: 0.05\n    alpha4: 0.05\n    alpha5: 0.02\n\n    laser_model_type: likelihood_field\n    laser_min_range: 0.20\n    laser_max_range: 20.0\n    laser_likelihood_max_dist: 2.0\n    max_beams: 180\n    sigma_hit: 0.20\n    z_hit: 0.75\n    z_rand: 0.20\n    z_short: 0.025\n    z_max: 0.025\n    do_beamskip: true\n    beam_skip_distance: 0.50\n    beam_skip_threshold: 0.30\n    beam_skip_error_threshold: 0.90\n\n    min_particles: 500\n    max_particles: 2000\n    pf_err: 0.05\n    pf_z: 0.99\n    resample_interval: 1\n    recovery_alpha_fast: 0.0\n    recovery_alpha_slow: 0.0\n    save_pose_rate: 0.5\n    update_min_a: 0.05\n    update_min_d: 0.05\n"
+    },
+    "/home/agilex/competition_rebuild_ws/config/localization/pointcloud_to_laserscan_rebuild_localization.yaml": {
+      "sha256": "f797cd9eac81c6f0052fdaaa57f3c1ebe8ed6c2bf8f1c11909da95a69a3c6185",
+      "text": "/**:\n  ros__parameters:\n    target_frame: body\n    transform_tolerance: 0.10\n    min_height: -0.25\n    max_height: 0.80\n    angle_min: -3.141592653589793\n    angle_max: 3.141592653589793\n    angle_increment: 0.008726646259972\n    scan_time: 0.10\n    range_min: 0.20\n    range_max: 20.0\n    use_inf: true\n    inf_epsilon: 1.0\n    queue_size: 1\n"
+    },
+    "/home/agilex/competition_rebuild_ws/config/mapping/fast_lio_mid360_navigation.yaml": {
+      "sha256": "01e37758fcb0d6f941b4482259b6b13595b415bfae819bedb010d874e0bcab4a",
+      "text": "/**:\n  ros__parameters:\n    feature_extract_enable: false\n    point_filter_num: 3\n    max_iteration: 3\n    filter_size_surf: 0.5\n    filter_size_map: 0.5\n    cube_side_length: 1000.0\n    runtime_pos_log_enable: true\n    map_file_path: \"/home/agilex/competition_rebuild_ws/maps/fast_lio/day1_fast_lio.pcd\"\n\n    common:\n      lid_topic: \"/livox/lidar\"\n      imu_topic: \"/livox/imu\"\n      time_sync_en: false\n      time_offset_lidar_to_imu: 0.0\n\n    preprocess:\n      lidar_type: 1\n      scan_line: 4\n      blind: 0.5\n      timestamp_unit: 3\n      scan_rate: 10\n\n    mapping:\n      acc_cov: 0.1\n      gyr_cov: 0.1\n      b_acc_cov: 0.0001\n      b_gyr_cov: 0.0001\n      fov_degree: 360.0\n      det_range: 100.0\n      # Keep the calibrated LiDAR-IMU extrinsic fixed during runtime localization.\n      extrinsic_est_en: false\n      extrinsic_T: [-0.011, -0.02329, 0.04412]\n      extrinsic_R: [1., 0., 0., 0., 1., 0., 0., 0., 1.]\n\n    publish:\n      path_en: true\n      effect_map_en: false\n      map_en: true\n      scan_publish_en: true\n      dense_publish_en: false\n      scan_bodyframe_pub_en: true\n\n    pcd_save:\n      pcd_save_en: false\n      interval: -1\n"
+    }
+  },
+  "amcl_package": "1.1.20-1jammy.20260607.130817",
+  "libraries": {
+    "/opt/ros/humble/lib/libamcl_core.so": "160b5e1540a9846d2fd9e792f817256cbd677b8b16dee7151b48f586a1714300",
+    "/opt/ros/humble/lib/libmap_lib.so": "a65bf0bad565bdcad042418b62adfef5961412c7673ac766fe3e51621dfcf2e2",
+    "/opt/ros/humble/lib/libmotions_lib.so": "6c53466dca9385e9f097f762cfe3176e3c12e5566a4c7cbd4b629f1d3dc7280c",
+    "/opt/ros/humble/lib/libpf_lib.so": "c94e7373711347fb98ac9da8ddb4fb8048d3c6d86bef543e7db2835b7205749c",
+    "/opt/ros/humble/lib/libsensors_lib.so": "dc48e3c5993c54ab329a699d18aa17e2382ceb5a2d954629defcd511292f6531"
+  },
+  "diagnostic_topics": [
+    "/Odometry [nav_msgs/msg/Odometry]",
+    "/cloud_registered_body [sensor_msgs/msg/PointCloud2]",
+    "/livox/imu [sensor_msgs/msg/Imu]",
+    "/livox/lidar [livox_ros_driver2/msg/CustomMsg]",
+    "/localization/scan [sensor_msgs/msg/LaserScan]",
+    "/odom [nav_msgs/msg/Odometry]",
+    "/particle_cloud [nav2_msgs/msg/ParticleCloud]"
+  ]
+}

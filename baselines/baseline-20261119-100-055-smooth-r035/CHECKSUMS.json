@@ -1,0 +1,27 @@
+{
+  "id": "baseline-20261119-100-055-smooth-r035",
+  "scope": "Empty-course corner-speed comparison; not obstacle-safety acceptance",
+  "navigation_source_commit": "bebbbd6",
+  "field_record_commit": "219dba1",
+  "field_bag": "/home/agilex/competition_stepwise_100_turn055_smooth_20261119_ws/log/retest_obstacle_stepwise_100_turn055_smooth_20261119_174500_906483360",
+  "field_bag_sha256": "e5af12a91143887bd9fe696700cf12ed091c5436c55314cc3c4fe08d7fe7836b",
+  "amcl_model": "likelihood_field",
+  "measured_corner_minima_mps": [
+    0.294,
+    0.292,
+    0.296,
+    0.296
+  ],
+  "min_corner_speed_0_50_goal_passed": false,
+  "files": {
+    "LOCALIZATION_SOURCE_SNAPSHOT.json": "f69438f248977bc1f6dffdfde142b2b95c2b034e7b9038281be46f98c82789ab",
+    "NAVIGATION_MANIFEST.json": "9024708acdff63045812968b93f81f39f8012f6bba76281a3f845a2d81de0036",
+    "navigation_runtime_100_055_smooth_r035.tar.gz": "102a0ddd18f2538fba84d44abcaa2b59b1aba3d267a1f6517fe8504470aabafd",
+    "README_FROZEN_TURN055_20261119.md": "538544a6478cadf6a9424731ad30e80f5b340fd94e099d60e2324a82e2ae4ba1",
+    "localization/amcl_rebuild_indoor.yaml": "ef2a040ee0921cde4927a54d8f37a19aff6a656faea85091be63210fdc4536e3",
+    "localization/fast_lio_mid360_navigation.yaml": "01e37758fcb0d6f941b4482259b6b13595b415bfae819bedb010d874e0bcab4a",
+    "localization/pointcloud_to_laserscan_rebuild_localization.yaml": "f797cd9eac81c6f0052fdaaa57f3c1ebe8ed6c2bf8f1c11909da95a69a3c6185"
+  },
+  "documentation_layout_updated": "2026-11-20",
+  "copied_from_freeze_tag": "baseline-20261119-100-055-smooth-r035"
+}

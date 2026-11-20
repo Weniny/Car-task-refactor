@@ -1,18 +1,20 @@
-# 室内小车导航
+# 小车导航
 
-2026-11-19 收车后的版本与文档入口见 [README_CURRENT_NAVIGATION_20261119.md](docs/README_CURRENT_NAVIGATION_20261119.md)。
+**现场操作先看两张单：** [A–D 共用平台](docs/navigation/common/README_A_D_PLATFORM.md) → [第一阶段 E–G 启动](docs/navigation/stage1/README_E_G_STAGE1.md)。
 
-用户指定保留 17:45 效果明显改善的平顺弯道提速版本，标识为 `baseline-20261119-100-055-smooth-r035`。后续定位与障碍物试验发生接触和停车，实车验证未通过。剩余实测安排到 11 月 20 日。
+| 阶段 | 当前状态 | 入口 |
+| --- | --- | --- |
+| 第一阶段：直线提速与弯道平顺化 | **成果已归档，作为后续基线** | [第一阶段成果](docs/navigation/stage1/README_STAGE1_RESULT.md) |
+| 第二阶段：定位跳变诊断与优化 | **当前工作主线** | [第二阶段目标与待办](docs/navigation/stage2/README_STAGE2_LOCALIZATION.md) |
 
-详细记录位于独立开发目录 `.codex-build/localization-20261119`，分支为 `codex/localization-continuity-20261119`。新对话先读[项目状态](docs/PROJECT_STATE.md)和[明日交接](.codex-build/localization-20261119/docs/handoffs/README_NEXT_TEST_20261120.md)。
+第一阶段固定为 `baseline-20261119-100-055-smooth-r035`，直线目标 1.00、弯道参考 0.55、恢复速度 0.35 m/s，使用原 AMCL `likelihood_field`。实测最低弯速约 0.29–0.30 m/s，后续定位与障碍问题单独保留。
 
-| 需要查看什么 | 入口 |
-|---|---|
-| 最新版本、状态与明日入口 | [README_CURRENT_NAVIGATION_20261119.md](docs/README_CURRENT_NAVIGATION_20261119.md) |
-| 保留的平顺弯道版本 | [README_1MPS_TURN055_SMOOTH.md](.codex-build/localization-20261119/candidates/stepwise_025/README_1MPS_TURN055_SMOOTH.md) |
-| 冻结 025 的运行与恢复 | [CURRENT_RUNBOOK.md](docs/CURRENT_RUNBOOK.md) |
-| 当前版与旧方案的区别 | [版本对照](docs/VERSION_HISTORY.md) |
-| 下一轮提速、弯道和避障升级 | [升级计划与本地审计](docs/UPGRADE_PLAN.md) |
-| 原 01–31 技术与测试记录 | [历史记录目录](docs/history/README.md) |
+## 文件从哪里找
 
-原冻结 `baseline-20261104-050-030-i025`、运行源码及依赖保持原样。当前保留版只支持空场弯速与衔接对照，最低弯速 0.50 m/s 和障碍物安全验收仍未通过。收车期间助手仅整理本地文档及已有证据。
+- **日常启动、阶段结果和待办：** [docs/navigation/README_NAVIGATION_OVERVIEW.md](docs/navigation/README_NAVIGATION_OVERVIEW.md)。
+- **固定归档与恢复材料：** `baselines/`。
+- **开发工作树与历史分析：** `.codex-build/`，通过成果页或待办页的追溯链接查看即可。
+
+电脑上的项目目录与 SSH 中的 `/home/agilex/...` 是两处位置，启动单会明确每个终端使用哪个车端目录。完整目录图、A–G 职责及历史资料统一见 [导航总览](docs/navigation/README_NAVIGATION_OVERVIEW.md)。
+
+新对话先读 [项目状态](docs/PROJECT_STATE.md)，再读 [第二阶段说明](docs/navigation/stage2/README_STAGE2_LOCALIZATION.md)。
