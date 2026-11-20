@@ -5,3 +5,4 @@
 *.yml text eol=lf
 *.rviz text eol=lf
 *.md text eol=lf
+baselines/baseline-20261119-100-055-smooth-r035/*.json text eol=lf
