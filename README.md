@@ -11,6 +11,7 @@
 
 ## 文件从哪里找
 
+- **所有保留版本的参数对照：** [保留版本参数总表](docs/navigation/README_RETAINED_VERSION_PARAMETERS.md)。
 - **日常启动、阶段结果和待办：** [docs/navigation/README_NAVIGATION_OVERVIEW.md](docs/navigation/README_NAVIGATION_OVERVIEW.md)。
 - **固定归档与恢复材料：** `baselines/`。
 - **开发工作树与历史分析：** `.codex-build/`，通过成果页或待办页的追溯链接查看即可。

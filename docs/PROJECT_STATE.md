@@ -31,6 +31,7 @@ A–D 使用 `competition_rebuild_ws` 及既有依赖，E–G 使用具体版本
 | 位置 | 职责 |
 | --- | --- |
 | `docs/navigation/` | 当前权威操作单、阶段成果和目标 |
+| `docs/navigation/README_RETAINED_VERSION_PARAMETERS.md` | 所有保留版本的配置参数、参考速度和实测值对照 |
 | `baselines/baseline-20261119-100-055-smooth-r035/` | 第一阶段原导航归档、128 文件清单与定位配置 |
 | `.codex-build/localization-20261119` | 当前第二阶段已有开发工作树，分支 `codex/localization-continuity-20261119` |
 | `.codex-build/stepwise-025` | 第一阶段开发与旧分析，保留追溯 |

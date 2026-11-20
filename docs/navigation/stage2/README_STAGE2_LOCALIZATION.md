@@ -2,6 +2,8 @@
 
 [返回导航总览](../README_NAVIGATION_OVERVIEW.md) · [继承的第一阶段成果](../stage1/README_STAGE1_RESULT.md)
 
+定位试验与各保留版本的参数差异见 [保留版本参数总表](../README_RETAINED_VERSION_PARAMETERS.md)。
+
 2026-11-20 起，将定位跳变与定位连续性优化作为第二阶段主线。第一阶段结果固定保留，第二阶段在独立候选中改进并与之对照。
 
 ## 当前状态

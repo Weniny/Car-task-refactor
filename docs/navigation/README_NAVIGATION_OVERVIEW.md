@@ -2,10 +2,11 @@
 
 更新：2026-11-20。日常操作只看本目录。第一阶段已经收束为昨天保留的弯道提速成果，第二阶段以定位跳变诊断与优化为主线。
 
-## 最常用的三个入口
+## 常用入口
 
 | 你要做什么 | 打开哪份文档 |
 | --- | --- |
+| 比较所有保留版本的速度、Safety、规划与定位参数 | [README_RETAINED_VERSION_PARAMETERS.md](README_RETAINED_VERSION_PARAMETERS.md) |
 | 冷启动底盘、雷达、地图和定位 A–D | [README_A_D_PLATFORM.md](common/README_A_D_PLATFORM.md) |
 | 使用第一阶段成果启动导航、核对和录包 E–G | [README_E_G_STAGE1.md](stage1/README_E_G_STAGE1.md) |
 | 查看第二阶段要解决什么、从哪里继续 | [README_STAGE2_LOCALIZATION.md](stage2/README_STAGE2_LOCALIZATION.md) |
@@ -49,6 +50,7 @@ flowchart TD
 ├─ README.md                          项目入口
 ├─ docs/navigation/                   日常只从这里找说明
 │  ├─ common/README_A_D_PLATFORM.md    A–D 共用平台
+│  ├─ README_RETAINED_VERSION_PARAMETERS.md  保留版本参数总表
 │  ├─ stage1/README_STAGE1_RESULT.md   第一阶段成果
 │  ├─ stage1/README_E_G_STAGE1.md      第一阶段 E–G 启动单
 │  └─ stage2/README_STAGE2_LOCALIZATION.md

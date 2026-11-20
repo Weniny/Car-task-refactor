@@ -2,6 +2,8 @@
 
 [返回导航总览](../README_NAVIGATION_OVERVIEW.md) · [A–D 共用平台](../common/README_A_D_PLATFORM.md) · [E–G 启动单](README_E_G_STAGE1.md)
 
+全部保留版本的对应参数与旧值差异见 [保留版本参数总表](../README_RETAINED_VERSION_PARAMETERS.md)。
+
 2026-11-20 按用户确认，将 11 月 19 日 17:45 测试效果明显改善的版本作为第一阶段升级结果，固定保存并作为第二阶段的开发基线。
 
 ## 结果版本
